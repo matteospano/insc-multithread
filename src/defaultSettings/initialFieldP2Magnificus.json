@@ -8,7 +8,8 @@
     "sacr": 0,
     "bone": 0,
     "dropBlood": -1,
-    "dropBones": 0
+    "dropBones": 0,
+    "sigils": ["push", "snakeBomb"]
   },
   {
     "name": "manichino",
