@@ -135,7 +135,8 @@ interface CardState {
   pendingSacr: number;
   warningToast: warningToast,
   hammer: boolean,
-  secretName: string
+  secretName: string,
+  showSidebarInfo: boolean
 }
 
 const initialState: CardState = {
@@ -157,7 +158,8 @@ const initialState: CardState = {
   pendingSacr: 0,
   warningToast: EMPTY_TOAST,
   hammer: false,
-  secretName: ''
+  secretName: '',
+  showSidebarInfo: false
 };
 
 const cardSlice = createSlice({
@@ -267,6 +269,10 @@ const cardSlice = createSlice({
       ...state,
       secretName: action.payload,
     }),
+    setShowSidebarInfo: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      showSidebarInfo: action.payload,
+    }),
   }
 });
 
@@ -278,6 +284,6 @@ export const { setCurrPlayer, setMovedCardInfo,
   updateHand, updateField,
   setShowRules, setRules, setWarning,
   filterBones, turnClock, setHammer,
-  setSecretName } = cardSlice.actions;
+  setSecretName, setShowSidebarInfo } = cardSlice.actions;
 
 export default cardSlice.reducer;

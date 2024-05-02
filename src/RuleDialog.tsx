@@ -162,8 +162,8 @@ export default function RuleDialog() {
     }
     if (isMultiplayer === 4) {
       let P1side = [...fieldCards.P1side];
+      P1side[1] = P1side[0]; //rimuovo roccia
       let P2side = [...field_P2_Workshop] as CardType[];
-      //todo crea carta mulo con sigilli spingere e carry cards
       dispatch(updateField({ P1side, P2side }));
     }
   }

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import "./App.scss";
 import { Button } from "primereact/button";
-import { Sidebar } from 'primereact/sidebar';
-import { Dropdown } from 'primereact/dropdown';
 import Card from "./Card.tsx";
 import CardSlot from "./CardSlot.tsx";
 import LifeCounter from "./LifeCounter.tsx";
@@ -14,6 +12,7 @@ import {
   increaseP1Live, setCurrPlayer,
   setHammer,
   setShowRules,
+  setShowSidebarInfo,
   setWarning,
   turnClock,
   updateField,
@@ -22,8 +21,8 @@ import {
 import Deck from "./Deck.tsx";
 import { CustomToastSacr } from "./CustomToast.tsx";
 import RuleDialog from "./RuleDialog.tsx";
-import { sigil_def } from "./const/families.tsx";
 import evolutions from './const/evolutions.json';
+import SidebarCardInfo from "./SidebarCardInfo.tsx";
 
 export interface Evolution {
   cardName: string,
@@ -44,8 +43,6 @@ function Main() {
   const [nextPlayer, setNextPlayer] = useState<number>(2);
   const [turnLabel, setTurnLabel] = useState("End turn");
 
-  const [showDialog, setShowDialog] = useState<boolean>(false);
-  const [selCardInfo, setSelCardInfo] = useState<CardType>();
   const [dialogOptions, setDialogOptions] = useState<{ label: string; items: any[]; }[]>([]);
 
   const BattlePhase = (P1attack: boolean) => {
@@ -215,21 +212,13 @@ function Main() {
   const onDialodOpen = () => {
     let basicOptions = [
       { label: "P2 field side:", items: [...fieldCards.P2side.filter((c) => c.name)] },
-      { label: "P1 field side:", items: [...fieldCards.P2side.filter((c) => c.name)] }]
-    setShowDialog(true);
+      { label: "P1 field side:", items: [...fieldCards.P1side.filter((c) => c.name)] }]
+    dispatch(setShowSidebarInfo(true));
     if (currPlayer === 2)
       basicOptions.unshift({ label: "P2 hand side:", items: [...handCards.P2side] })
     else if (currPlayer === 1)
       basicOptions.push({ label: "P1 hand side:", items: [...handCards.P1side] })
     setDialogOptions(basicOptions)
-  }
-
-  const sigilDefinition = (sigil: string | undefined) => {
-    if (sigil && sigil !== 'empty') {
-      const trad = sigil_def.find((def) => def.name === sigil)?.trad
-      return sigil + ': ' + trad;
-    }
-    return ''
   }
 
   return (
@@ -369,37 +358,7 @@ function Main() {
           </div>
         </div>
       </div>
-      <Sidebar
-        visible={showDialog}
-        position="right"
-        header='Card info'
-        onHide={() => { setShowDialog(false); setSelCardInfo(undefined) }}>
-        <Dropdown
-          value={selCardInfo}
-          placeholder="select a card to view its details"
-          options={dialogOptions}
-          optionGroupLabel="label"
-          optionGroupChildren="items"
-          optionLabel="name"
-          //filter
-          onChange={(data) => setSelCardInfo(data.value)}
-          className="mt-1"
-        />
-        {selCardInfo?.name ?
-          <>
-            <p>Cost: {selCardInfo?.sacr || selCardInfo?.bone}
-              {selCardInfo?.bone ? ' bones' : ' sacrifices'}</p>
-            <p>{'Family: ' + selCardInfo?.family}</p>
-            {selCardInfo.sigils && <>
-              <p>Sigils:</p>
-              <p>{sigilDefinition(selCardInfo.sigils[0])} </p>
-              <p>{sigilDefinition(selCardInfo.sigils[1])} </p>
-              <p>{sigilDefinition(selCardInfo.sigils[2])} </p>
-              <p>{sigilDefinition(selCardInfo.sigils[3])} </p>
-            </>}
-          </> : <p>select a card from the upper menu first</p>
-        }
-      </Sidebar>
+      <SidebarCardInfo dialogOptions={dialogOptions} />
     </div>
   );
 }
