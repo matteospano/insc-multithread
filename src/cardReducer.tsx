@@ -22,6 +22,7 @@ export interface CardType {
   coord?: Coordinate
 }
 export interface RuleType {
+  isMultiplayer: number,
   useBones: boolean,
   useLeshiLine: boolean,
   use4slots: boolean,
@@ -40,6 +41,7 @@ export interface RuleType {
   }
 }
 const DEFAULT_RULES: RuleType = {
+  isMultiplayer: 0,
   useBones: true,
   useLeshiLine: false,
   use4slots: false,

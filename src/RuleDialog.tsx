@@ -137,6 +137,7 @@ export default function RuleDialog() {
     }
 
     const tempRules = {
+      isMultiplayer,
       useBones, useLeshiLine, useHammer,
       use4slots, useBelts,
       useWatches: { P1: useWatches, P2: useWatches },

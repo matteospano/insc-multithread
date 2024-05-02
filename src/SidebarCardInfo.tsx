@@ -11,6 +11,7 @@ export default function SidebarCardInfo(props: {
   const dispatch = useAppDispatch();
   const showSidebarInfo: boolean = useAppSelector((state) => state.card.showSidebarInfo);
   const [selCardInfo, setSelCardInfo] = useState<CardType>();
+  // TODO if isMultiplayer===4 la carta selezionata può essere editata di nome, costo, atk, def e sigilli
 
   const sigilDefinition = (sigil: string | undefined) => {
     if (sigil && sigil !== 'empty') {
