@@ -1,0 +1,93 @@
+.rule-dialog{
+  width: 50vw;
+  //height: 33vw;
+  background: white;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 10px;
+}
+.flex-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.p-dialog-title{
+  font-size: 20px;
+  font-weight: 450;
+}
+.p-dialog-header-close:focus-visible{
+  outline: none
+}
+
+.button-multiplayer{
+  background: linear-gradient(105deg, cyan 50%, pink 50%);
+}
+.button-singleplayer{
+  width: 10.5rem;
+  text-align: left;
+  background: rgb(240, 240, 240);
+}
+.button-singleplayer-easy{
+  background: linear-gradient(135deg, rgb(240, 240, 240) 88%, green 100%);
+}
+.button-singleplayer-medium{
+  background: linear-gradient(135deg, rgb(240, 240, 240) 87%, yellow 100%);
+}
+.button-singleplayer-hard{
+  background: linear-gradient(135deg, rgb(240, 240, 240) 88%, red 100%);
+}
+.button-workshop{
+  border-radius: 2px;
+  border-color: #444cf7;
+  //  opacity: 0.6;
+  // background-image:  linear-gradient(#444cf7 1px, transparent 1px), linear-gradient(to right, #444cf7 1px, #e5e5f7 1px);
+  // background-size: 10px 10px;
+}
+
+// .p-tabview-nav{
+//   justify-content: space-evenly;
+//   margin: 0 125px;
+//   padding: 3px;
+// }
+// .p-tabview-selected{
+//   font-weight: 500;
+//   text-decoration: underline;
+//   //text-underline-offset: 1px;
+// }
+
+.p-checkbox{
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.279);
+  border-radius: 4px;
+}
+.p-checkbox:hover{
+  background-color: rgba(0, 0, 0, 0.279);
+}
+
+.button-end{
+ justify-content: end;
+}
+
+.rule-carosel-template{
+  display: grid;
+  margin: 5px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.279);
+  text-align: center;
+  justify-content: center;
+}
+.selected-P1-carosel{
+  background-color: cyan;
+}
+.selected-P2-carosel{
+  background-color: pink;
+}
+
+.rule-image {
+  margin: 0;
+  height: 60px;
+  width: 60px;
+  pointer-events: none;
+  background-size: 60px 60px;
+}

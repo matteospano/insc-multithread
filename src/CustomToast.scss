@@ -1,0 +1,40 @@
+.custom-toast {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  width: 120px;
+  //height: 60px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 6px;
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+ }
+ 
+ .custom-toast.show {
+  right: 20px;
+ }
+ 
+ .toast-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ }
+ 
+ .toast-detail {
+  margin-top: 1rem;
+ }
+
+ .toast-warning{
+  background-color: burlywood;
+ }
+ .toast-error{
+  background-color: rgb(222, 135, 135);
+ }
+ .toast-action{
+  background-color: white;
+ }
+ .toast-info{
+  background-color: gold;
+ }

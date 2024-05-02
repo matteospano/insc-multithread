@@ -1,0 +1,31 @@
+[
+  {
+    "cardName": "cerbiatto",
+    "into": {
+      "name": "cervo",
+      "family": "cervi",
+      "cardID": -1,
+      "atk": 1,
+      "def": 1,
+      "sacr": 0,
+      "bone": 1,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": ["push", "", "empty", ""]
+    }
+  },
+  {
+    "cardName": "lupacchiotto",
+    "into": {
+      "name": "lupo",
+      "family": "canidi",
+      "cardID": -1,
+      "atk": 1,
+      "def": 1,
+      "sacr": 0,
+      "bone": 1,
+      "dropBlood": 1,
+      "dropBones": 0
+    }
+  }
+]

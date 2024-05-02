@@ -1,0 +1,263 @@
+.App {
+  text-align: center;
+}
+.player-side {
+  background-color: #282c34;
+  height: 170px;
+}
+
+.player-cards-area{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.player-cards {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  width: 82.5%;
+}
+
+.decks-area{
+  width: 17.5%;
+}
+
+.board {
+  height: 340px;
+  display: flex;
+  background-color: white;
+  opacity: 0.8;
+  background-image:  radial-gradient(#444cf7 0.55px, transparent 0.55px), radial-gradient(#444cf7 0.55px, white 0.55px);
+  background-size: 20px 20px;
+  background-position: 0 0,10px 10px;
+}
+
+.board-grids {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.board-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}
+
+.side-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-left: 5px;
+}
+
+.side-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+.clock-image{
+  margin: 0;
+  height: 60px;
+  width: 60px;
+  pointer-events: visible;
+  background-size: 60px 60px;
+  background-image: url('/icons/clock.png');
+}
+
+.hammer-image{
+  margin: 0;
+  height: 60px;
+  width: 60px;
+  pointer-events: visible;
+  background-size: 60px 60px;
+  background-image: url('/icons/hammer.png');
+}
+.hammer-selected{
+  background-color: burlywood;
+  border: solid saddlebrown;
+  border-radius: 50%;
+}
+
+.turn-button {
+  height: 25px;
+  width: 70px;
+}
+
+/* classi generiche */
+.mt-0{
+  margin-top: 0 !important;
+}
+.mt-01{
+  margin-top: 4px !important;
+}
+.mt-1{
+  margin-top: 12px !important;
+}
+.mt-2{
+  margin-top: 20px !important;
+}
+.mt-3{
+  margin-top: 30px !important;
+}
+.mt-auto{
+  margin-top: auto !important;
+}
+
+.mb-0{
+  margin-bottom: 0 !important;
+}
+.mb-2{
+  margin-bottom: 20px !important;
+}
+.mb-3{
+  margin-bottom: 30px !important;
+}
+
+.ml-1{
+  margin-left: 10px !important;
+}
+.ml-2{
+  margin-left: 24px !important;
+}
+.ml-4{
+  margin-left: 50px !important;
+}
+.ml-auto{
+  margin-left: auto !important;
+}
+
+.flex{
+  display: flex;
+}
+.jc-end{
+  display: flex;
+  justify-content: end !important;
+}
+
+.m-0{
+  margin: 0 !important;
+}
+.mr-01{
+  margin-right: 5px !important;
+}
+.mr-1{
+  margin-right: 10px !important;
+}
+.mr-2{
+  margin-right: 20px !important;
+}
+.pt-1{
+  padding-top: 12px !important;
+}
+
+.col-2{
+  width:16.67% !important;
+}
+.col-2-5{ //col 2,5
+  width:20.83% !important;
+}
+.col-3{
+  width:25% !important;
+}
+.col-4{
+  width:33.33% !important;
+}
+.col-6{
+  width:50% !important;
+}
+.col-12{
+  width:100% !important;
+}
+
+h4{
+  font-size: small;
+  font-weight: 500;
+  margin: 0;
+}
+
+.p-button-label {
+  font-size: 0.9rem;
+}
+
+.p-checkbox-box{
+  //doppione brutto della spunta
+visibility: hidden;
+}
+
+.p-sidebar{
+background-color: transparent;
+padding: 10px
+}
+
+.p-dropdown{
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 2px 4px;
+  width: 100%
+}
+.p-dropdown-trigger{
+  margin-left: 10px;
+}
+.p-dropdown-items-wrapper{
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.402);
+  border-radius: 6px;
+  padding: 2px 4px 3px 4px;
+}
+.p-dropdown-item-group{
+  font-weight: bold;
+  margin-left: 70px;
+}
+.p-dropdown-item{
+  margin-left: 5px;
+  padding-bottom: 4px;
+}
+.p-dropdown-item:hover{
+  background-color: rgba(0, 0, 0, 0.178);
+}
+
+.p-multiselect-token{
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.402);
+  border-radius: 6px;
+  padding: 2px 4px 3px 4px;
+}
+.p-multiselect-panel{
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.402);
+  border-radius: 6px;
+  padding: 2px 4px 3px 4px;
+}
+.p-multiselect-header{
+  padding: 6px 0;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  background: #f9fafb;
+  margin: 0;
+}
+.p-multiselect-select-all{
+  display: contents;
+}
+.p-multiselect-items{
+  font-weight: bold;
+}
+.p-multiselect-items span{
+  padding-left: 8px !important;
+  padding-bottom: 4px !important;
+}
+
+.p-checkbox-disabled{
+  background-color: rgba(0, 0, 0, 0.178);
+}
+p.disabled{
+  color: rgba(0, 0, 0, 0.493) !important;
+}

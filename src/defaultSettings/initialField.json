@@ -1,0 +1,108 @@
+{
+  "P2side": [
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "nessuna",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    },
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "nessuna",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    },
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "nessuna",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    },
+    {
+      "name": "roccia",
+      "family": "rocce",
+      "cardID": 2003,
+      "atk": 0,
+      "def": 4,
+      "sacr": 0,
+      "bone": 0,
+      "dropBlood": -1,
+      "dropBones": 0
+    },
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "nessuna",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    }
+  ],
+  "P1side": [
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "nessuna",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    },
+    {
+      "name": "roccia",
+      "family": "rocce",
+      "cardID": 1001,
+      "atk": 0,
+      "def": 4,
+      "sacr": 0,
+      "bone": 0,
+      "dropBlood": -1,
+      "dropBones": 0
+    },
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "nessuna",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    },
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "nessuna",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    },
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "nessuna",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    }
+  ]
+}

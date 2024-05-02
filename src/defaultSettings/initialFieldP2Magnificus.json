@@ -1,0 +1,57 @@
+[
+  {
+    "name": "mulo",
+    "family": "nessuna",
+    "cardID": 2000,
+    "atk": 0,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": -1,
+    "dropBones": 0
+  },
+  {
+    "name": "manichino",
+    "family": "rocce",
+    "cardID": 2001,
+    "atk": 0,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": -1,
+    "dropBones": 0
+  },
+  {
+    "name": "manichino",
+    "family": "rocce",
+    "cardID": 2002,
+    "atk": 0,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": -1,
+    "dropBones": 0
+  },
+  {
+    "name": "manichino",
+    "family": "rocce",
+    "cardID": 2003,
+    "atk": 0,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": -1,
+    "dropBones": 0
+  },
+  {
+    "name": "manichino",
+    "family": "rocce",
+    "cardID": 2004,
+    "atk": 0,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": -1,
+    "dropBones": 0
+  }
+]

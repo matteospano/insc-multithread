@@ -1,0 +1,78 @@
+.card-shape,
+.rock-shape,
+.empty-slot-shape,
+.belt-shape-str,
+.belt-shape-str-flipped,
+.belt-shape-turn,
+.belt-shape-turn-flipped,
+.card-back {
+  height: 150px;
+  width: 106px;
+  border-radius: 6px;
+}
+.card-shape{
+  border: 1px solid black;
+  background: url('/icons/cardFace.png');
+  background-size: 106px 150px; 
+}
+.rock-shape{
+  border: 1px solid black;
+  background: url('/icons/cardRock.png');
+  background-size: 106px 150px; 
+}
+.belt-shape-str{
+  border: 1px solid black;
+  background: url('/icons/belt_str.png');
+  background-size: 106px 150px; 
+}
+.belt-shape-str-flipped{
+  border: 1px solid black;
+  background: url('/icons/belt_str.png');
+  background-size: 106px 150px; 
+  rotate: 180deg;
+}
+.belt-shape-turn{
+  border: 1px solid black;
+  background: url('/icons/belt_turn.png');
+  background-size: 106px 150px; 
+}
+.belt-shape-turn-flipped{
+  border: 1px solid black;
+  background: url('/icons/belt_turn.png');
+  background-size: 106px 150px; 
+  rotate: 180deg;
+}
+.empty-slot-shape{
+  border: 1px dotted black;
+  background: transparent;
+}
+.card-back {
+  border: 1px solid black;
+  background-image: url('/icons/cardBack.png');
+  background-size: 106px 150px;
+}
+
+.valori {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 14.5px;
+  font-weight: bold;
+}
+
+/*cardSlot*/
+
+.card-shape:hover{
+  background: rgba(255, 192, 203, 0.422); 
+}
+.card-shape.selected{
+  background: rgb(255, 117, 140); 
+}
+.card-shape.dragged{
+  background: rgb(152, 255, 117); 
+}
+.empty-slot-shape.has-hover:hover {
+  background: rgba(255, 192, 203, 0.422); ;
+}
+.empty-slot-shape.selected {
+  background: transparent;
+}

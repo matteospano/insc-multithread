@@ -1,0 +1,110 @@
+{
+  "P2side": [
+    {
+      "name": "scoiattolo",
+      "family": "scoiattoli",
+      "cardID": 2005,
+      "atk": 0,
+      "def": 1,
+      "sacr": 0,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 1
+    },
+    {
+      "name": "spine",
+      "family": "scoiattoli",
+      "cardID": 2006,
+      "atk": 3,
+      "def": 1,
+      "sacr": 0,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 1,
+      "sigils": ["spikes"]
+    },
+    {
+      "name": "cerbiatto",
+      "family": "cervi",
+      "cardID": 2007,
+      "atk": 2,
+      "def": 1,
+      "sacr": 1,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 1,
+      "sigils": ["evolve"]
+    },
+    {
+      "name": "gatto",
+      "family": "scoiattoli",
+      "cardID": 2008,
+      "atk": 1,
+      "def": 1,
+      "sacr": 1,
+      "bone": 0,
+      "dropBlood": 3,
+      "dropBones": 1,
+      "sigils": ["degnoSacr"]
+    }
+  ],
+  "P1side": [
+    {
+      "name": "scoiattolo",
+      "family": "scoiattoli",
+      "cardID": 1005,
+      "atk": 0,
+      "def": 1,
+      "sacr": 0,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 1
+    },
+    {
+      "name": "ape",
+      "family": "insetti",
+      "cardID": 1006,
+      "atk": 1,
+      "def": 2,
+      "sacr": 1,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": ["fly"]
+    },
+    {
+      "name": "scheletro",
+      "family": "scoiattoli",
+      "cardID": 1007,
+      "atk": 1,
+      "def": 1,
+      "sacr": 0,
+      "bone": 1,
+      "dropBlood": 0,
+      "dropBones": 1,
+      "sigils": ["fragile"]
+    },
+    {
+      "name": "lupo",
+      "family": "scoiattoli",
+      "cardID": 1008,
+      "atk": 3,
+      "def": 1,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 1
+    },
+    {
+      "name": "geco",
+      "family": "scoiattoli",
+      "cardID": 1009,
+      "atk": 1,
+      "def": 1,
+      "sacr": 0,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0
+    }
+  ]
+}

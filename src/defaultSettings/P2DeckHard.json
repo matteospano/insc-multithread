@@ -1,0 +1,50 @@
+[
+  {
+    "name": "P1-rana-0",
+    "family": "nessuna",
+    "cardID": 2006,
+    "atk": 1,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 0,
+    "blockfly": true
+  },
+  {
+    "name": "P1-rana-1",
+    "family": "nessuna",
+    "cardID": 2007,
+    "atk": 1,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 0,
+    "blockfly": true
+  },
+  {
+    "name": "P1-rana-2",
+    "family": "nessuna",
+    "cardID": 2008,
+    "atk": 1,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 0,
+    "blockfly": true
+  },
+  {
+    "name": "P1-rana-3",
+    "family": "nessuna",
+    "cardID": 2009,
+    "atk": 1,
+    "def": 1,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 0,
+    "blockfly": true
+  }
+]

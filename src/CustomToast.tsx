@@ -1,0 +1,133 @@
+import React, { useEffect, useState } from 'react';
+import { Button } from 'primereact/button';
+import { useAppDispatch, useAppSelector } from "./hooks.ts";
+import './CustomToast.scss'
+import { EMPTY_TOAST, Field, setWarning, turnClock, updateSacrificeCount } from './cardReducer.tsx';
+
+export const CustomToastSacr = () => {
+  const dispatch = useAppDispatch();
+  const warningToast = useAppSelector((state) => state.card.warningToast);
+
+  const pendingSacr = useAppSelector((state) => state.card.pendingSacr);
+  const currentWatches = useAppSelector((state) => state.card.rules.useWatches);
+  const fieldCards = useAppSelector((state) => state.card.fieldCards);
+  const [showToast, setToast] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (warningToast.message === 'sacrifices' && pendingSacr === 0)
+      setToast(false)
+    else
+      setToast(warningToast.message.length > 0)
+  }, [warningToast.message]);
+
+  //todo se c'è un message nel reducer mostra toast con sfondo=severity
+
+  const handleClock = (isClockwise: boolean, canTurn: boolean) => {
+    if (canTurn) {
+      const turnedField: Field = isClockwise ?
+        {
+          P1side: [
+            fieldCards.P1side[1],
+            fieldCards.P1side[2],
+            fieldCards.P1side[3],
+            fieldCards.P1side[4],
+            fieldCards.P2side[4]],
+          P2side: [
+            fieldCards.P1side[0],
+            fieldCards.P2side[0],
+            fieldCards.P2side[1],
+            fieldCards.P2side[2],
+            fieldCards.P2side[3]]
+        } :
+        {
+          P1side: [
+            fieldCards.P2side[0],
+            fieldCards.P1side[0],
+            fieldCards.P1side[1],
+            fieldCards.P1side[2],
+            fieldCards.P1side[3],
+          ],
+          P2side: [
+            fieldCards.P2side[1],
+            fieldCards.P2side[2],
+            fieldCards.P2side[3],
+            fieldCards.P2side[4],
+            fieldCards.P1side[4]]
+        };
+      const usedWatches = warningToast.subject === 'Player1' ?
+        { P1: false, P2: currentWatches.P2 } : { P1: currentWatches.P1, P2: false };
+      dispatch(turnClock({ turnedField, usedWatches }));
+    }
+  }
+
+  const handleToastClose = () => {
+    if (warningToast.message === 'sacrifices')
+      dispatch(updateSacrificeCount(0))
+    dispatch(setWarning(EMPTY_TOAST));
+  };
+
+  const toastBody = (): string => {
+    //console.log(warningToast.subject, warningToast.message)
+    switch (warningToast.message) {
+      case ('must_draw'):
+        return "Don't rush, you must draw first!";
+      case ('cant_draw'):
+        return "You can't draw now!";
+      case ('action_pause_phase'):
+        return "You can't perform this action during pause phase";
+      case ('sacrifices'):
+        return 'Pending sacrifices: ' + pendingSacr;//o mettilo in un paraetro facoltativo warningToast.props
+      case ('sacrifices_needed'):
+        return "You need more blood to spawn " + warningToast.props;
+      case ('bones_needed'):
+        return "You need more bones to spawn " + warningToast.props;
+      case ('lost_candle'):
+        return 'Lost its candle!';
+      case ('fly_attack'):
+        return 'Fly attacks';
+      case ('dies'):
+        return 'dies';
+      case ('fragile'):
+        return 'Dies because it was too fragile';
+      case ('evolves'):
+        return 'Evolves into ' + warningToast.props;
+      case ('direct_attack'):
+        return 'Attacks directly the opponent';
+      case ('not_your_clock'):
+        return "You are not allowed to touch your opponent's clock";
+      case ('use_clock'):
+        return 'How do you want to turn the field?';
+      case ('use_hammer'):
+        return 'Hold your hammer...';
+      case ('secret_name'):
+        return 'You are playing against ' + warningToast.props;
+
+      default:
+        return 'Generic error'
+    }
+  }
+
+  //TODO icona modalità debug. Apre un form che setta tutte le stats e sigilli della cart selezionata
+
+  return (
+    <div className={'custom-toast' + (showToast ? 'show' : '')
+      + (' toast-' + warningToast.severity)}>
+      <div className="toast-title">
+        {warningToast.subject && <h4 className='ml-1'>{warningToast.subject}</h4>}
+        <Button label='x' className='rounded' onClick={handleToastClose} />
+      </div>
+      <h4 className="toast-detail">{toastBody()}</h4>
+      {
+        warningToast.message === 'use_clock' && <>
+          <Button label='clockwise' className='rounded'
+            onClick={() => handleClock(true, warningToast.subject === 'Player1'
+              ? currentWatches.P1 : currentWatches.P2)} />
+          <Button label='anticlockwise' className='rounded'
+            onClick={() => handleClock(false, warningToast.subject === 'Player1'
+              ? currentWatches.P1 : currentWatches.P2)} />
+          <Button label='save it for later' className='rounded' onClick={handleToastClose} />
+        </>
+      }
+    </div>
+  );
+};

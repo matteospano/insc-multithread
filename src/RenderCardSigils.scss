@@ -1,0 +1,15 @@
+.image-container{ //4 img da 30*30 +10px gap
+  display: flex;
+  flex-direction: row;
+  margin-inline: auto;
+  justify-content: center;
+  gap: 10px;
+}
+.card-image {
+  height: 30px;
+  width: 30px;
+  margin-top: 3px;
+  margin-bottom: 4px;
+  pointer-events: none;
+  background-size: 30px 30px;
+}

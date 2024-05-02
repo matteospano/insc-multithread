@@ -1,0 +1,28 @@
+.decks-container{
+  display:flex;
+  flex-direction: row;
+  gap:10px;
+}
+
+.deck-shape,
+.deck-sqr-shape ,
+.deck-shape-disabled,
+.deck-sqr-shape-disabled {
+  height: 150px;
+  width: 106px;
+  background-size: 106px 150px;
+  border: 1px solid grey;
+  border-radius: 6px;
+}
+.deck-shape {
+  background-image: url('/icons/deckBack.png');
+}
+.deck-sqr-shape {
+  background-image: url('/icons/deckSQRBack.png');
+}
+.deck-shape-disabled,
+.deck-sqr-shape-disabled{
+  background-image: url('/icons/cardBack.png');
+  //background-color: rgba(128, 128, 128, 0.233);
+}
+
