@@ -66,7 +66,7 @@ function Main() {
           else {
             if (oppCard.sigils?.includes('shield'))
               oppCard.sigils = [...oppCard.sigils.map((s) => s !== 'shield' ? s : 'empty')];
-            else {
+            else { //onOpponentCardDeath
               oppCard.def -= c.atk;
               if (oppCard.sigils?.includes('spikes')) {
                 tempCard.def = c.def - 1; /* c.def -= 1; */
@@ -85,6 +85,12 @@ function Main() {
                 tempSide[index] = tempCard;
               }
               if (oppCard.def <= 0) {
+                if (oppCard.sigils?.includes('snakeBomb')) {
+                  const opponentCards = opponent_deck?.length || 0;
+                  //opponentCards>2? onDeckClick(): onDeckSQRClick()
+                  //opponentCards>1? onDeckClick(): onDeckSQRClick()
+                  //opponentCards>0? onDeckClick(): onDeckSQRClick()
+                }
                 P1attack ? dispatch(addP2bones(c.dropBones)) : dispatch(addP1bones(c.dropBones));
                 dispatch(setWarning({
                   message: 'dies',
