@@ -86,10 +86,13 @@ function Main() {
               }
               if (oppCard.def <= 0) {
                 if (oppCard.sigils?.includes('snakeBomb')) {
-                  const opponentCards = opponent_deck?.length || 0;
-                  //opponentCards>2? onDeckClick(): onDeckSQRClick()
-                  //opponentCards>1? onDeckClick(): onDeckSQRClick()
-                  //opponentCards>0? onDeckClick(): onDeckSQRClick()
+                  const opponentCards = 0//opponent_deck?.length || 0; //TODO controllo interno ?
+                  // opponentCards > 2 ? DrawFromDeck(!P1attack, deck, handCards, rules, dispatch) :
+                  //   DrawFromSQR(!P1attack, SQR, handCards, rules, dispatch);
+                  // opponentCards > 1 ? DrawFromDeck(!P1attack, deck, handCards, rules, dispatch) :
+                  //   DrawFromSQR(!P1attack, SQR, handCards, rules, dispatch);
+                  // opponentCards > 0 ? DrawFromDeck(!P1attack, deck, handCards, rules, dispatch) :
+                  //   DrawFromSQR(!P1attack, SQR, handCards, rules, dispatch);
                 }
                 P1attack ? dispatch(addP2bones(c.dropBones)) : dispatch(addP1bones(c.dropBones));
                 dispatch(setWarning({
@@ -191,7 +194,7 @@ function Main() {
     //TODO non fa l'update del field
   }
 
-  const onPlayerChange = () => {
+  const onPlayerChange = () => { //TODO sposta in un componente a parte con bottone
     if (currPlayer) {
       if (hammer)
         dispatch(setHammer());

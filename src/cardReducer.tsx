@@ -126,7 +126,9 @@ interface CardState {
   fieldCards: Field;
   movedCardInfo: CardType;
   P1Deck: CardType[];
+  P1SQRDeck: number;
   P2Deck: CardType[];
+  P2SQRDeck: number;
   P1Live: number;
   P2Live: number;
   P1Bones: number;
@@ -149,7 +151,9 @@ const initialState: CardState = {
   fieldCards: defaultField,
   movedCardInfo: EMPTY_CARD,
   P1Deck: [...deck_P1] as CardType[],
+  P1SQRDeck: 20,
   P2Deck: [...deck_P2] as CardType[],
+  P2SQRDeck: 20,
   P1Live: 5,
   P2Live: 5,
   P1Bones: 0,
@@ -201,9 +205,17 @@ const cardSlice = createSlice({
       ...state,
       P1Deck: [...action.payload]
     }),
+    P1DeckSQRNextID: (state) => ({
+      ...state,
+      P1SQRDeck: state.P1SQRDeck - 1
+    }),
     P2DeckNextID: (state, action: PayloadAction<CardType[]>) => ({
       ...state,
       P2Deck: [...action.payload]
+    }),
+    P2DeckSQRNextID: (state) => ({
+      ...state,
+      P2SQRDeck: state.P2SQRDeck - 1
     }),
     updateP1draw: (state, action: PayloadAction<boolean>) => ({
       ...state,
@@ -279,7 +291,8 @@ const cardSlice = createSlice({
 });
 
 export const { setCurrPlayer, setMovedCardInfo,
-  P1DeckNextID, P2DeckNextID, updateP1draw, updateP2draw,
+  P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
+  updateP1draw, updateP2draw,
   increaseP1Live, resetLive, resetActiveEvent,
   addP1bones, addP2bones,
   markMovedCardID, updateSacrificeCount,
