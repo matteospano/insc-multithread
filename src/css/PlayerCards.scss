@@ -5,3 +5,20 @@
   justify-content: center;
   width: 82.5%;
 }
+
+.player-ready-sidebar-P1{
+  background: linear-gradient(180deg, transparent 0%, #282c34bb 30%, #282c34 90%);
+}
+.player-ready-sidebar-P2{
+  background: linear-gradient(0deg, transparent 0%, #282c34bb 30%, #282c34 90%);
+}
+
+.player-ready-sidebar-P1 .p-sidebar-icons, 
+.player-ready-sidebar-P2 .p-sidebar-icons{
+  display: none;
+}
+
+.player-ready-sidebar-title{
+  text-align: center;
+  color: white;
+}

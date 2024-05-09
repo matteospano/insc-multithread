@@ -73,7 +73,7 @@ export default function Card(props: {
             "card-back"} key={cardID}>
             <span className="mt-01 flex">
               <div className="col-10">{show && name}</div>
-              <div className="col-2 pl-1">{show && (sacr || (bone ? bone + 'B' : ''))}</div>
+              <div className="col-2 pr-1">{show && (sacr || (bone ? bone + 'B' : ''))}</div>
             </span>
             {RenderCardSigils({ cardInfo: props.cardInfo, show })}
             <span className="valori">
