@@ -1,6 +1,6 @@
 import {
   CardType, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
-  RuleType, hunter, resetActiveEvent, squirrel, updateHand
+  RuleType, hunter, resetActiveEvent, squirrel, turnClock, updateHand
 } from "./cardReducer.tsx";
 import { useAppSelector } from "./hooks.ts";
 import { sigils } from "./const/families.tsx";
@@ -73,4 +73,39 @@ export const addTotemSigil = (drawnCard: CardType, newSigil: string) => {
     drawnCard.sigils[2],
       newSigil]
   return { ...drawnCard, sigils }
+}
+
+export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: any, usedWatches?: any) => {
+  const turnedField: Field = isClockwise ?
+    {
+      P1side: [
+        fieldCards.P1side[1],
+        fieldCards.P1side[2],
+        fieldCards.P1side[3],
+        fieldCards.P1side[4],
+        fieldCards.P2side[4]],
+      P2side: [
+        fieldCards.P1side[0],
+        fieldCards.P2side[0],
+        fieldCards.P2side[1],
+        fieldCards.P2side[2],
+        fieldCards.P2side[3]]
+    } :
+    {
+      P1side: [
+        fieldCards.P2side[0],
+        fieldCards.P1side[0],
+        fieldCards.P1side[1],
+        fieldCards.P1side[2],
+        fieldCards.P1side[3],
+      ],
+      P2side: [
+        fieldCards.P2side[1],
+        fieldCards.P2side[2],
+        fieldCards.P2side[3],
+        fieldCards.P2side[4],
+        fieldCards.P1side[4]]
+    };
+  usedWatches ? dispatch(turnClock({ turnedField, usedWatches })) : dispatch(turnClock({ turnedField }));
+  //TODO non fa l'update del field
 }

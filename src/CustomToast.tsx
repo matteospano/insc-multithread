@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'primereact/button';
 import { useAppDispatch, useAppSelector } from "./hooks.ts";
 import './CustomToast.scss'
-import { EMPTY_TOAST, Field, setWarning, turnClock, updateSacrificeCount } from './cardReducer.tsx';
+import { EMPTY_TOAST, Field, setWarning, updateSacrificeCount } from './cardReducer.tsx';
+import { handleClock } from './utils.tsx';
 
 export const CustomToastSacr = () => {
   const dispatch = useAppDispatch();
@@ -10,7 +11,7 @@ export const CustomToastSacr = () => {
 
   const pendingSacr = useAppSelector((state) => state.card.pendingSacr);
   const currentWatches = useAppSelector((state) => state.card.rules.useWatches);
-  const fieldCards = useAppSelector((state) => state.card.fieldCards);
+  const fieldCards: Field = useAppSelector((state) => state.card.fieldCards);
   const [showToast, setToast] = useState<boolean>(false)
 
   useEffect(() => {
@@ -22,41 +23,11 @@ export const CustomToastSacr = () => {
 
   //todo se c'è un message nel reducer mostra toast con sfondo=severity
 
-  const handleClock = (isClockwise: boolean, canTurn: boolean) => {
+  const moveClock = (isClockwise: boolean, canTurn: boolean) => { //TODO usa quello delle utils
     if (canTurn) {
-      const turnedField: Field = isClockwise ?
-        {
-          P1side: [
-            fieldCards.P1side[1],
-            fieldCards.P1side[2],
-            fieldCards.P1side[3],
-            fieldCards.P1side[4],
-            fieldCards.P2side[4]],
-          P2side: [
-            fieldCards.P1side[0],
-            fieldCards.P2side[0],
-            fieldCards.P2side[1],
-            fieldCards.P2side[2],
-            fieldCards.P2side[3]]
-        } :
-        {
-          P1side: [
-            fieldCards.P2side[0],
-            fieldCards.P1side[0],
-            fieldCards.P1side[1],
-            fieldCards.P1side[2],
-            fieldCards.P1side[3],
-          ],
-          P2side: [
-            fieldCards.P2side[1],
-            fieldCards.P2side[2],
-            fieldCards.P2side[3],
-            fieldCards.P2side[4],
-            fieldCards.P1side[4]]
-        };
       const usedWatches = warningToast.subject === 'Player1' ?
         { P1: false, P2: currentWatches.P2 } : { P1: currentWatches.P1, P2: false };
-      dispatch(turnClock({ turnedField, usedWatches }));
+      handleClock(fieldCards, isClockwise, dispatch, usedWatches);
     }
   }
 
@@ -120,10 +91,10 @@ export const CustomToastSacr = () => {
       {
         warningToast.message === 'use_clock' && <>
           <Button label='clockwise' className='rounded'
-            onClick={() => handleClock(true, warningToast.subject === 'Player1'
+            onClick={() => moveClock(true, warningToast.subject === 'Player1'
               ? currentWatches.P1 : currentWatches.P2)} />
           <Button label='anticlockwise' className='rounded'
-            onClick={() => handleClock(false, warningToast.subject === 'Player1'
+            onClick={() => moveClock(false, warningToast.subject === 'Player1'
               ? currentWatches.P1 : currentWatches.P2)} />
           <Button label='save it for later' className='rounded' onClick={handleToastClose} />
         </>
