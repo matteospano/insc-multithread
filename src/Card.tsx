@@ -72,12 +72,12 @@ export default function Card(props: {
             dropBlood < 0 ? "rock-shape handle" : "card-shape handle" :
             "card-back"} key={cardID}>
             <span className="mt-01 flex">
-              <div className="col-10">{show && name}</div>
-              <div className="col-2 pr-1">{show && (sacr || (bone ? bone + 'B' : ''))}</div>
+              <div className="col-10 crop-text pl-1">{show && name}</div>
+              <div className="col-2 pr-05">{show && (sacr || (bone ? bone + 'B' : ''))}</div>
             </span>
             {RenderCardSigils({ cardInfo: props.cardInfo, show })}
-            <span className="valori">
-              <div>{show && dropBlood && atk}</div>
+            <span className="card-atk-def">
+              <div>{show && dropBlood && atk || ' '}</div>
               <div>{show && def}</div>
             </span>
           </div>

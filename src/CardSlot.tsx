@@ -184,8 +184,8 @@ export default function CardSlot(props: {
       {show && <>
         <div className="mt-01">{currCard.name}</div>
         {RenderCardSigils({ cardInfo: currCard, show })}
-        <span className="valori">
-          <div>{currCard.dropBlood >= 0 && currCard.atk}</div>
+        <span className="card-atk-def">
+          <div>{currCard.dropBlood >= 0 && currCard.atk || ' '}</div>
           <div>{currCard.def}</div>
         </span>
       </>}
