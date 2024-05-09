@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Deck.scss";
 import {
   Field, setCurrPlayer, setHammer, updateP1draw, updateP2draw,
   addP1bones, addP2bones, increaseP1Live, updateField,
@@ -12,7 +11,7 @@ import { handleClock } from "./utils.tsx";
 import { Button } from "primereact/button";
 import evolutions from './const/evolutions.json';
 import { Evolution } from "./Main.tsx";
-import './PlayerTurn.scss'
+import './css/PlayerTurn.scss'
 
 export default function PlayerTurn(): JSX.Element {
   const dispatch = useAppDispatch();

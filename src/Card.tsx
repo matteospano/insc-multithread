@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Draggable } from "react-smooth-dnd";
-import "./Card.scss";
+import "./css/Card.scss";
 import { CardType, EMPTY_CARD, updateHand, setMovedCardInfo, setWarning } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";

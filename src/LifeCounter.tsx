@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./LifeCounter.scss";
+import "./css/LifeCounter.scss";
 import { Dialog } from 'primereact/dialog';
 import { useAppDispatch, useAppSelector } from "./hooks.ts";
 import { resetLive, setWarning } from "./cardReducer.tsx";

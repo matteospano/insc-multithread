@@ -1,5 +1,5 @@
 import React from "react";
-import "./Deck.scss";
+import "./css/Deck.scss";
 import { CardType, setWarning, updateP1draw, updateP2draw } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import { DrawFromDeck, DrawFromSQR } from "./utils.tsx";

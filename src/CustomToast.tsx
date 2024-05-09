@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'primereact/button';
 import { useAppDispatch, useAppSelector } from "./hooks.ts";
-import './CustomToast.scss'
+import './css/CustomToast.scss'
 import { EMPTY_TOAST, Field, setWarning, updateSacrificeCount } from './cardReducer.tsx';
 import { handleClock } from './utils.tsx';
 

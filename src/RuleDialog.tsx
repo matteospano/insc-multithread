@@ -5,7 +5,7 @@ import { Checkbox } from 'primereact/checkbox';
 import { Dialog } from 'primereact/dialog';
 import { Carousel } from 'primereact/carousel';
 import { MultiSelect } from 'primereact/multiselect';
-import './RuleDialog.scss';
+import './css/RuleDialog.scss';
 import "./icons/Icons.scss";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import { CardType, RuleType, filterBones, rock, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";

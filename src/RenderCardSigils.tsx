@@ -1,5 +1,5 @@
 import React from "react";
-import "./RenderCardSigils.scss";
+import "./css/RenderCardSigils.scss";
 import "./icons/Icons.scss";
 import { CardType } from "./cardReducer.tsx";
 

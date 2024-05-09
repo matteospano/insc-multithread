@@ -1,14 +1,12 @@
 import { useState } from "react";
-import "./App.scss";
+import "./css/App.scss";
 import { Button } from "primereact/button";
-import Card from "./Card.tsx";
-import CardSlot from "./CardSlot.tsx";
 import LifeCounter from "./LifeCounter.tsx";
 import React from "react";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import {
   CardType,
-  EMPTY_CARD, Field,
+  Field,
   setHammer,
   setShowRules,
   setShowSidebarInfo,

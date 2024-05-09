@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Card.scss";
+import "./css/Card.scss";
 import { useAppSelector } from "./hooks.ts";
 import {
   CardType, Coordinate, EMPTY_CARD,
