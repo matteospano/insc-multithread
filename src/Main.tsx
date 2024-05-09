@@ -15,7 +15,7 @@ import {
 import Deck from "./Deck.tsx";
 import { CustomToastSacr } from "./CustomToast.tsx";
 import RuleDialog from "./RuleDialog.tsx";
-import SidebarCardInfo from "./SidebarCardInfo.tsx";
+import InfoSidebar from "./InfoSidebar.tsx";
 import PlayerTurn from "./PlayerTurn.tsx";
 import CardSlots from "./wrappers/CardSlots.tsx";
 import LeshiLines from "./wrappers/LeshiLines.tsx";
@@ -148,7 +148,7 @@ function Main() {
           </div>
         </div>
       </div>
-      <SidebarCardInfo dialogOptions={dialogOptions} />
+      <InfoSidebar dialogOptions={dialogOptions} />
     </div>
   );
 }

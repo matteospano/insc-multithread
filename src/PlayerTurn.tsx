@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Field, setCurrPlayer, setHammer, updateP1draw, updateP2draw,
   addP1bones, addP2bones, increaseP1Live, updateField,
   CardType,
   setWarning,
-  EMPTY_CARD
+  EMPTY_CARD,
+  setCurrPhase
 } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import { handleClock } from "./utils.tsx";
@@ -16,12 +17,21 @@ import './css/PlayerTurn.scss'
 export default function PlayerTurn(): JSX.Element {
   const dispatch = useAppDispatch();
   const [turnLabel, setTurnLabel] = useState("End turn");
-  const [nextPlayer, setNextPlayer] = useState<number>(2);
 
   const currPlayer: number = useAppSelector((state) => state.card.currPlayer);
+  const currPhase: number = useAppSelector((state) => state.card.currPhase);
   const fieldCards: Field = useAppSelector((state) => state.card.fieldCards);
   const hammer = useAppSelector((state) => state.card.hammer);
   const rules = useAppSelector((state) => state.card.rules);
+
+  useEffect(() => {
+    if (currPhase === 11 || currPhase === 21) {
+      const nextPlayer = currPhase === 11 ? 1 : 2;
+      currPhase === 11 ? dispatch(updateP1draw(true)) : dispatch(updateP2draw(true))
+      dispatch(setCurrPlayer(nextPlayer));
+      setTurnLabel("P" + nextPlayer + " end turn");
+    }
+  }, [currPhase]);
 
   const BattlePhase = (P1attack: boolean) => {
     const incr = P1attack ? 1 : -1;
@@ -154,7 +164,7 @@ export default function PlayerTurn(): JSX.Element {
   }
 
   const onPlayerChange = () => {
-    if (currPlayer) {
+    if (currPlayer && currPhase !== 10 && currPhase !== 20) { //bottone 'disabled' in wait for player
       if (hammer)
         dispatch(setHammer());
 
@@ -164,21 +174,14 @@ export default function PlayerTurn(): JSX.Element {
       BattlePhase(currPlayer === 1);
       EvolveFragilePhase(currPlayer === 1);
       const next = currPlayer === 1 ? 2 : 1;
-      setNextPlayer(next);
       dispatch(setCurrPlayer(0));
 
-      // if (rules.isMultiplayer === 4) { //elimina il click su ready, vale per tutti i single player
-      //   nextPlayer === 1 ? dispatch(updateP1draw(true)) : dispatch(updateP2draw(true))
-      //   dispatch(setCurrPlayer(nextPlayer));
-      //   setTurnLabel("P" + nextPlayer.toString() + " end turn");
-      //   // TODO controlla che avvenga la battaglia
-      // } else
-      setTurnLabel("P" + next.toString() + " ready");
-    } else {
-      debugger
-      nextPlayer === 1 ? dispatch(updateP1draw(true)) : dispatch(updateP2draw(true))
-      dispatch(setCurrPlayer(nextPlayer));
-      setTurnLabel("P" + nextPlayer.toString() + " end turn");
+      if (rules.isMultiplayer > 0) //elimina il click su ready, vale per tutti i single player
+        dispatch(setCurrPhase(next === 1 ? 11 : 21));
+      else {
+        setTurnLabel("Wait for P" + next);
+        dispatch(setCurrPhase(next === 1 ? 10 : 20));
+      }
     }
   };
 

@@ -73,6 +73,11 @@ export const EMPTY_CARD: CardType = {
   cardID: -1, name: '', family: 'nessuna', atk: 0, def: 0, sacr: 0,
   dropBlood: 0, dropBones: 0
 }
+export const EMPTY_FIELD: Field = {
+  P1side: [EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD],
+  P2side: [EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD]
+}
+
 export const squirrel: CardType = {
   name: "scoiattolo",
   family: "scoiattoli",
@@ -120,9 +125,11 @@ export const EMPTY_TOAST: warningToast = {
 
 interface CardState {
   currPlayer: number;
+  currPhase: number;
   showRules: boolean | undefined; //undefined prima di giocare, editabile
   rules: RuleType;
   handCards: Field;
+  leshiField: Field;
   fieldCards: Field;
   movedCardInfo: CardType;
   P1Deck: CardType[];
@@ -145,9 +152,11 @@ interface CardState {
 
 const initialState: CardState = {
   currPlayer: 1,
+  currPhase: 11, // 10: P1 ready, 11: P1 turn, 12: battle phase, 19: evolution phase
   showRules: undefined,
   rules: DEFAULT_RULES,
   handCards: defaultHand,
+  leshiField: EMPTY_FIELD,
   fieldCards: defaultField,
   movedCardInfo: EMPTY_CARD,
   P1Deck: [...deck_P1] as CardType[],
@@ -175,6 +184,10 @@ const cardSlice = createSlice({
     setCurrPlayer: (state, action: PayloadAction<number>) => ({
       ...state,
       currPlayer: action.payload
+    }),
+    setCurrPhase: (state, action: PayloadAction<number>) => ({
+      ...state,
+      currPhase: action.payload
     }),
     setMovedCardInfo: (state, action: PayloadAction<CardType>) => ({
       ...state,
@@ -242,6 +255,10 @@ const cardSlice = createSlice({
       handCards: action.payload,
       movedCardID: undefined
     }),
+    updateLeshiField: (state, action: PayloadAction<Field>) => ({
+      ...state,
+      leshiField: action.payload
+    }),
     updateField: (state, action: PayloadAction<Field>) => ({
       ...state,
       fieldCards: action.payload
@@ -290,13 +307,13 @@ const cardSlice = createSlice({
   }
 });
 
-export const { setCurrPlayer, setMovedCardInfo,
+export const { setCurrPlayer, setCurrPhase, setMovedCardInfo,
   P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
   updateP1draw, updateP2draw,
   increaseP1Live, resetLive, resetActiveEvent,
   addP1bones, addP2bones,
   markMovedCardID, updateSacrificeCount,
-  updateHand, updateField,
+  updateHand, updateLeshiField, updateField,
   setShowRules, setRules, setWarning,
   filterBones, turnClock, setHammer,
   setSecretName, setShowSidebarInfo } = cardSlice.actions;

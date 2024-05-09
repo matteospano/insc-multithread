@@ -7,9 +7,11 @@
 }
 
 .player-ready-sidebar-P1{
+  padding:0;
   background: linear-gradient(180deg, transparent 0%, #282c34bb 30%, #282c34 90%);
 }
 .player-ready-sidebar-P2{
+  padding:0;
   background: linear-gradient(0deg, transparent 0%, #282c34bb 30%, #282c34 90%);
 }
 
@@ -19,6 +21,8 @@
 }
 
 .player-ready-sidebar-title{
+  align-content: center;
   text-align: center;
   color: white;
+  height: 160px;
 }

@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "./hooks.ts";
 import { CardType, setShowSidebarInfo } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
 
-export default function SidebarCardInfo(props: {
+export default function InfoSidebar(props: {
   dialogOptions: { label: string; items: CardType[]; }[]
 }): JSX.Element {
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ export default function SidebarCardInfo(props: {
       visible={showSidebarInfo}
       position="right"
       header='Card info'
-      onHide={() => { dispatch(setShowSidebarInfo(true)); setSelCardInfo(undefined) }}>
+      onHide={() => { dispatch(setShowSidebarInfo(false)); setSelCardInfo(undefined) }}>
       <Dropdown
         value={selCardInfo}
         placeholder="select a card to view its details"
@@ -52,6 +52,8 @@ export default function SidebarCardInfo(props: {
           </>}
         </> : <p>select a card from the upper menu first</p>
       }
+      {/* general info:
+      {isMultiplayer===0 && ''} */}
     </Sidebar>
   );
 }

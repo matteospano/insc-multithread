@@ -59,10 +59,19 @@
   font-weight: bold;
 }
 
+.card-text-sacr{
+  font-weight: bold;
+  color: rgb(181, 15, 15);
+}
+
+.card-text-bones{
+  font-weight: bold;
+}
+
 /*cardSlot*/
 
 .card-shape:hover{
-  background: rgba(255, 192, 203, 0.422); 
+  background: rgba(255, 192, 203, 0.315); 
 }
 .card-shape.selected{
   background: rgb(255, 117, 140); 
@@ -71,7 +80,7 @@
   background: rgb(152, 255, 117); 
 }
 .empty-slot-shape.has-hover:hover {
-  background: rgba(255, 192, 203, 0.422); ;
+  background: rgba(255, 192, 203, 0.315); 
 }
 .empty-slot-shape.selected {
   background: transparent;
