@@ -28,14 +28,15 @@ export default function LeshiLines(props: { owner: number }): JSX.Element {
       }
       return card
     });
-    const newLeshiP2side = fillEmptySpots(movedLeshi, 1, [{ ...squirrel, cardID: 15 }]); //TODO provide a dataset
+    //TODO provide a dataset depending on isMultiplayer mode
+    const newLeshiP2side = fillEmptySpots(movedLeshi, 1, [{ ...squirrel, cardID: 15 }]);
 
     dispatch(updateField({ P1side: fieldCards.P1side, P2side: newP2side })); //TODO gestisci qui l'onSpawn
     dispatch(updateLeshiField({ ...EMPTY_FIELD, P2side: newLeshiP2side }));
   }
 
   return (
-    <div className="board-grid">
+    <div className={owner === 1 ? "board-grid leshi-P1-aligned" : "board-grid leshi-P2-aligned"}>
       <LeshiSlot owner={owner} index={0} />
       <LeshiSlot owner={owner} index={1} />
       <LeshiSlot owner={owner} index={2} />

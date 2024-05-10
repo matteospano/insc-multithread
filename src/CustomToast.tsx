@@ -15,7 +15,9 @@ export const CustomToastSacr = () => {
   const [showToast, setToast] = useState<boolean>(false)
 
   useEffect(() => {
-    if (warningToast.message === 'sacrifices' && pendingSacr === 0)
+    if (warningToast.message === 'close_hammer')
+      setToast(false)
+    else if (warningToast.message === 'sacrifices' && pendingSacr === 0)
       setToast(false)
     else
       setToast(warningToast.message.length > 0)
