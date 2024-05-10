@@ -1,8 +1,7 @@
 import {
-  CardType, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
+  CardType, EMPTY_CARD, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
   RuleType, hunter, resetActiveEvent, squirrel, turnClock, updateHand
 } from "./cardReducer.tsx";
-import { useAppSelector } from "./hooks.ts";
 import { sigils } from "./const/families.tsx";
 
 
@@ -108,4 +107,24 @@ export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: a
     };
   usedWatches ? dispatch(turnClock({ turnedField, usedWatches })) : dispatch(turnClock({ turnedField }));
   //TODO non fa l'update del field
+}
+
+export const fillEmptySpots = (spots: CardType[], n_cards: number, dataSet: CardType[]) => {
+  debugger
+  let emptySpotsIndex: number[] = spots.map((val, index) => ({ val, index }))
+    .filter(({ val, index }) => val.cardID === -1).map(({ val, index }) => index);
+  let updatedSpots: CardType[] = [...spots];
+
+  for (let i = 0; i < n_cards && emptySpotsIndex.length > 0; i++) {
+    const randIndex: number = Math.floor(Math.random() * emptySpotsIndex.length);
+    updatedSpots[emptySpotsIndex[randIndex]] = { ...dataSet[0] }; //TODO randomCard = (dataSet)
+    emptySpotsIndex.splice(randIndex, 1);
+  }
+  return updatedSpots;
+}
+
+export const randomCard = (dataSet: CardType[]) => {
+  if (dataSet.length === 0) return EMPTY_CARD;
+  const randCardIndex: number = Math.floor(Math.random() * dataSet.length);
+  return dataSet[randCardIndex];
 }

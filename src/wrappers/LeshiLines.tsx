@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import "../css/CardSlots.scss";
 import { useAppDispatch, useAppSelector } from "../hooks.ts";
-import { EMPTY_FIELD, Field, updateLeshiField, updateField, squirrel, CardType } from "../cardReducer.tsx";
+import { EMPTY_FIELD, Field, updateLeshiField, updateField, squirrel, CardType, EMPTY_CARD } from "../cardReducer.tsx";
 import LeshiSlot from "../LeshiSlot.tsx";
+import { fillEmptySpots } from "../utils.tsx";
 
 export default function LeshiLines(props: { owner: number }): JSX.Element {
   const { owner } = props;
@@ -18,17 +19,19 @@ export default function LeshiLines(props: { owner: number }): JSX.Element {
   }, [currPhase]);
 
   const autoPlay = () => {
-    const newLeshiField: Field = {
-      ...EMPTY_FIELD,
-      P2side: [squirrel, squirrel, squirrel, squirrel, squirrel]
-    };
+    let movedLeshi: CardType[] = [...leshiField.P2side];
     let newP2side: CardType[] = fieldCards.P2side;
     newP2side = newP2side.map((card, index) => {
-      if (card.cardID === -1) return leshiField.P2side[index]
+      if (card.cardID === -1) {
+        movedLeshi[index] = EMPTY_CARD; //la carta si sposta sul field e lascia il buco vuoto
+        return leshiField.P2side[index]
+      }
       return card
     });
+    const newLeshiP2side = fillEmptySpots(movedLeshi, 1, [{ ...squirrel, cardID: 15 }]); //TODO provide a dataset
+
     dispatch(updateField({ P1side: fieldCards.P1side, P2side: newP2side })); //TODO gestisci qui l'onSpawn
-    dispatch(updateLeshiField(newLeshiField));
+    dispatch(updateLeshiField({ ...EMPTY_FIELD, P2side: newLeshiP2side }));
   }
 
   return (
