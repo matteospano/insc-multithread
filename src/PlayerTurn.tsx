@@ -39,9 +39,13 @@ export default function PlayerTurn(): JSX.Element {
     let oppSide: CardType[] = P1attack ? [...fieldCards.P2side] : [...fieldCards.P1side];
     tempSide.forEach((c: CardType, index: number) => {
       if (c.atk > 0) {
-        let tempCard = { ...c };
-        let oppCard = oppSide.length > index ? { ...oppSide[index] } : null;
-        if (oppCard && oppCard?.def > 0) {
+        /* select attacker */
+        let tempCard: CardType = { ...c, fight: true };
+        tempSide[index] = tempCard;
+
+        let oppCard: CardType = { ...oppSide[index], fight: true };
+        if (oppCard?.def > 0) {
+          debugger
           if (c.sigils?.includes('fly') && !oppCard.sigils?.includes('blokFly')) {
             dispatch(setWarning({
               message: 'fly_attack',
@@ -62,17 +66,15 @@ export default function PlayerTurn(): JSX.Element {
                   P1attack ? dispatch(addP1bones(c.dropBones)) : dispatch(addP2bones(c.dropBones));
                   dispatch(setWarning({
                     message: 'dies',
-                    subject: c.name,
+                    subject: oppCard.name,
                     severity: 'info',
                     expire: 1500
                   }));
                   tempCard = EMPTY_CARD;
                 }
-                debugger
-                //TODO fix copia by reference e si spacca
-                tempSide[index] = tempCard;
               }
-              if (oppCard.def <= 0) {
+
+              if (oppCard.def <= 0) { //onDeath
                 if (oppCard.sigils?.includes('snakeBomb')) {
                   const opponentCards = 0//opponent_deck?.length || 0; //TODO controllo interno ?
                   // opponentCards > 2 ? DrawFromDeck(!P1attack, deck, handCards, rules, dispatch) :
@@ -83,9 +85,10 @@ export default function PlayerTurn(): JSX.Element {
                   //   DrawFromSQR(!P1attack, SQR, handCards, rules, dispatch);
                 }
                 P1attack ? dispatch(addP2bones(c.dropBones)) : dispatch(addP1bones(c.dropBones));
+                debugger
                 dispatch(setWarning({
                   message: 'dies',
-                  subject: c.name,
+                  subject: oppCard.name,
                   severity: 'info',
                   expire: 1500
                 }));
@@ -93,8 +96,13 @@ export default function PlayerTurn(): JSX.Element {
               }
             }
 
-            oppSide[index] = oppCard; //senza scudo, ferita o EMPTY
-            //debugger
+            //TODO sposta in func onDeath e fai fading della carta (sfondo -> transparent per 700ms)
+            debugger
+            //TODO fix copia by reference e si spacca
+            tempSide[index] = { ...tempCard, fight: false };
+            /* deselect defender*/
+            oppSide[index] = { ...oppCard, fight: false }; //senza scudo, ferita o EMPTY
+            debugger
             dispatch(updateField(
               {
                 P1side: P1attack ? tempSide : oppSide,
@@ -105,6 +113,12 @@ export default function PlayerTurn(): JSX.Element {
         else //no enemy
         // TODO bug, non attaccano la roccia???
         {
+          dispatch(updateField(
+            {
+              P1side: P1attack ? tempSide : oppSide,
+              P2side: P1attack ? oppSide : tempSide
+            }))
+
           dispatch(setWarning({
             message: 'direct_attack',
             subject: c.name,
@@ -112,16 +126,29 @@ export default function PlayerTurn(): JSX.Element {
             expire: 1500
           }));
           dispatch(increaseP1Live(incr * c.atk));
+
+          /* deselect attacker*/
+          tempCard = { ...tempCard, fight: false };
+          tempSide[index] = tempCard;
+          dispatch(updateField(
+            {
+              P1side: P1attack ? tempSide : oppSide,
+              P2side: P1attack ? oppSide : tempSide
+            }))
         }
       }
     })
+    return {
+      P1side: P1attack ? tempSide : oppSide,
+      P2side: P1attack ? oppSide : tempSide
+    }
   };
 
-  const EvolveFragilePhase = (P1attack: boolean) => {
+  const EvolveFragilePhase = (field: Field, P1attack: boolean) => {
     //importante! lavoro sui side invertiti,
     //così alla fine di P2 uccido/evolvo le creature di P1
-    const tempSide = P1attack ? fieldCards.P1side : fieldCards.P2side;
-    let oppSide = P1attack ? fieldCards.P2side : fieldCards.P1side;
+    const tempSide = P1attack ? field.P1side : field.P2side;
+    let oppSide = P1attack ? field.P2side : field.P1side;
     oppSide = oppSide.map((c: CardType) => {
       let tempCard = { ...c };
       if (c.sigils?.includes('fragile')) {
@@ -171,8 +198,8 @@ export default function PlayerTurn(): JSX.Element {
       setTurnLabel("Battle ...");
       if (rules.useBelts) handleClock(fieldCards, true, dispatch);
 
-      BattlePhase(currPlayer === 1);
-      EvolveFragilePhase(currPlayer === 1);
+      const updatedField = BattlePhase(currPlayer === 1);
+      EvolveFragilePhase(updatedField, currPlayer === 1);
       const next = currPlayer === 1 ? 2 : 1;
       dispatch(setCurrPlayer(0));
 

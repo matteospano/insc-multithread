@@ -23,7 +23,10 @@ import field_P2_Workshop from './defaultSettings/initialFieldP2Magnificus.json';
 // gancio ruba 'il pesce più fresco'
 //in multiplayer gancio uso singolo su carta a scelta
 
-//aggiungi carta mulo, spawna 2 carte del mazzo del proprietario alla propria morte (cloni o le ruba?)
+//TODO aggiungi carta mulo, spawna 2 carte del mazzo del proprietario alla propria morte (cloni o le ruba?)
+//TODO aggiungi regola irritante (aggiunge il sigillo annoying a 2 carte random di entrambi i giocatori o a me in single player)
+//TODO aggiungi il procione con blood lust (potenzia 1akt ad ogni kill)
+//TODO aggiungi uccellino che spawna uovo di corvo (50% non fecondato ma non si vede la differenza)
 
 export default function RuleDialog() {
   const dispatch = useAppDispatch();

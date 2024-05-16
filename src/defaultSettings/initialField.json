@@ -42,14 +42,15 @@
       "dropBones": 0
     },
     {
-      "cardID": -1,
-      "name": "",
+      "cardID": 2005,
+      "name": "fake_lupo",
       "family": "nessuna",
-      "atk": 0,
-      "def": 0,
+      "atk": 3,
+      "def": 2,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0
+      "dropBones": 0,
+      "sigils": ["spikes"]
     }
   ],
   "P1side": [
@@ -95,11 +96,11 @@
       "dropBones": 0
     },
     {
-      "cardID": -1,
-      "name": "",
+      "cardID": 1005,
+      "name": "fake_geco",
       "family": "nessuna",
-      "atk": 0,
-      "def": 0,
+      "atk": 5,
+      "def": 2,
       "sacr": 0,
       "dropBlood": 0,
       "dropBones": 0
