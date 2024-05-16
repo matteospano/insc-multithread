@@ -8,7 +8,7 @@ import {
   addP1bones, addP2bones,
   markMovedCardID, setWarning, updateField, updateSacrificeCount
 } from "./cardReducer.tsx";
-import { Container } from "react-smooth-dnd";
+//import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
 import { sigils } from "./const/families.tsx";
