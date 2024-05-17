@@ -37,11 +37,6 @@ export default function Card(props: {
           severity: 'error'
         }))
       else{
-        dispatch(setWarning({
-          message: 'draw_done',
-          subject: 'Player ' + currPlayer,
-          severity: 'close'
-        }))
         if(localSelected){
           setLocalSelected(false);
           dispatch(setDragCardInfo(EMPTY_CARD));
