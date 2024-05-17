@@ -18,17 +18,17 @@ export default function Card(props: {
   const isP1Owner = cardID < 2000;
   const canPlayerDraw = useAppSelector((state) => isP1Owner ?
     state.card.canP1draw : state.card.canP2draw);
-  //const [pos, setPos] = useState<any>(null);
+  const [localSelected, setLocalSelected] = useState<boolean>(false);
 
   const show: boolean = (isP1Owner ? 1 : 2) === currPlayer;
-  const handleStart = () => {
-    if (canPlayerDraw)
-      dispatch(setWarning({
-        message: 'must_draw',
-        subject: 'Player ' + currPlayer,
-        severity: 'error'
-      }))
-  }
+  // const handleStart = () => {
+  //   if (canPlayerDraw)
+  //     dispatch(setWarning({
+  //       message: 'must_draw',
+  //       subject: 'Player ' + currPlayer,
+  //       severity: 'error'
+  //     }))
+  // }
   // const handleStop = (e) => {
   //   const coord = e as MouseEvent;
   //   //console.log(coord.x, coord.y)
@@ -37,15 +37,23 @@ export default function Card(props: {
   // }
 
   const handleClick = () => {
-    if(show){
-    if (canPlayerDraw)
-      dispatch(setWarning({
-        message: 'must_draw',
-        subject: 'Player ' + currPlayer,
-        severity: 'error'
-      }))
-    else
-      dispatch(setDragCardInfo({ ...props.cardInfo, selected:true }));
+    if (show) {
+      if (canPlayerDraw)
+        dispatch(setWarning({
+          message: 'must_draw',
+          subject: 'Player ' + currPlayer,
+          severity: 'error'
+        }))
+      else{
+        if(localSelected){
+          setLocalSelected(false);
+          dispatch(setDragCardInfo(EMPTY_CARD));
+        }
+        else{
+        setLocalSelected(true);
+        dispatch(setDragCardInfo({ ...props.cardInfo, selected: true }));
+      }
+      }
     }
   }
 
@@ -58,7 +66,8 @@ export default function Card(props: {
         {
           P1side: isP1Owner ? tempSide : handCards.P1side,
           P2side: isP1Owner ? handCards.P2side : tempSide
-        }))
+        }));
+        setLocalSelected(false);
     }
   }, [deleteCardHandID]);
 
@@ -81,22 +90,22 @@ export default function Card(props: {
         //   }}
         //   disabled={!show}>
 
-          <div onClick={handleClick}
-          className={show ?
-            dropBlood < 0 ? "rock-shape handle" : "card-shape handle" : "card-back"} key={cardID}>
-            <span className="mt-01 flex">
-              <div className="col-10 crop-text pl-1">{show && name}</div>
-              <div className={sacr ? "col-2 pr-05 card-text-sacr" : "col-2 pr-05 card-text-bones"}>
-                {show && (sacr || bone || ' ')}</div>
-            </span>
-            {RenderCardSigils({ cardInfo: props.cardInfo, show })}
-            <span className="card-atk-def">
-              <div>{show && dropBlood && atk || ' '}</div>
-              <div>{show && def}</div>
-            </span>
-          </div>
+        <div onClick={handleClick}
+          className={show ? dropBlood < 0 ? "rock-shape handle" + (localSelected ? " selected" : "") :
+            "card-shape handle" + (localSelected ? " selected" : "") : "card-back"} key={cardID}>
+          <span className="mt-01 flex">
+            <div className="col-10 crop-text pl-1">{show && name}</div>
+            <div className={sacr ? "col-2 pr-05 card-text-sacr" : "col-2 pr-05 card-text-bones"}>
+              {show && (sacr || bone || ' ')}</div>
+          </span>
+          {RenderCardSigils({ cardInfo: props.cardInfo, show })}
+          <span className="card-atk-def">
+            <div>{show && dropBlood && atk || ' '}</div>
+            <div>{show && def}</div>
+          </span>
+        </div>
         // </Draggable >
-        }
+      }
     </>
   );
 }

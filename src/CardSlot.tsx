@@ -89,13 +89,20 @@ export default function CardSlot(props: {
     dispatch(setDeleteCardHand(tempCard));
     //emptyCard();
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
-      card.selected && !(card?.sigils?.includes('degnoSacr')) ? EMPTY_CARD : {...card, selected:false}); // eccezione gatto gestita
-    //TODO eccezione carte che tornano in mano
+      card.selected && !(card?.sigils?.includes('degnoSacr')) ? onSacrifice(card)
+     : {...card, selected:false}); // eccezione gatto gestita
+
     tempSide[index] = tempCard;
     dispatch(updateField({
       P1side: P1Owner ? tempSide : fieldCards.P1side,
       P2side: P1Owner ? fieldCards.P2side : tempSide
     }));
+  }
+
+  const onSacrifice = (card:CardType) => {
+    currPlayer === 1 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
+        //TODO eccezione carte che tornano in mano
+    return(EMPTY_CARD);
   }
 
   const emptyCard = () => {
