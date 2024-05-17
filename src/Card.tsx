@@ -21,14 +21,6 @@ export default function Card(props: {
   const [localSelected, setLocalSelected] = useState<boolean>(false);
 
   const show: boolean = (isP1Owner ? 1 : 2) === currPlayer;
-  // const handleStart = () => {
-  //   if (canPlayerDraw)
-  //     dispatch(setWarning({
-  //       message: 'must_draw',
-  //       subject: 'Player ' + currPlayer,
-  //       severity: 'error'
-  //     }))
-  // }
   // const handleStop = (e) => {
   //   const coord = e as MouseEvent;
   //   //console.log(coord.x, coord.y)
@@ -45,6 +37,11 @@ export default function Card(props: {
           severity: 'error'
         }))
       else{
+        dispatch(setWarning({
+          message: 'draw_done',
+          subject: 'Player ' + currPlayer,
+          severity: 'close'
+        }))
         if(localSelected){
           setLocalSelected(false);
           dispatch(setDragCardInfo(EMPTY_CARD));

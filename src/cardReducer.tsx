@@ -119,12 +119,12 @@ export interface warningToast {
   message: string,
   subject?: string,
   props?: string,
-  severity: string,
+  severity: string, //warning, error, details, info, close
   expire?: number
 }
 export const EMPTY_TOAST: warningToast = {
   message: '',
-  severity: 'error'
+  severity: 'close'
 }
 
 interface CardState {

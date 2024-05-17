@@ -12,16 +12,6 @@ export const CustomToastSacr = () => {
   const pendingSacr = useAppSelector((state) => state.card.pendingSacr);
   const currentWatches = useAppSelector((state) => state.card.rules.useWatches);
   const fieldCards: Field = useAppSelector((state) => state.card.fieldCards);
-  const [showToast, setToast] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (warningToast.message === 'close_hammer')
-      setToast(false)
-    else if (warningToast.message === 'sacrifices' && pendingSacr <= 0)
-      setToast(false)
-    else
-      setToast(warningToast.message.length > 0)
-  }, [warningToast.message, pendingSacr]);
 
   //todo se c'è un message nel reducer mostra toast con sfondo=severity
 
@@ -83,7 +73,7 @@ export const CustomToastSacr = () => {
   //TODO icona modalità debug. Apre un form che setta tutte le stats e sigilli della cart selezionata
 
   return (
-    <div className={'custom-toast' + (showToast ? 'show' : '')
+    <div className={'custom-toast' + (warningToast.severity !== 'close' ? 'show' : '')
       + (' toast-' + warningToast.severity)}>
       <div className="toast-title">
         {warningToast.subject && <h4 className='ml-1'>{warningToast.subject}</h4>}

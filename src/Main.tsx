@@ -110,7 +110,7 @@ function Main() {
                   setWarning({
                     message: 'close_hammer', //close dialog
                     subject: 'Player' + currPlayer,
-                    severity: 'warning'
+                    severity: 'close'
                   })) :
                 dispatch(
                   setWarning({

@@ -3,7 +3,6 @@ import "./css/Card.scss";
 import { useAppSelector } from "./hooks.ts";
 import {
   CardType, EMPTY_CARD,
-  EMPTY_TOAST,
   Field,
   addP1bones, addP2bones,
   setDeleteCardHand,
@@ -90,7 +89,7 @@ export default function CardSlot(props: {
     //emptyCard();
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
       card.selected && !(card?.sigils?.includes('degnoSacr')) ? onSacrifice(card)
-     : {...card, selected:false}); // eccezione gatto gestita
+        : { ...card, selected: false }); // eccezione gatto gestita
 
     tempSide[index] = tempCard;
     dispatch(updateField({
@@ -99,10 +98,10 @@ export default function CardSlot(props: {
     }));
   }
 
-  const onSacrifice = (card:CardType) => {
+  const onSacrifice = (card: CardType) => {
     currPlayer === 1 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
-        //TODO eccezione carte che tornano in mano
-    return(EMPTY_CARD);
+    //TODO eccezione carte che tornano in mano
+    return (EMPTY_CARD);
   }
 
   const emptyCard = () => {
@@ -144,25 +143,25 @@ export default function CardSlot(props: {
       else if (currCard.dropBlood >= 0) {
         //TODO bug: sulla selezione + click in basso (su altra carta?) spariscono
         let tempSide: CardType[] = [...mySide];
+        const tempSacr=pendingSacr;
         if (currCard.selected) {
           tempSide[index] = { ...tempSide[index], selected: false };
-          if (pendingSacr > currCard.dropBlood)
             dispatch(setWarning({
               message: 'sacrifices',
               subject: 'Player' + currPlayer.toString(),
-              severity: 'action'
+              severity: tempSacr - currCard.dropBlood <= 0 ? 'close' : 'action'
             }))
           dispatch(updateSacrificeCount(-currCard.dropBlood))
         }
         else {
           //debugger
           tempSide[index] = { ...tempSide[index], selected: true };
-          dispatch(updateSacrificeCount(currCard.dropBlood))
           dispatch(setWarning({
             message: 'sacrifices',
             subject: 'Player' + currPlayer.toString(),
-            severity: 'action'
+            severity: tempSacr + currCard.dropBlood <= 0 ? 'close' : 'action'
           }))
+          dispatch(updateSacrificeCount(currCard.dropBlood))
         }
         dispatch(updateField({
           P1side: P1Owner ? tempSide : fieldCards.P1side,
