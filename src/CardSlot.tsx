@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./css/Card.scss";
 import { useAppSelector } from "./hooks.ts";
 import {
-  CardType, Coordinate, EMPTY_CARD,
+  CardType, EMPTY_CARD,
   EMPTY_TOAST,
   Field,
   addP1bones, addP2bones,
-  markMovedCardID, setWarning, updateField, updateSacrificeCount
+  setDeleteCardHand,
+  setWarning, updateField, updateSacrificeCount
 } from "./cardReducer.tsx";
-import { Container } from "react-smooth-dnd";
+//import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
 import { sigils } from "./const/families.tsx";
@@ -20,15 +21,16 @@ export default function CardSlot(props: {
   const P1Owner: boolean = (owner === 1);
   const dispatch = useAppDispatch();
   const currPlayer: number = useAppSelector((state) => state.card.currPlayer);
-  const movedCard = useAppSelector((state) => state.card.movedCardInfo);
+  const dragCard = useAppSelector((state) => state.card.dragCardInfo);
   const pendingSacr = useAppSelector((state) => state.card.pendingSacr);
+  const myBones = useAppSelector((state) => P1Owner ? state.card.P1Bones : state.card.P2Bones);
+
   const fieldCards: Field = useAppSelector((state) => state.card.fieldCards);
   const mySide = P1Owner ? fieldCards.P1side : fieldCards.P2side;
   const hammer = useAppSelector((state) => state.card.hammer);
   const useBelts: boolean = useAppSelector((state) => state.card.rules.useBelts);
 
   const [currCard, setCurrCard] = useState<CardType>(mySide[index]);
-  const [selected, setSelected] = useState<boolean>(false);
   const [dragOver, setDragOver] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(currCard?.name?.length > 0);
   const empty_slot: string = useBelts ?
@@ -39,7 +41,7 @@ export default function CardSlot(props: {
 
   useEffect(() => {
     //reset pending selections during battlePhase
-    if (currPlayer === 0 && selected) {
+    if (currPlayer === 0 && mySide[index].selected) {
       dispatch(updateSacrificeCount(0))
     }
   }, [currPlayer]);
@@ -62,11 +64,18 @@ export default function CardSlot(props: {
   }, [fieldCards.P2side]);
 
   useEffect(() => {
-    if (!pendingSacr)
-      setSelected(false)
+    if (!pendingSacr) {
+      let tempSide: CardType[] = [...mySide].map((card): CardType =>
+        card.selected ? { ...card, selected: false } : card); //deselect all
+      dispatch(updateField({
+        P1side: P1Owner ? tempSide : fieldCards.P1side,
+        P2side: P1Owner ? fieldCards.P2side : tempSide
+      }));
+    }
   }, [pendingSacr]);
 
   const currCardSetter = (tempCard: CardType) => {
+    tempCard = { ...tempCard, selected: false }
     //debugger
     if (tempCard.sigils?.includes('random')) {
       const randIndex = Math.floor(Math.random() * (sigils.length - 1));
@@ -76,7 +85,12 @@ export default function CardSlot(props: {
     }
 
     setCurrCard(tempCard);
-    let tempSide: CardType[] = [...mySide];
+    dispatch(updateSacrificeCount(0));
+    dispatch(setDeleteCardHand(tempCard));
+    //emptyCard();
+    let tempSide: CardType[] = [...mySide].map((card): CardType =>
+      card.selected && !(card?.sigils?.includes('degnoSacr')) ? EMPTY_CARD : {...card, selected:false}); // eccezione gatto gestita
+    //TODO eccezione carte che tornano in mano
     tempSide[index] = tempCard;
     dispatch(updateField({
       P1side: P1Owner ? tempSide : fieldCards.P1side,
@@ -91,37 +105,27 @@ export default function CardSlot(props: {
 
   const handleDrop = () => {
     debugger
-    const id = movedCard.name;
-    console.log(`Somebody dropped an element with id: ${id}`);
-    setDragOver(false);
-  }
+    //const id = movedCard.name;
+    //console.log(`Somebody dropped an element with id: ${id}`);
+    //setDragOver(false);
 
-  // useEffect(() => {
-  //   const deltaX: number = Math.abs(position.x - (movedCard?.coord?.x || 0));
-  //   const deltaY: number = Math.abs(position.y - (movedCard?.coord?.y || 0));
-  //   //console.log(index, owner, movedCard)
-  //   if (movedCard.sacr > pendingSacr)
-  //     dispatch(setWarning({
-  //       message: 'sacrifices_needed',
-  //       subject: 'Player' + currPlayer.toString(),
-  //       severity: 'warning',
-  //       props: movedCard.name
-  //     }))
-  //   else if ((movedCard?.bone || 0) > currPbone)
-  //     dispatch(setWarning({
-  //       message: 'bones_needed',
-  //       subject: 'Player' + currPlayer.toString(),
-  //       severity: 'warning',
-  //       props: movedCard.name
-  //     }))
-  //   else {
-  //     debugger
-  //     if (deltaX < 35 && deltaY < 50)
-  //       copyCardStats(); //replace this card
-  //     else if (deltaX < 35 && selected)
-  //       emptyCard();
-  //   }
-  // }, [movedCard]);
+    if (dragCard.sacr > pendingSacr)
+      dispatch(setWarning({
+        message: 'sacrifices_needed',
+        subject: 'Player' + currPlayer.toString(),
+        severity: 'warning',
+        props: dragCard.name
+      }))
+    else if ((dragCard?.bone || 0) > myBones)
+      dispatch(setWarning({
+        message: 'bones_needed',
+        subject: 'Player' + currPlayer.toString(),
+        severity: 'warning',
+        props: dragCard.name
+      }))
+    else
+      currCardSetter(dragCard); //replace this card
+  }
 
   const validateSelection = () => {
     if (currPlayer === owner && currCard.name) {
@@ -132,21 +136,20 @@ export default function CardSlot(props: {
       }
       else if (currCard.dropBlood >= 0) {
         //TODO bug: sulla selezione + click in basso (su altra carta?) spariscono
-        if (selected) {
-          setSelected(false)
+        let tempSide: CardType[] = [...mySide];
+        if (currCard.selected) {
+          tempSide[index] = { ...tempSide[index], selected: false };
           if (pendingSacr > currCard.dropBlood)
             dispatch(setWarning({
               message: 'sacrifices',
               subject: 'Player' + currPlayer.toString(),
               severity: 'action'
             }))
-          else
-            dispatch(setWarning(EMPTY_TOAST));
           dispatch(updateSacrificeCount(-currCard.dropBlood))
         }
         else {
           //debugger
-          setSelected(true)
+          tempSide[index] = { ...tempSide[index], selected: true };
           dispatch(updateSacrificeCount(currCard.dropBlood))
           dispatch(setWarning({
             message: 'sacrifices',
@@ -154,6 +157,10 @@ export default function CardSlot(props: {
             severity: 'action'
           }))
         }
+        dispatch(updateField({
+          P1side: P1Owner ? tempSide : fieldCards.P1side,
+          P2side: P1Owner ? fieldCards.P2side : tempSide
+        }));
       }
     }
   }
@@ -172,14 +179,13 @@ export default function CardSlot(props: {
     <div
       className={(show ? (currCard.dropBlood < 0 ? "rock-shape" : "card-shape") : empty_slot) +
         (currPlayer === owner ? " has-hover" : "") +
-        (selected ? " selected" : "") +
-        (dragOver ? " dragged" : "")}
-      onClick={validateSelection}
+        (currCard.selected ? " selected" : "")}
+      onClick={dragCard?.name ? handleDrop : validateSelection}
 
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={handleDrop}
-      onDragStart={() => { debugger; setDragOver(true) }}
-      onDragEnd={() => { debugger; setDragOver(false) }}
+    //onDragOver={(e) => e.preventDefault()}
+    //onDrop={handleDrop}
+    //onDragStart={() => { debugger; setDragOver(true) }}
+    //onDragEnd={() => { debugger; setDragOver(false) }}
     >
       {show && <>
         <div className="mt-01">{currCard.name}</div>

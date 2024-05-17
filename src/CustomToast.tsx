@@ -17,11 +17,11 @@ export const CustomToastSacr = () => {
   useEffect(() => {
     if (warningToast.message === 'close_hammer')
       setToast(false)
-    else if (warningToast.message === 'sacrifices' && pendingSacr === 0)
+    else if (warningToast.message === 'sacrifices' && pendingSacr <= 0)
       setToast(false)
     else
       setToast(warningToast.message.length > 0)
-  }, [warningToast.message]);
+  }, [warningToast.message, pendingSacr]);
 
   //todo se c'è un message nel reducer mostra toast con sfondo=severity
 

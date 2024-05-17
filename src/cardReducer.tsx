@@ -19,7 +19,11 @@ export interface CardType {
   /* 4 slot sigilli */
   sigils?: string[]
   /* card move */
-  coord?: Coordinate
+  coord?: Coordinate //TODO da togliere
+  /* select card for sacrifice */
+  selected? : boolean
+  /* in atk o def */
+  fight? : boolean
 }
 export interface RuleType {
   isMultiplayer: number,
@@ -131,7 +135,8 @@ interface CardState {
   handCards: Field;
   leshiField: Field;
   fieldCards: Field;
-  movedCardInfo: CardType;
+  dragCardInfo: CardType; //card being dragged to the field
+  deleteCardHand: CardType;//dragCardInfo after drag completed
   P1Deck: CardType[];
   P1SQRDeck: number;
   P2Deck: CardType[];
@@ -142,7 +147,6 @@ interface CardState {
   P2Bones: number;
   canP1draw: boolean;
   canP2draw: boolean;
-  movedCardID: number | undefined;
   pendingSacr: number;
   warningToast: warningToast,
   hammer: boolean,
@@ -158,7 +162,8 @@ const initialState: CardState = {
   handCards: defaultHand,
   leshiField: EMPTY_FIELD,
   fieldCards: defaultField,
-  movedCardInfo: EMPTY_CARD,
+  dragCardInfo: EMPTY_CARD,
+  deleteCardHand: EMPTY_CARD,
   P1Deck: [...deck_P1] as CardType[],
   P1SQRDeck: 20,
   P2Deck: [...deck_P2] as CardType[],
@@ -169,7 +174,6 @@ const initialState: CardState = {
   P2Bones: 0,
   canP1draw: false,
   canP2draw: false,
-  movedCardID: undefined,
   pendingSacr: 0,
   warningToast: EMPTY_TOAST,
   hammer: false,
@@ -189,9 +193,14 @@ const cardSlice = createSlice({
       ...state,
       currPhase: action.payload
     }),
-    setMovedCardInfo: (state, action: PayloadAction<CardType>) => ({
+    setDragCardInfo: (state, action: PayloadAction<CardType>) => ({
       ...state,
-      movedCardInfo: action.payload
+      dragCardInfo: action.payload
+    }),
+    setDeleteCardHand: (state, action: PayloadAction<CardType>) => ({
+      ...state,
+      dragCardInfo: EMPTY_CARD,
+      deleteCardHand: action.payload
     }),
     increaseP1Live: (state, action: PayloadAction<number>) => ({
       ...state,
@@ -245,10 +254,6 @@ const cardSlice = createSlice({
     addP2bones: (state, action: PayloadAction<number>) => ({
       ...state,
       P2Bones: state.P2Bones + action.payload
-    }),
-    markMovedCardID: (state, action: PayloadAction<number>) => ({
-      ...state,
-      movedCardID: action.payload
     }),
     updateHand: (state, action: PayloadAction<Field>) => ({
       ...state,
@@ -307,12 +312,12 @@ const cardSlice = createSlice({
   }
 });
 
-export const { setCurrPlayer, setCurrPhase, setMovedCardInfo,
+export const { setCurrPlayer, setCurrPhase,
   P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
   updateP1draw, updateP2draw,
   increaseP1Live, resetLive, resetActiveEvent,
   addP1bones, addP2bones,
-  markMovedCardID, updateSacrificeCount,
+  setDragCardInfo, setDeleteCardHand, updateSacrificeCount,
   updateHand, updateLeshiField, updateField,
   setShowRules, setRules, setWarning,
   filterBones, turnClock, setHammer,

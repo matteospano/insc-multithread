@@ -6,7 +6,7 @@ import {
   EMPTY_TOAST,
   Field,
   addP1bones, addP2bones,
-  markMovedCardID, setWarning, updateField, updateSacrificeCount
+  setWarning, updateField, updateSacrificeCount
 } from "./cardReducer.tsx";
 //import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
@@ -18,7 +18,7 @@ export default function LeshiSlot(props: { owner: number, index: number }): JSX.
   const P1Owner: boolean = (owner === 1);
   const dispatch = useAppDispatch();
   const currPlayer: number = useAppSelector((state) => state.card.currPlayer);
-  const movedCard = useAppSelector((state) => state.card.movedCardInfo);
+  const movedCard = useAppSelector((state) => state.card.dragCardInfo);
   const pendingSacr = useAppSelector((state) => state.card.pendingSacr);
   const leshiField: Field = useAppSelector((state) => state.card.leshiField);
   const mySide = P1Owner ? leshiField.P1side : leshiField.P2side;
