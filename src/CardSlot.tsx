@@ -104,9 +104,17 @@ export default function CardSlot(props: {
     return (EMPTY_CARD);
   }
 
-  const emptyCard = () => {
+  const destroyCard = () => {
     currPlayer === 1 ? dispatch(addP1bones(currCard.dropBones)) : dispatch(addP2bones(currCard.dropBones));
-    currCardSetter(EMPTY_CARD);
+    let tempSide: CardType[] = [...mySide].map((card): CardType =>
+      card.selected && !(card?.sigils?.includes('degnoSacr')) ? onSacrifice(card)
+        : { ...card, selected: false }); // eccezione gatto gestita
+
+    tempSide[index] = EMPTY_CARD;
+    dispatch(updateField({
+      P1side: P1Owner ? tempSide : fieldCards.P1side,
+      P2side: P1Owner ? fieldCards.P2side : tempSide
+    }));
   }
 
   const handleDrop = () => {
@@ -138,7 +146,7 @@ export default function CardSlot(props: {
       if (hammer) { //click con martello svuota slot
         //TODO apply all the OnDeath effects (es. armatura->distruggi armatura,
         //immortal, and bomba) before destrying the card
-        emptyCard();
+        destroyCard();
       }
       else if (currCard.dropBlood >= 0) {
         //TODO bug: sulla selezione + click in basso (su altra carta?) spariscono

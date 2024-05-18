@@ -105,18 +105,12 @@ function Main() {
           {rules.useHammer && <div className={"hammer-image"
             + (hammer ? " hammer-selected" : '')}
             onClick={() => {
-              currPlayer ? hammer ?
-                dispatch(
-                  setWarning({
-                    message: 'close_hammer', //close dialog
-                    subject: 'Player' + currPlayer,
-                    severity: 'close'
-                  })) :
+              currPlayer ?
                 dispatch(
                   setWarning({
                     message: 'use_hammer',
                     subject: 'Player' + currPlayer,
-                    severity: 'warning'
+                    severity: hammer ? 'close' : 'warning'
                   })) :
                 dispatch(
                   setWarning({
