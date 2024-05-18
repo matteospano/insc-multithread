@@ -12,6 +12,7 @@ import {
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
 import { sigils } from "./const/families.tsx";
+import { egg } from "./utilCards.tsx";
 
 export default function CardSlot(props: {
   owner: number, index: number
@@ -73,7 +74,7 @@ export default function CardSlot(props: {
     }
   }, [pendingSacr]);
 
-  const currCardSetter = (tempCard: CardType) => {
+  const onSpawn = (tempCard: CardType) => {
     tempCard = { ...tempCard, selected: false }
     //debugger
     if (tempCard.sigils?.includes('random')) {
@@ -81,6 +82,18 @@ export default function CardSlot(props: {
       const tempSigils: string[] = tempCard.sigils.map((s) =>
         s.replace('random', sigils[randIndex]));
       tempCard = { ...tempCard, sigils: tempSigils }
+    }
+    if (tempCard.sigils?.includes('egg')) {
+      debugger
+      let oppField = [...fieldCards.P2side]
+      if (oppField[index].cardID === -1) {
+        oppField[index] = {...egg,cardID: 2777}; //TODO generate id
+        dispatch(updateField({
+          P1side: P1Owner ? fieldCards.P1side : oppField,
+          P2side: P1Owner ? oppField : fieldCards.P2side
+        }));
+      }
+
     }
 
     setCurrCard(tempCard);
@@ -118,7 +131,7 @@ export default function CardSlot(props: {
   }
 
   const handleDrop = () => {
-    debugger
+    //debugger
     //const id = movedCard.name;
     //console.log(`Somebody dropped an element with id: ${id}`);
     //setDragOver(false);
@@ -138,7 +151,7 @@ export default function CardSlot(props: {
         props: dragCard.name
       }))
     else
-      currCardSetter(dragCard); //replace this card
+      onSpawn(dragCard); //replace this card
   }
 
   const validateSelection = () => {
@@ -151,14 +164,14 @@ export default function CardSlot(props: {
       else if (currCard.dropBlood >= 0) {
         //TODO bug: sulla selezione + click in basso (su altra carta?) spariscono
         let tempSide: CardType[] = [...mySide];
-        const tempSacr=pendingSacr;
+        const tempSacr = pendingSacr;
         if (currCard.selected) {
           tempSide[index] = { ...tempSide[index], selected: false };
-            dispatch(setWarning({
-              message: 'sacrifices',
-              subject: 'Player' + currPlayer.toString(),
-              severity: tempSacr - currCard.dropBlood <= 0 ? 'close' : 'action'
-            }))
+          dispatch(setWarning({
+            message: 'sacrifices',
+            subject: 'Player' + currPlayer.toString(),
+            severity: tempSacr - currCard.dropBlood <= 0 ? 'close' : 'action'
+          }))
           dispatch(updateSacrificeCount(-currCard.dropBlood))
         }
         else {

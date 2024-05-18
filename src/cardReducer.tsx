@@ -82,39 +82,6 @@ export const EMPTY_FIELD: Field = {
   P2side: [EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD]
 }
 
-export const squirrel: CardType = {
-  name: "scoiattolo",
-  family: "scoiattoli",
-  cardID: -1,
-  atk: 0,
-  def: 1,
-  sacr: 0,
-  bone: 0,
-  dropBlood: 1,
-  dropBones: 1
-}
-export const rock: CardType = {
-  name: "roccia",
-  family: "rocce",
-  cardID: -1,
-  atk: 0,
-  def: 4,
-  sacr: 0,
-  bone: 0,
-  dropBlood: -1,
-  dropBones: 0
-}
-export const hunter: CardType = {
-  name: "Bounty Hunter",
-  family: "nessuna",
-  cardID: -1,
-  atk: 3,
-  def: 4,
-  sacr: 0,
-  bone: 0,
-  dropBlood: 1,
-  dropBones: 1
-}
 export interface warningToast {
   message: string,
   subject?: string,

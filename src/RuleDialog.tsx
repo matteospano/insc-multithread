@@ -8,7 +8,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import './css/RuleDialog.scss';
 import "./icons/Icons.scss";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
-import { CardType, RuleType, filterBones, rock, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
+import { CardType, RuleType, filterBones, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
 import { families, sigils } from "./const/families.tsx";
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
@@ -16,6 +16,7 @@ import deck_P2_Easy from './defaultSettings/P2DeckEasy.json';
 import deck_P2_Medium from './defaultSettings/P2DeckMedium.json';
 import deck_P2_Hard from './defaultSettings/P2DeckHard.json';
 import field_P2_Workshop from './defaultSettings/initialFieldP2Magnificus.json';
+import { rock } from "./utilCards.tsx";
 
 //TODO inizializza i dati da localstorage come scorsa partita
 //TODO implementa il prospettore (già settato negli eventi della candela)

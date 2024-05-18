@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import "../css/CardSlots.scss";
 import { useAppDispatch, useAppSelector } from "../hooks.ts";
-import { EMPTY_FIELD, Field, updateLeshiField, updateField, squirrel, CardType, EMPTY_CARD } from "../cardReducer.tsx";
+import { EMPTY_FIELD, Field, updateLeshiField, updateField, CardType, EMPTY_CARD } from "../cardReducer.tsx";
 import LeshiSlot from "../LeshiSlot.tsx";
 import { fillEmptySpots } from "../utils.tsx";
+import { squirrel } from "../utilCards.tsx";
 
 export default function LeshiLines(props: { owner: number }): JSX.Element {
   const { owner } = props;

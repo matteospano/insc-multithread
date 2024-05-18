@@ -1,8 +1,9 @@
 import {
   CardType, EMPTY_CARD, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
-  RuleType, hunter, resetActiveEvent, squirrel, turnClock, updateHand
+  RuleType, resetActiveEvent, turnClock, updateHand
 } from "./cardReducer.tsx";
 import { sigils } from "./const/families.tsx";
+import { hunter, squirrel } from "./utilCards.tsx";
 
 
 export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Field, rules: RuleType, dispatch: any) => {
@@ -16,7 +17,7 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Fi
     const tempSigils: string[] = [sigils[randSigilIndex], 'empty', '', 'empty'];
     drawnCard = { ...hunter, sigils: tempSigils, cardID: isP1Owner ? 1500 : 2500 }
   }
-  debugger
+  //debugger
   //TODO bug, non appare il bounty hunter
 
   if (rules.randomSigils)
