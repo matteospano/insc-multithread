@@ -62,9 +62,9 @@ export default function RuleDialog() {
   const [defaultDeck1, setDefaultDeck1] = useState<boolean>(true);
   const [defaultDeck2, setDefaultDeck2] = useState<boolean>(true);
   const [P1TotemHead, setP1TotemHead] = useState(rules.useTotems.P1Head || '');
-  const [P1TotemSigil, setP1TotemSigil] = useState(rules.useTotems.P1Sigil || '');
+  const [P1TotemSigil, setP1TotemSigil] = useState(rules.useTotems.P1Sigil || -1);
   const [P2TotemHead, setP2TotemHead] = useState(rules.useTotems.P2Head || '');
-  const [P2TotemSigil, setP2TotemSigil] = useState(rules.useTotems.P2Sigil || '');
+  const [P2TotemSigil, setP2TotemSigil] = useState(rules.useTotems.P2Sigil || -1);
 
   const onFamilyChange = (family: any) => {
     if (!disableEdit) {
@@ -87,22 +87,22 @@ export default function RuleDialog() {
       </div>
     );
   };
-  const onSigilChange = (sigilName: string) => {
+  const onSigilChange = (sigilId: number) => {
     if (!disableEdit) {
-      if (activePlayer === 1 && P2TotemSigil !== sigilName)
-        setP1TotemSigil(sigilName)
-      if (activePlayer === 2 && P1TotemSigil !== sigilName)
-        setP2TotemSigil(sigilName)
+      if (activePlayer === 1 && P2TotemSigil !== sigilId)
+        setP1TotemSigil(sigilId)
+      if (activePlayer === 2 && P1TotemSigil !== sigilId)
+        setP2TotemSigil(sigilId)
     }
   }
   const sigilTemplate = (sigil: SigilDefType) => {
     return (
-      <div className={P1TotemSigil === sigil.name ?
+      <div className={P1TotemSigil === sigil.id ?
         "rule-carosel-template selected-P1-carosel" :
-        P2TotemSigil === sigil.name ?
+        P2TotemSigil === sigil.id ?
           "rule-carosel-template selected-P2-carosel" :
           "rule-carosel-template"} title={sigil.trad}
-        onClick={() => onSigilChange(sigil.name)}>
+        onClick={() => onSigilChange(sigil.id)}>
         <p className={"rule-image " + sigil.name + "-sigil"} />
         <h4 className="mt-2 mb-1">{sigil.name}</h4>
       </div>

@@ -10,7 +10,7 @@
     "dropBlood": 1,
     "dropBones": 0,
     "blockfly": true,
-    "sigils":["random"]
+    "sigils":[900]
   },
   {
     "name": "random-P2-1",
@@ -23,7 +23,7 @@
     "dropBlood": 1,
     "dropBones": 0,
     "blockfly": true,
-    "sigils":["random"]
+    "sigils":[900]
   },
   {
     "name": "random-P2-2",
@@ -36,7 +36,7 @@
     "dropBlood": 1,
     "dropBones": 0,
     "blockfly": true,
-    "sigils":["random"]
+    "sigils":[900]
   },
   {
     "name": "random-P2-3",
@@ -49,6 +49,6 @@
     "dropBlood": 1,
     "dropBones": 0,
     "blockfly": true,
-    "sigils":["random"]
+    "sigils":[900]
   }
 ]

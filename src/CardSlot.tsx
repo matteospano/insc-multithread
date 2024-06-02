@@ -11,9 +11,7 @@ import {
 //import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
-import { sigil_def } from "./const/families.tsx";
 import { egg } from "./utilCards.tsx";
-import { replaceRandomSigil } from "./utils.tsx";
 
 export default function CardSlot(props: {
   owner: number, index: number
@@ -79,7 +77,7 @@ export default function CardSlot(props: {
     tempCard = { ...tempCard, selected: false }
     //debugger
     //TODO cerca se qualche sigillo hanno flag onSpawn
-    if (tempCard.sigils?.includes('egg')) {
+    if (tempCard.sigils?.includes(1)) { //1='egg'
       debugger
       let oppField = [...fieldCards.P2side]
       if (oppField[index].cardID === -1) {
@@ -96,7 +94,7 @@ export default function CardSlot(props: {
     dispatch(setDeleteCardHand(tempCard));
     //emptyCard();
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
-      card.selected && !(card?.sigils?.includes('degnoSacr')) ? onSacrifice(card)
+      card.selected && !(card?.sigils?.includes(202)) ? onSacrifice(card) //202='degnoSacr'
         : { ...card, selected: false }); // eccezione gatto gestita
 
     tempSide[index] = tempCard;
@@ -115,7 +113,7 @@ export default function CardSlot(props: {
   const destroyCard = () => {
     currPlayer === 1 ? dispatch(addP1bones(currCard.dropBones)) : dispatch(addP2bones(currCard.dropBones));
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
-      card.selected && !(card?.sigils?.includes('degnoSacr')) ? onSacrifice(card)
+      card.selected && !(card?.sigils?.includes(202)) ? onSacrifice(card) //202='degnoSacr'
         : { ...card, selected: false }); // eccezione gatto gestita
 
     tempSide[index] = EMPTY_CARD;

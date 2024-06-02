@@ -5,6 +5,13 @@ import {
 import { sigil_def } from "./const/families.tsx";
 import { hunter, squirrel } from "./utilCards.tsx";
 
+export const sigilDefinition = (sigilId: number) => {
+  if (sigilId > 0) {
+    const sigil = sigil_def.find((s) => s.id === sigilId)
+    return sigil?.name + ': ' + sigil?.trad;
+  }
+  return ''
+}
 
 export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Field, rules: RuleType, dispatch: any) => {
   let tempSide = isP1Owner ? handCards.P1side : handCards.P2side;
@@ -19,7 +26,7 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Fi
   //TODO bug, non appare il bounty hunter
 
   if (rules.randomSigils)
-    drawnCard = addTotemSigil(drawnCard, 'random');
+    drawnCard = addTotemSigil(drawnCard, 900);
   else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
@@ -41,13 +48,13 @@ export const DrawFromSQR = (isP1Owner: boolean, SQR: number, handCards: Field, r
   if (rules.useTotems.P1Head === 'scoiattoli' && rules.useTotems.P1Sigil) {
     tempSide = [...tempSide, {
       ...squirrel, cardID: SQR_ID,
-      sigils: [rules.useTotems.P1Sigil, '', 'empty', '']
+      sigils: [rules.useTotems.P1Sigil]
     }];
   }
   else if (rules.useTotems.P2Head === 'scoiattoli' && rules.useTotems.P2Sigil) {
     tempSide = [...tempSide, {
       ...squirrel, cardID: SQR_ID,
-      sigils: [rules.useTotems.P2Sigil, '', 'empty', '']
+      sigils: [rules.useTotems.P2Sigil]
     }];
   }
   else
@@ -59,20 +66,12 @@ export const DrawFromSQR = (isP1Owner: boolean, SQR: number, handCards: Field, r
   isP1Owner ? dispatch(P1DeckSQRNextID()) : dispatch(P2DeckSQRNextID());
 }
 
-export const addTotemSigil = (drawnCard: CardType, newSigil: string) => {
-  let sigils = ['', '', '', ''];
-  if (!drawnCard.sigils)
-    sigils = [newSigil, '', 'empty', '']
-  else if (drawnCard.sigils && drawnCard.sigils[1])
-    sigils = [drawnCard.sigils[0], newSigil, 'empty', '']
-  else if (drawnCard.sigils && drawnCard.sigils[2] === 'empty')
-    sigils = [drawnCard.sigils[0], drawnCard.sigils[1], newSigil, '']
-  else if (drawnCard.sigils && drawnCard.sigils[3])
-    sigils = [drawnCard.sigils[0],
-    drawnCard.sigils[1],
-    drawnCard.sigils[2],
-      newSigil]
-  return { ...drawnCard, sigils }
+export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType => {
+  if (drawnCard.sigils?.includes(newSigil))
+    return drawnCard //already present
+  let tempSigils: number[] = drawnCard.sigils || [];
+  tempSigils.push(newSigil);
+  return { ...drawnCard, sigils: tempSigils }
 }
 
 export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: any, usedWatches?: any) => {
@@ -131,10 +130,10 @@ export const randomCard = (dataSet: CardType[]) => {
 }
 
 export const replaceRandomSigil = (card: CardType): CardType => {
-  if (card.sigils?.includes('random')) {
+  if (card.sigils?.includes(900)) {
     const randIndex = Math.floor(Math.random() * (sigil_def.length - 1));
-    const tempSigils: string[] = card.sigils.map((s) =>
-      s.replace('random', sigil_def[randIndex]?.name));
+    const tempSigils: number[] = card.sigils.map((id) =>
+      id = 900 ? sigil_def[randIndex]?.id : id);
     return { ...card, sigils: tempSigils }
   }
   return card

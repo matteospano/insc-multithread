@@ -40,7 +40,7 @@
       "bone": 0,
       "dropBlood": -1,
       "dropBones": 0,
-      "sigils":["looter"]
+      "sigils":[205]
     },
     {
       "name": "roccia",
@@ -52,7 +52,7 @@
       "bone": 0,
       "dropBlood": -1,
       "dropBones": 0,
-      "sigils":["looter"]
+      "sigils":[205]
     }
   ],
   "P1side": [
@@ -76,7 +76,7 @@
       "bone": 0,
       "dropBlood": -1,
       "dropBones": 0,
-      "sigils":["looter"]
+      "sigils":[205]
     },
     {
       "cardID": -1,

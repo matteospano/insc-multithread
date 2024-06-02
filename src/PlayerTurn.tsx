@@ -50,7 +50,7 @@ export default function PlayerTurn(): JSX.Element {
         let oppCard: CardType = { ...oppSide[index], fight: true };
         if (oppCard?.def > 0) {
           debugger
-          if (c.sigils?.includes('fly') && !oppCard.sigils?.includes('blokFly')) {
+          if (c.sigils?.includes(502) && !oppCard.sigils?.includes(600)) {
             dispatch(setWarning({
               message: 'fly_attack',
               subject: c.name,
@@ -60,11 +60,11 @@ export default function PlayerTurn(): JSX.Element {
             dispatch(increaseP1Live(incr * c.atk));
           }
           else {
-            if (oppCard.sigils?.includes('shield'))
-              oppCard.sigils = [...oppCard.sigils.map((s) => s !== 'shield' ? s : 'empty')];
+            if (oppCard.sigils?.includes(206))
+              oppCard.sigils = [...oppCard.sigils.map((s) => s === 206 ? -1 : s)];
             else { //onOpponentCardDeath
               oppCard.def -= c.atk;
-              if (oppCard.sigils?.includes('spikes')) {
+              if (oppCard.sigils?.includes(603)) {
                 tempCard.def = c.def - 1; /* c.def -= 1; */
                 if (tempCard.def <= 0) {
                   P1attack ? dispatch(addP1bones(c.dropBones)) : dispatch(addP2bones(c.dropBones));
@@ -79,7 +79,7 @@ export default function PlayerTurn(): JSX.Element {
               }
 
               if (oppCard.def <= 0) { //onDeath
-                if (oppCard.sigils?.includes('snakeBomb')) {
+                if (oppCard.sigils?.includes(207)) { //'snakeBomb'
                   const opponentCards = 0//opponent_deck?.length || 0; //TODO controllo interno ?
                   // opponentCards > 2 ? DrawFromDeck(!P1attack, deck, handCards, rules, dispatch) :
                   //   DrawFromSQR(!P1attack, SQR, handCards, rules, dispatch);
@@ -155,7 +155,7 @@ export default function PlayerTurn(): JSX.Element {
     let oppSide = P1attack ? field.P2side : field.P1side;
     oppSide = oppSide.map((c: CardType) => {
       let tempCard = { ...c };
-      if (c.sigils?.includes('fragile')) {
+      if (c.sigils?.includes(402)) {
         P1attack ? dispatch(addP1bones(c.dropBones)) : dispatch(addP2bones(c.dropBones));
         dispatch(setWarning({
           message: 'fragile',
@@ -165,7 +165,7 @@ export default function PlayerTurn(): JSX.Element {
         }));
         tempCard = EMPTY_CARD;
       }
-      else if (c.sigils?.includes('evolve')) {
+      else if (c.sigils?.includes(401)) {
         const evol = (evolutions as Evolution[]).find((ev) => ev.cardName === c.name);
         //debugger
         if (evol) {

@@ -17,7 +17,7 @@ export interface CardType {
   /* sacrificio */
   dropBlood: number, dropBones: number,
   /* 4 slot sigilli */
-  sigils?: string[]
+  sigils?: number[]
   /* card move */
   coord?: Coordinate //TODO da togliere
   /* select card for sacrifice */
@@ -39,9 +39,9 @@ export interface RuleType {
   randomSigils: boolean,
   useTotems: {
     P1Head: string | undefined,
-    P1Sigil: string | undefined,
+    P1Sigil: number | undefined,
     P2Head: string | undefined,
-    P2Sigil: string | undefined
+    P2Sigil: number | undefined
   }
 }
 const DEFAULT_RULES: RuleType = {

@@ -21,7 +21,7 @@
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 1,
-      "sigils": ["spikes"]
+      "sigils": [603]
     },
     {
       "name": "cerbiatto",
@@ -33,7 +33,7 @@
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 1,
-      "sigils": ["evolve"]
+      "sigils": [401]
     },
     {
       "name": "gatto",
@@ -45,7 +45,7 @@
       "bone": 0,
       "dropBlood": 3,
       "dropBones": 1,
-      "sigils": ["degnoSacr"]
+      "sigils": [202]
     }
   ],
   "P1side": [
@@ -70,7 +70,7 @@
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": ["fly"]
+      "sigils": [502]
     },
     {
       "name": "scheletro",
@@ -82,7 +82,7 @@
       "bone": 1,
       "dropBlood": 0,
       "dropBones": 1,
-      "sigils": ["fragile"]
+      "sigils": [402]
     },
     {
       "name": "lupo",

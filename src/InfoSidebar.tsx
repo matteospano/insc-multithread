@@ -3,7 +3,7 @@ import { Sidebar } from 'primereact/sidebar';
 import { Dropdown } from 'primereact/dropdown';
 import { useAppDispatch, useAppSelector } from "./hooks.ts";
 import { CardType, setShowSidebarInfo } from "./cardReducer.tsx";
-import { sigil_def } from "./const/families.tsx";
+import { sigilDefinition } from "./utils.tsx";
 
 export default function InfoSidebar(props: {
   dialogOptions: { label: string; items: CardType[]; }[]
@@ -12,14 +12,6 @@ export default function InfoSidebar(props: {
   const showSidebarInfo: boolean = useAppSelector((state) => state.card.showSidebarInfo);
   const [selCardInfo, setSelCardInfo] = useState<CardType>();
   // TODO if isMultiplayer===4 la carta selezionata può essere editata di nome, costo, atk, def e sigilli
-
-  const sigilDefinition = (sigil: string | undefined) => {
-    if (sigil && sigil !== 'empty') {
-      const trad = sigil_def.find((def) => def.name === sigil)?.trad
-      return sigil + ': ' + trad;
-    }
-    return ''
-  }
 
   return (
     <Sidebar
@@ -45,10 +37,10 @@ export default function InfoSidebar(props: {
           <p>{'Family: ' + selCardInfo?.family}</p>
           {selCardInfo.sigils && <>
             <p>Sigils:</p>
-            <p>{sigilDefinition(selCardInfo.sigils[0])} </p>
-            <p>{sigilDefinition(selCardInfo.sigils[1])} </p>
-            <p>{sigilDefinition(selCardInfo.sigils[2])} </p>
-            <p>{sigilDefinition(selCardInfo.sigils[3])} </p>
+            <p>{sigilDefinition(selCardInfo.sigils[0] || -1)} </p>
+            <p>{sigilDefinition(selCardInfo.sigils[1] || -1)} </p>
+            <p>{sigilDefinition(selCardInfo.sigils[2] || -1)} </p>
+            <p>{sigilDefinition(selCardInfo.sigils[3] || -1)} </p>
           </>}
         </> : <p>select a card from the upper menu first</p>
       }
