@@ -21,7 +21,8 @@ export const squirrel: CardType = {
     sacr: 0,
     bone: 0,
     dropBlood: -1,
-    dropBones: 0
+    dropBones: 0,
+    sigils:['looter']
   }
 
   /* SUPPORTO */
@@ -49,5 +50,6 @@ export const squirrel: CardType = {
     sacr: 0,
     bone: 0,
     dropBlood: 1,
-    dropBones: 1
+    dropBones: 1,
+    sigils: ['random']
   }

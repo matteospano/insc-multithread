@@ -2,7 +2,7 @@ import {
   CardType, EMPTY_CARD, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
   RuleType, resetActiveEvent, turnClock, updateHand
 } from "./cardReducer.tsx";
-import { sigils } from "./const/families.tsx";
+import { sigil_def } from "./const/families.tsx";
 import { hunter, squirrel } from "./utilCards.tsx";
 
 
@@ -13,9 +13,7 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Fi
 
   if (rules.useCandles.activeEvent) { //solo il primo sconfitto ha diritto al vantaggio
     dispatch(resetActiveEvent());
-    const randSigilIndex = Math.floor(Math.random() * (sigils.length - 1));
-    const tempSigils: string[] = [sigils[randSigilIndex], 'empty', '', 'empty'];
-    drawnCard = { ...hunter, sigils: tempSigils, cardID: isP1Owner ? 1500 : 2500 }
+    drawnCard = replaceRandomSigil({ ...hunter, cardID: isP1Owner ? 1500 : 2500 });
   }
   //debugger
   //TODO bug, non appare il bounty hunter
@@ -26,6 +24,8 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Fi
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+
+  drawnCard = replaceRandomSigil(drawnCard);
   tempSide = [...tempSide, drawnCard];
   dispatch(updateHand({
     P1side: isP1Owner ? tempSide : handCards.P1side,
@@ -129,3 +129,13 @@ export const randomCard = (dataSet: CardType[]) => {
   const randCardIndex: number = Math.floor(Math.random() * dataSet.length);
   return dataSet[randCardIndex];
 }
+
+export const replaceRandomSigil = (card: CardType): CardType => {
+  if (card.sigils?.includes('random')) {
+    const randIndex = Math.floor(Math.random() * (sigil_def.length - 1));
+    const tempSigils: string[] = card.sigils.map((s) =>
+      s.replace('random', sigil_def[randIndex]?.name));
+    return { ...card, sigils: tempSigils }
+  }
+  return card
+} 

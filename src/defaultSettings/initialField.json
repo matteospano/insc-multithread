@@ -39,18 +39,20 @@
       "sacr": 0,
       "bone": 0,
       "dropBlood": -1,
-      "dropBones": 0
+      "dropBones": 0,
+      "sigils":["looter"]
     },
     {
-      "cardID": 2005,
-      "name": "fake_lupo",
-      "family": "nessuna",
-      "atk": 3,
-      "def": 2,
+      "name": "roccia",
+      "family": "rocce",
+      "cardID": 2004,
+      "atk": 0,
+      "def": 4,
       "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 1,
-      "sigils": ["spikes"]
+      "bone": 0,
+      "dropBlood": -1,
+      "dropBones": 0,
+      "sigils":["looter"]
     }
   ],
   "P1side": [
@@ -73,7 +75,8 @@
       "sacr": 0,
       "bone": 0,
       "dropBlood": -1,
-      "dropBones": 0
+      "dropBones": 0,
+      "sigils":["looter"]
     },
     {
       "cardID": -1,
@@ -96,13 +99,13 @@
       "dropBones": 0
     },
     {
-      "cardID": 1005,
-      "name": "fake_geco",
+      "cardID": -1,
+      "name": "",
       "family": "nessuna",
-      "atk": 5,
-      "def": 2,
+      "atk": 0,
+      "def": 0,
       "sacr": 0,
-      "dropBlood": 1,
+      "dropBlood": 0,
       "dropBones": 0
     }
   ]

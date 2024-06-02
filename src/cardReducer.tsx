@@ -123,7 +123,7 @@ interface CardState {
 
 const initialState: CardState = {
   currPlayer: 1,
-  currPhase: 11, // 10: P1 ready, 11: P1 turn, 12: battle phase, 19: evolution phase
+  currPhase: 12, // 10: P1 ready, 11: P1 turn, 12: battle phase, 19: evolution phase
   showRules: undefined,
   rules: DEFAULT_RULES,
   handCards: defaultHand,

@@ -9,7 +9,7 @@ import './css/RuleDialog.scss';
 import "./icons/Icons.scss";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import { CardType, RuleType, filterBones, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
-import { families, sigils } from "./const/families.tsx";
+import { SigilDefType, families, sigil_def } from "./const/families.tsx";
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
 import deck_P2_Easy from './defaultSettings/P2DeckEasy.json';
@@ -87,24 +87,24 @@ export default function RuleDialog() {
       </div>
     );
   };
-  const onSigilChange = (sigil: any) => {
+  const onSigilChange = (sigilName: string) => {
     if (!disableEdit) {
-      if (activePlayer === 1 && P2TotemSigil !== sigil)
-        setP1TotemSigil(sigil)
-      if (activePlayer === 2 && P1TotemSigil !== sigil)
-        setP2TotemSigil(sigil)
+      if (activePlayer === 1 && P2TotemSigil !== sigilName)
+        setP1TotemSigil(sigilName)
+      if (activePlayer === 2 && P1TotemSigil !== sigilName)
+        setP2TotemSigil(sigilName)
     }
   }
-  const sigilTemplate = (sigil: any) => {
+  const sigilTemplate = (sigil: SigilDefType) => {
     return (
-      <div className={P1TotemSigil === sigil ?
+      <div className={P1TotemSigil === sigil.name ?
         "rule-carosel-template selected-P1-carosel" :
-        P2TotemSigil === sigil ?
+        P2TotemSigil === sigil.name ?
           "rule-carosel-template selected-P2-carosel" :
-          "rule-carosel-template"}
-        onClick={() => onSigilChange(sigil)}>
-        <p className={"rule-image " + sigil + "-sigil"} />
-        <h4 className="mt-2 mb-1">{sigil}</h4>
+          "rule-carosel-template"} title={sigil.trad}
+        onClick={() => onSigilChange(sigil.name)}>
+        <p className={"rule-image " + sigil.name + "-sigil"} />
+        <h4 className="mt-2 mb-1">{sigil.name}</h4>
       </div>
     );
   };
@@ -400,7 +400,7 @@ setta nel reducer i mazzi modificati */}
               itemTemplate={familyTemplate} />
 
             <Carousel
-              value={sigils.slice(0, sigils.length)}
+              value={sigil_def.filter((s) => s.totem).slice(0, sigil_def.length)}
               numScroll={1}
               numVisible={8}
               itemTemplate={sigilTemplate} />

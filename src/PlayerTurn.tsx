@@ -23,6 +23,8 @@ export default function PlayerTurn(): JSX.Element {
   const fieldCards: Field = useAppSelector((state) => state.card.fieldCards);
   const hammer = useAppSelector((state) => state.card.hammer);
   const rules = useAppSelector((state) => state.card.rules);
+  const canP1draw = useAppSelector((state) => state.card.canP1draw);
+  const canP2draw = useAppSelector((state) => state.card.canP2draw);
 
   useEffect(() => {
     if (currPhase === 11 || currPhase === 21) {
@@ -37,7 +39,9 @@ export default function PlayerTurn(): JSX.Element {
     const incr = P1attack ? 1 : -1;
     let tempSide: CardType[] = P1attack ? [...fieldCards.P1side] : [...fieldCards.P2side];
     let oppSide: CardType[] = P1attack ? [...fieldCards.P2side] : [...fieldCards.P1side];
+
     tempSide.forEach((c: CardType, index: number) => {
+      debugger
       if (c.atk > 0) {
         /* select attacker */
         let tempCard: CardType = { ...c, fight: true };
@@ -191,6 +195,8 @@ export default function PlayerTurn(): JSX.Element {
   }
 
   const onPlayerChange = () => {
+    // if (currPhase === 11 || currPhase === 21)
+    //   setTurnLabel("Wait for P" + currPlayer + ' to draw');
     if (currPlayer && currPhase !== 10 && currPhase !== 20) { //bottone 'disabled' in wait for player
       if (hammer)
         dispatch(setHammer());
@@ -216,6 +222,8 @@ export default function PlayerTurn(): JSX.Element {
   return (<Button
     className={"turn-button " + "turn-button-col-" + currPlayer}
     label={turnLabel}
+    disabled={currPhase === 10 || (currPhase === 11 && canP1draw)
+      || currPhase === 20 || (currPhase === 21 && canP2draw)}
     onClick={onPlayerChange}
   />);
 }

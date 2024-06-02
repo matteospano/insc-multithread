@@ -11,8 +11,9 @@ import {
 //import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
-import { sigils } from "./const/families.tsx";
+import { sigil_def } from "./const/families.tsx";
 import { egg } from "./utilCards.tsx";
+import { replaceRandomSigil } from "./utils.tsx";
 
 export default function CardSlot(props: {
   owner: number, index: number
@@ -77,23 +78,17 @@ export default function CardSlot(props: {
   const onSpawn = (tempCard: CardType) => {
     tempCard = { ...tempCard, selected: false }
     //debugger
-    if (tempCard.sigils?.includes('random')) {
-      const randIndex = Math.floor(Math.random() * (sigils.length - 1));
-      const tempSigils: string[] = tempCard.sigils.map((s) =>
-        s.replace('random', sigils[randIndex]));
-      tempCard = { ...tempCard, sigils: tempSigils }
-    }
+    //TODO cerca se qualche sigillo hanno flag onSpawn
     if (tempCard.sigils?.includes('egg')) {
       debugger
       let oppField = [...fieldCards.P2side]
       if (oppField[index].cardID === -1) {
-        oppField[index] = {...egg,cardID: 2777}; //TODO generate id
+        oppField[index] = { ...egg, cardID: 2777 }; //TODO generate id
         dispatch(updateField({
           P1side: P1Owner ? fieldCards.P1side : oppField,
           P2side: P1Owner ? oppField : fieldCards.P2side
         }));
       }
-
     }
 
     setCurrCard(tempCard);

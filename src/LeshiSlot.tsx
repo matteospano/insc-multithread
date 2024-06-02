@@ -10,7 +10,7 @@ import {
 //import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
-import { sigils } from "./const/families.tsx";
+import { sigil_def } from "./const/families.tsx";
 
 export default function LeshiSlot(props: { owner: number, index: number }): JSX.Element {
   const { owner, index } = props;
@@ -59,14 +59,6 @@ export default function LeshiSlot(props: { owner: number, index: number }): JSX.
   }, [pendingSacr]);
 
   const currCardSetter = (tempCard: CardType) => {
-    //debugger
-    if (tempCard.sigils?.includes('random')) {
-      const randIndex = Math.floor(Math.random() * (sigils.length - 1));
-      const tempSigils: string[] = tempCard.sigils.map((s) =>
-        s.replace('random', sigils[randIndex]));
-      tempCard = { ...tempCard, sigils: tempSigils }
-    }
-
     setCurrCard(tempCard);
     let tempSide: CardType[] = [...mySide];
     tempSide[index] = tempCard;
