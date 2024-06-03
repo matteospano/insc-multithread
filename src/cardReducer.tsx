@@ -251,10 +251,10 @@ const cardSlice = createSlice({
       ...state,
       warningToast: action.payload,
     }),
-    filterBones: (state) => ({
+    setDecks: (state, action: PayloadAction<{P1Deck:CardType[], P2Deck:CardType[]}>) => ({
       ...state,
-      P1Deck: [...state.P1Deck].filter((c) => c.bone === 0),
-      P2Deck: [...state.P2Deck].filter((c) => c.bone === 0),
+      P1Deck: [...action.payload.P1Deck],
+      P2Deck: [...action.payload.P2Deck],
     }),
     turnClock: (state, action: PayloadAction<{ turnedField: Field, usedWatches?: any }>) => ({
       ...state,
@@ -287,7 +287,7 @@ export const { setCurrPlayer, setCurrPhase,
   setDragCardInfo, setDeleteCardHand, updateSacrificeCount,
   updateHand, updateLeshiField, updateField,
   setShowRules, setRules, setWarning,
-  filterBones, turnClock, setHammer,
+  setDecks, turnClock, setHammer,
   setSecretName, setShowSidebarInfo } = cardSlice.actions;
 
 export default cardSlice.reducer;

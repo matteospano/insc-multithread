@@ -11,8 +11,8 @@ export const families = [ //TODO {nome: cervi, name: deers}
 ];
 
 export interface SigilDefType {
-  id: number, /*phase nella prima cifra: 0/1 spawn, 1/2/3 death, 3/4 evolve, 5 atk, 6 def, 8 turn over, 9 solo listener
-              listerers nella seconda cifra: 5/6 fr_spawn, 6/7 en_spawn  9 en_atk*/
+  id: number, /*phase nella prima cifra: 0/1 spawn, 1/2/3 death, 3/4 evolve, 5 atk, 6 def, 9 solo listener
+              listerers nella seconda cifra: 4 turn over, 5/6 fr_spawn, 6/7 en_spawn  9 en_atk*/
   name: string,
   totem?: boolean, /* flag valid for totem */
   trad: string
@@ -45,7 +45,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, listen: 'fr_spawn'
   { id: 205, name: 'looter', trad: 'This card is not a valid sacrifice' }, //onDeath
   //{ name: 'magicHand', trad: 'aaa' },
-  { id: 800, name: 'push', totem: true, trad: 'At the end of each turn, it inverts its position with the card at its right' }, //onTurnOver
+  { id: 940, name: 'push', totem: true, trad: 'At the end of each turn, it inverts its position with the card at its right' }, //onTurnOver
   { id: 900, name: 'random', totem: true, trad: 'This sigil is replaced by a random sigil' },
   { id: 971, name: 'regression', totem: true, trad: 'Blocks enemies on the ground and the spawned ones from evolving' }, //listen: 'en_spawn',
   //{ id: 999, name: 'scavenger', trad: 'aaa' },
@@ -58,5 +58,5 @@ export const sigil_def: SigilDefType[] = [
   { id: 208, name: 'trap', trad: 'When this card dies, the card opposing it also dies' }, //onDeath: true
   { id: 972, name: 'turret', trad: 'From now on, when an enemy is spawn in fron of it, it takes 1 damage' }, //listen: 'en_spawn'
   //{ name: 'vampire', trad: 'aaa' },
-  { id: 801, name: 'water', totem: true, trad: 'At the end of each turn, this card submerge and leave an empty space' } //onTurnOver
+  { id: 640, name: 'water', totem: true, trad: 'At the end of each turn, this card submerge and leave an empty space' } //onDef,onTurnOver
 ];

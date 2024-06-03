@@ -8,7 +8,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import './css/RuleDialog.scss';
 import "./icons/Icons.scss";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
-import { CardType, RuleType, filterBones, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
+import { CardType, RuleType, setDecks, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
 import { SigilDefType, families, sigil_def } from "./const/families.tsx";
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
@@ -42,7 +42,7 @@ export default function RuleDialog() {
   const mediumTitle: string = "one or two tiar 2 cards played per turn";
   const hardTitle: string = "one or two tiar 3 cards played per turn. Uses totems. TOO FAST TOO SOON!";
 
-  const [editDecks, setDecks] = useState<boolean>(true);
+  const [editDecks, setEditDecks] = useState<boolean>(true);
   const [useBones, setBones] = useState<boolean>(rules.useBones);
   const [useLeshiLine, setLeshiLine] = useState<boolean>(rules.useLeshiLine);
   const [use4slots, set4slots] = useState<boolean>(rules.use4slots);
@@ -114,9 +114,9 @@ export default function RuleDialog() {
     const deck: CardType[] = isP1 ? [...deck_P1] : [...deck_P2];
     let options: deckOption[] = [];
     deck.forEach((d) => {
-      if(useBones || d.bone === 0){ //mostra elementi filtrati
+      if (useBones || d.bone === 0) { //mostra elementi filtrati
         const index = options.findIndex((o) => o.family === d.family);
-        if (index>=0)
+        if (index >= 0)
           options[index].cards.push(d);
         else
           options.push({ family: d.family, cards: [d] });
@@ -173,7 +173,12 @@ export default function RuleDialog() {
     dispatch(setRules(tempRules));
     dispatch(setShowRules(false));
     if (!useBones)
-      dispatch(filterBones());
+      dispatch(setDecks({
+        P1Deck: P1deck.filter((c) => c.bone === 0),
+        P2Deck: P2deck.filter((c) => c.bone === 0)
+      }));
+    else
+      dispatch(setDecks({ P1Deck: P1deck, P2Deck: P2deck }));
     if (use4slots && isMultiplayer !== 4) {
       let P1side = [...fieldCards.P1side];
       P1side[2] = rock;
@@ -310,7 +315,7 @@ export default function RuleDialog() {
           <div className="col-4">
             <h3 className="mt-1">Cards</h3>
             <div className="flex-row mt-1">
-              <Checkbox checked={editDecks} disabled={disableEdit} onChange={e => setDecks(e.checked || false)} />
+              <Checkbox checked={editDecks} disabled={disableEdit} onChange={e => setEditDecks(e.checked || false)} />
               <p className="mt-0 ml-1 mb-0"
                 title="choose from 20 to 30 cards for each player"> Edit decks</p>
             </div>
@@ -374,9 +379,7 @@ export default function RuleDialog() {
                   title="starts with the default deck"> {'Default deck' + activePlayer}</p>
               </div>
             </span>
-            {/* TODO usa i grouped items per dividere meglio le carte (https://primereact.org/multiselect/#group)
-rimuovi il gruppo delle ossa se serve
-setta nel reducer i mazzi modificati */}
+
             <MultiSelect
               value={activePlayer === 1 ? P1deck : P2deck}
               disabled={activePlayer === 2 && isMultiplayer > 0}

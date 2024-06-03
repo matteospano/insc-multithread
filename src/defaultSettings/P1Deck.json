@@ -26,7 +26,7 @@
   {
     "name": "cerbiatto",
     "family": "cervi",
-    "cardID": 2007,
+    "cardID": 1008,
     "atk": 2,
     "def": 1,
     "sacr": 1,
@@ -38,7 +38,7 @@
   {
     "name": "gatto",
     "family": "nessuna",
-    "cardID": 2008,
+    "cardID": 1009,
     "atk": 1,
     "def": 1,
     "sacr": 1,
