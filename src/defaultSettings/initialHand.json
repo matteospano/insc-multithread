@@ -12,8 +12,8 @@
       "dropBones": 1
     },
     {
-      "name": "spine",
-      "family": "scoiattoli",
+      "name": "porcospino",
+      "family": "nessuna",
       "cardID": 2006,
       "atk": 3,
       "def": 1,
@@ -37,7 +37,7 @@
     },
     {
       "name": "gatto",
-      "family": "scoiattoli",
+      "family": "nessuna",
       "cardID": 2008,
       "atk": 1,
       "def": 1,
@@ -45,7 +45,7 @@
       "bone": 0,
       "dropBlood": 3,
       "dropBones": 1,
-      "sigils": [202]
+      "sigils": [204]
     }
   ],
   "P1side": [
@@ -74,7 +74,7 @@
     },
     {
       "name": "scheletro",
-      "family": "scoiattoli",
+      "family": "nessuna",
       "cardID": 1007,
       "atk": 1,
       "def": 1,
@@ -86,7 +86,7 @@
     },
     {
       "name": "lupo",
-      "family": "scoiattoli",
+      "family": "lupi",
       "cardID": 1008,
       "atk": 3,
       "def": 1,
@@ -97,7 +97,7 @@
     },
     {
       "name": "geco",
-      "family": "scoiattoli",
+      "family": "nessuna",
       "cardID": 1009,
       "atk": 1,
       "def": 1,

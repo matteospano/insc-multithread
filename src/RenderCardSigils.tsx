@@ -8,23 +8,23 @@ export default function RenderCardSigils(props: {
   show: boolean
 }): JSX.Element {
   const { cardInfo, show } = props;
-  const sigils: string[] = [
-    (cardInfo.sigils && cardInfo.sigils[0]) || 'empty',
-    (cardInfo.sigils && cardInfo.sigils[1]) || '',
-    (cardInfo.sigils && cardInfo.sigils[2]) || 'empty',
-    (cardInfo.sigils && cardInfo.sigils[3]) || ''
+  const sigils: number[] = [
+    (cardInfo.sigils && cardInfo.sigils[0]) || -1,
+    (cardInfo.sigils && cardInfo.sigils[1]) || -2,
+    (cardInfo.sigils && cardInfo.sigils[2]) || -1,
+    (cardInfo.sigils && cardInfo.sigils[3]) || -2
   ]
 
   return (
     <>
       {show && <>
         <span className="image-container">
-          <p className={"card-image " + sigils[0] + '-sigil'} />
-          <p className={"card-image " + sigils[1] + '-sigil'} />
+          <p className={"card-image sigil_" + sigils[0]} />
+          <p className={"card-image sigil_" + sigils[1]} />
         </span>
         <span className="image-container">
-          <p className={"card-image " + sigils[2] + '-sigil'} />
-          <p className={"card-image " + sigils[3] + '-sigil'} />
+          <p className={"card-image sigil_" + sigils[2]} />
+          <p className={"card-image sigil_" + sigils[3]} />
         </span>
       </>}
     </>

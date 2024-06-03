@@ -10,5 +10,41 @@
     "dropBlood": 1,
     "dropBones": 1,
     "sigils": [1]
+  },
+  {
+    "name": "scheletro",
+    "family": "nessuna",
+    "cardID": 1007,
+    "atk": 1,
+    "def": 1,
+    "sacr": 0,
+    "bone": 1,
+    "dropBlood": 0,
+    "dropBones": 1,
+    "sigils": [402]
+  },
+  {
+    "name": "cerbiatto",
+    "family": "cervi",
+    "cardID": 2007,
+    "atk": 2,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [401]
+  },
+  {
+    "name": "gatto",
+    "family": "nessuna",
+    "cardID": 2008,
+    "atk": 1,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 3,
+    "dropBones": 1,
+    "sigils": [204]
   }
 ]

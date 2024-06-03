@@ -58,13 +58,14 @@ export default function RuleDialog() {
   const [activePlayer, setActivePlayer] = useState<number>(1);
   const [P1deck, setP1deck] = useState<CardType[]>([...deck_P1] as CardType[]);
   const [P2deck, setP2deck] = useState<CardType[]>([...deck_P2] as CardType[]);
-  const cards = [...deck_P1] as CardType[];
   const [defaultDeck1, setDefaultDeck1] = useState<boolean>(true);
   const [defaultDeck2, setDefaultDeck2] = useState<boolean>(true);
   const [P1TotemHead, setP1TotemHead] = useState(rules.useTotems.P1Head || '');
   const [P1TotemSigil, setP1TotemSigil] = useState(rules.useTotems.P1Sigil || -1);
   const [P2TotemHead, setP2TotemHead] = useState(rules.useTotems.P2Head || '');
   const [P2TotemSigil, setP2TotemSigil] = useState(rules.useTotems.P2Sigil || -1);
+
+  interface deckOption { family: string, cards: CardType[] }
 
   const onFamilyChange = (family: any) => {
     if (!disableEdit) {
@@ -103,11 +104,26 @@ export default function RuleDialog() {
           "rule-carosel-template selected-P2-carosel" :
           "rule-carosel-template"} title={sigil.trad}
         onClick={() => onSigilChange(sigil.id)}>
-        <p className={"rule-image " + sigil.name + "-sigil"} />
+        <p className={"rule-image sigil_" + sigil.id} />
         <h4 className="mt-2 mb-1">{sigil.name}</h4>
       </div>
     );
   };
+
+  const deckSelection = (isP1: boolean): deckOption[] => {
+    const deck: CardType[] = isP1 ? [...deck_P1] : [...deck_P2];
+    let options: deckOption[] = [];
+    deck.forEach((d) => {
+      if(useBones || d.bone === 0){ //mostra elementi filtrati
+        const index = options.findIndex((o) => o.family === d.family);
+        if (index>=0)
+          options[index].cards.push(d);
+        else
+          options.push({ family: d.family, cards: [d] });
+      }
+    })
+    return options
+  }
 
   const onConfirmRules = () => {
     /*Achievements segreti*/
@@ -373,10 +389,12 @@ setta nel reducer i mazzi modificati */}
                   setP2deck(e.value);
                 }
               }}
-              options={cards}
+              options={deckSelection(activePlayer === 1)}
               optionLabel="name" display="chip"
               placeholder={"Select P" + activePlayer + " cards"}
-              //maxSelectedLabels={3}
+              optionGroupLabel="family"
+              optionGroupChildren="cards"
+              //maxSelectedLabels={30}
               className="p-dropdown mt-1"
             />
           </div>
