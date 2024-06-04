@@ -1,9 +1,9 @@
 import {
-  CardType, EMPTY_CARD, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
+  CardType, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
   RuleType, resetActiveEvent, turnClock, updateHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
-import { hunter, squirrel } from "./utilCards.tsx";
+import { EMPTY_CARD, hunter, squirrel } from "./utilCards.tsx";
 
 export const sigilDefinition = (sigilId: number) => {
   if (sigilId > 0) {

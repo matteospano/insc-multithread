@@ -1,13 +1,14 @@
 export const families = [ //TODO {nome: cervi, name: deers}
-  'cervi',
-  'lupi',
-  'insetti',
-  'rettili',
-  'uccelli',
+  'avian',
+  'canine',
+  //'feline', cat and stoat, we can add tiger
+  'hooved',
+  'insect',
+  'reptile',
   'robots',
-  'scoiattoli',
-  'rocce',
-  'nessuna'
+  'squirrel',
+  'terrain',
+  'none'
 ];
 
 export interface SigilDefType {
@@ -49,7 +50,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 900, name: 'random', totem: true, trad: 'This sigil is replaced by a random sigil' },
   { id: 971, name: 'regression', totem: true, trad: 'Blocks enemies on the ground and the spawned ones from evolving' }, //listen: 'en_spawn',
   //{ id: 999, name: 'scavenger', trad: 'aaa' },
-  { id: 206, name: 'shield', trad: 'It absorbs the first damage dealt' }, //onDef
+  { id: 604, name: 'shield', trad: 'It absorbs the first damage dealt' }, //onDef
   { id: 70, name: 'smell', totem: true, trad: 'It decrease opposing enemy atk by one' }, //onSpawn: true, listen: 'en_spawn'
   { id: 207, name: 'snakeBomb', trad: 'Death: gifts 3 cards from your deck to your opponent' }, //onDeath
   { id: 503, name: 'sniper', trad: 'Chooses which opposing spaces to strike' }, //onAtk

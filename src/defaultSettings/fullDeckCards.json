@@ -1,7 +1,7 @@
 [
   {
     "name": "P1-rana-0",
-    "family": "nessuna",
+    "family": "none",
     "cardID": 1006,
     "atk": 1,
     "def": 1,
@@ -13,7 +13,7 @@
   },
   {
     "name": "P1-rana-1",
-    "family": "nessuna",
+    "family": "none",
     "cardID": 1007,
     "atk": 1,
     "def": 1,
@@ -25,7 +25,7 @@
   },
   {
     "name": "P1-rana-2",
-    "family": "nessuna",
+    "family": "none",
     "cardID": 1008,
     "atk": 1,
     "def": 1,
@@ -37,7 +37,7 @@
   },
   {
     "name": "P1-rana-3",
-    "family": "nessuna",
+    "family": "none",
     "cardID": 1009,
     "atk": 1,
     "def": 1,

@@ -3,6 +3,7 @@ import initialField from './defaultSettings/initialField.json';
 import initialHand from './defaultSettings/initialHand.json';
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
+import { EMPTY_CARD } from './utilCards';
 const defaultHand = initialHand as Field
 const defaultField = initialField as Field
 
@@ -72,10 +73,6 @@ const DEFAULT_RULES: RuleType = {
 export interface Field {
   P1side: CardType[],
   P2side: CardType[]
-}
-export const EMPTY_CARD: CardType = {
-  cardID: -1, name: '', family: 'nessuna', atk: 0, def: 0, sacr: 0,
-  dropBlood: 0, dropBones: 0
 }
 export const EMPTY_FIELD: Field = {
   P1side: [EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD],

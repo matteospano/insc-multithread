@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Container, Draggable } from "react-smooth-dnd";
 import "./css/Card.scss";
-import { CardType, EMPTY_CARD, updateHand, setDragCardInfo, setWarning } from "./cardReducer.tsx";
+import { CardType, updateHand, setDragCardInfo, setWarning } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
+import { EMPTY_CARD } from "./utilCards.tsx";
 
 export default function Card(props: {
   cardInfo: CardType

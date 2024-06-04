@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./css/Card.scss";
 import { useAppSelector } from "./hooks.ts";
 import {
-  CardType,   Field, EMPTY_CARD,
-  EMPTY_TOAST,
+  CardType, Field,
   addP1bones, addP2bones,
   setWarning, updateField, updateSacrificeCount
 } from "./cardReducer.tsx";
 //import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
-import { sigil_def } from "./const/families.tsx";
+import { EMPTY_CARD } from "./utilCards.tsx";
 
 export default function LeshiSlot(props: { owner: number, index: number }): JSX.Element {
   const { owner, index } = props;
@@ -118,11 +117,11 @@ export default function LeshiSlot(props: { owner: number, index: number }): JSX.
         //TODO bug: sulla selezione + click in basso (su altra carta?) spariscono
         if (selected) {
           setSelected(false)
-            dispatch(setWarning({
-              message: 'sacrifices',
-              subject: 'Player' + currPlayer.toString(),
-              severity: pendingSacr + currCard.dropBlood <= 0 ? 'close' : 'action'
-            }))
+          dispatch(setWarning({
+            message: 'sacrifices',
+            subject: 'Player' + currPlayer.toString(),
+            severity: pendingSacr + currCard.dropBlood <= 0 ? 'close' : 'action'
+          }))
           dispatch(updateSacrificeCount(-currCard.dropBlood))
         }
         else {

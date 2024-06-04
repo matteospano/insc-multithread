@@ -1,9 +1,10 @@
 import React from "react";
 import "../css/PlayerCards.scss";
 import Card from "../Card.tsx";
-import { CardType, EMPTY_CARD, setCurrPhase } from "../cardReducer.tsx";
+import { CardType, setCurrPhase } from "../cardReducer.tsx";
 import { useAppDispatch, useAppSelector } from "../hooks.ts";
 import { Sidebar } from "primereact/sidebar";
+import { EMPTY_CARD } from "../utilCards.tsx";
 
 export default function PlayerCards(props: { owner: number }): JSX.Element {
   const dispatch = useAppDispatch();

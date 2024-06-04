@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./css/Card.scss";
 import { useAppSelector } from "./hooks.ts";
 import {
-  CardType, EMPTY_CARD,
+  CardType,
   Field,
   addP1bones, addP2bones,
   setDeleteCardHand,
@@ -11,7 +11,7 @@ import {
 //import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
-import { egg } from "./utilCards.tsx";
+import { egg, EMPTY_CARD } from "./utilCards.tsx";
 
 export default function CardSlot(props: {
   owner: number, index: number
@@ -30,7 +30,6 @@ export default function CardSlot(props: {
   const useBelts: boolean = useAppSelector((state) => state.card.rules.useBelts);
 
   const [currCard, setCurrCard] = useState<CardType>(mySide[index]);
-  const [dragOver, setDragOver] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(currCard?.name?.length > 0);
   const empty_slot: string = useBelts ?
     (P1Owner && index === 0 ? "belt-shape-turn" :
@@ -211,8 +210,8 @@ export default function CardSlot(props: {
         <div className="mt-01">{currCard.name}</div>
         {RenderCardSigils({ cardInfo: currCard, show })}
         <span className="card-atk-def">
-          <div>{currCard.dropBlood >= 0 && currCard.atk || ' '}</div>
-          <div>{currCard.def}</div>
+          <div>{currCard.dropBlood >= 0 && !currCard.name?.includes('_sub') && currCard.atk || ' '}</div>
+          <div>{!currCard.name?.includes('_sub') && currCard.def}</div>
         </span>
       </>}
     </div>

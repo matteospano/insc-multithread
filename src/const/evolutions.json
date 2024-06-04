@@ -1,31 +1,149 @@
 [
   {
-    "cardName": "cerbiatto",
+    "cardName": "raven egg",
     "into": {
-      "name": "cervo",
-      "family": "cervi",
+      "name": "raven",
+      "family": "avian",
       "cardID": -1,
-      "atk": 1,
+      "atk": 2,
       "def": 1,
-      "sacr": 0,
-      "bone": 1,
+      "sacr": 2,
+      "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": ["push", "", "empty", ""]
+      "sigils": [502]
     }
   },
   {
-    "cardName": "lupacchiotto",
+    "cardName": "elk fawn",
     "into": {
-      "name": "lupo",
-      "family": "canidi",
+      "name": "elk",
+      "family": "hooved",
+      "cardID": -1,
+      "atk": 1,
+      "def": 3,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": [940]
+    }
+  },
+  {
+    "cardName": "elk",
+    "into": {
+      "name": "moose buck",
+      "family": "hooved",
+      "cardID": -1,
+      "atk": 1,
+      "def": 3,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": [940]
+    }
+  },
+  {
+    "cardName": "wolf cub",
+    "into": {
+      "name": "wolf",
+      "family": "canine",
+      "cardID": -1,
+      "atk": 2,
+      "def": 1,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0
+    }
+  },
+  {
+    "cardName": "dire wolf pup",
+    "into": {
+      "name": "dire wolf",
+      "family": "canine",
+      "cardID": -1,
+      "atk": 1,
+      "def": 4,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": [500]
+    }
+  },
+  {
+    "cardName": "mantis",
+    "into": {
+      "name": "mantis god",
+      "family": "insect",
+      "cardID": -1,
+      "atk": 0,
+      "def": 0,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": [501]
+    }
+  },
+  {
+    "cardName": "worker ant",
+    "into": {
+      "name": "ant queen",
+      "family": "insect",
+      "cardID": -1,
+      "atk": 0,
+      "def": 2,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0
+    }
+  },
+  {
+    "cardName": "flying ant",
+    "into": {
+      "name": "ant queen",
+      "family": "insect",
+      "cardID": -1,
+      "atk": 0,
+      "def": 2,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0
+    }
+  },
+  {
+    "cardName": "tadpole",
+    "into": {
+      "name": "bullfrog",
+      "family": "reptile",
       "cardID": -1,
       "atk": 1,
       "def": 1,
-      "sacr": 0,
-      "bone": 1,
+      "sacr": 2,
+      "bone": 0,
       "dropBlood": 1,
-      "dropBones": 0
+      "dropBones": 0,
+      "sigils": [600]
+    }
+  },
+  {
+    "cardName": "mole",
+    "into": {
+      "name": "mole man",
+      "family": "none",
+      "cardID": -1,
+      "atk": 0,
+      "def": 2,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": [600]
     }
   }
 ]

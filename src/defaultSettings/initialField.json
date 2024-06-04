@@ -1,9 +1,31 @@
 {
   "P2side": [
     {
+      "cardID": 2000,
+      "name": "avv_def",
+      "family": "none",
+      "atk": 1,
+      "def": 1,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0,
+      "sigils":[604]
+    },
+    {
+      "cardID": 2001,
+      "name": "avv_spikes",
+      "family": "none",
+      "atk": 1,
+      "def": 1,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0,
+      "sigils":[603]
+    },
+    {
       "cardID": -1,
       "name": "",
-      "family": "nessuna",
+      "family": "none",
       "atk": 0,
       "def": 0,
       "sacr": 0,
@@ -11,28 +33,8 @@
       "dropBones": 0
     },
     {
-      "cardID": -1,
-      "name": "",
-      "family": "nessuna",
-      "atk": 0,
-      "def": 0,
-      "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 0
-    },
-    {
-      "cardID": -1,
-      "name": "",
-      "family": "nessuna",
-      "atk": 0,
-      "def": 0,
-      "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 0
-    },
-    {
-      "name": "roccia",
-      "family": "rocce",
+      "name": "rock",
+      "family": "terrain",
       "cardID": 2003,
       "atk": 0,
       "def": 4,
@@ -43,45 +45,46 @@
       "sigils":[205]
     },
     {
-      "name": "roccia",
-      "family": "rocce",
+      "name": "wolf cub",
+      "family": "lupi",
       "cardID": 2004,
-      "atk": 0,
+      "atk": 1,
       "def": 4,
       "sacr": 0,
       "bone": 0,
-      "dropBlood": -1,
+      "dropBlood": 0,
       "dropBones": 0,
-      "sigils":[205]
+      "sigils":[401]
     }
   ],
   "P1side": [
     {
-      "cardID": -1,
-      "name": "",
-      "family": "nessuna",
-      "atk": 0,
-      "def": 0,
+      "cardID": 1000,
+      "name": "prova",
+      "family": "hooved",
+      "atk": 2,
+      "def": 1,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0
+      "dropBones": 0,
+      "sigils":[640]
     },
     {
-      "name": "roccia",
-      "family": "rocce",
+      "name": "wolf cub",
+      "family": "canine",
       "cardID": 1001,
-      "atk": 0,
+      "atk": 1,
       "def": 4,
       "sacr": 0,
       "bone": 0,
-      "dropBlood": -1,
+      "dropBlood": 1,
       "dropBones": 0,
-      "sigils":[205]
+      "sigils":[401]
     },
     {
       "cardID": -1,
       "name": "",
-      "family": "nessuna",
+      "family": "none",
       "atk": 0,
       "def": 0,
       "sacr": 0,
@@ -91,7 +94,7 @@
     {
       "cardID": -1,
       "name": "",
-      "family": "nessuna",
+      "family": "none",
       "atk": 0,
       "def": 0,
       "sacr": 0,
@@ -101,7 +104,7 @@
     {
       "cardID": -1,
       "name": "",
-      "family": "nessuna",
+      "family": "none",
       "atk": 0,
       "def": 0,
       "sacr": 0,

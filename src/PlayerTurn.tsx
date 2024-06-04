@@ -4,7 +4,6 @@ import {
   addP1bones, addP2bones, increaseP1Live, updateField,
   CardType,
   setWarning,
-  EMPTY_CARD,
   setCurrPhase
 } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
@@ -13,6 +12,7 @@ import { Button } from "primereact/button";
 import evolutions from './const/evolutions.json';
 import { Evolution } from "./Main.tsx";
 import './css/PlayerTurn.scss'
+import { EMPTY_CARD } from "./utilCards.tsx";
 
 export default function PlayerTurn(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -60,11 +60,11 @@ export default function PlayerTurn(): JSX.Element {
 
   const BattlePhase = (P1attack: boolean) => {
     const incr = P1attack ? 1 : -1;
-    let tempSide: CardType[] = P1attack ? [...fieldCards.P1side] : [...fieldCards.P2side];
-    let oppSide: CardType[] = P1attack ? [...fieldCards.P2side] : [...fieldCards.P1side];
+    let tempSide: CardType[] = P1attack ? [...fieldCards.P1side] : [...fieldCards.P2side]; //attacker
+    let oppSide: CardType[] = P1attack ? [...fieldCards.P2side] : [...fieldCards.P1side]; //defender
 
     const sigils: battleSigils = checkSigilList(tempSide, oppSide);
-    debugger
+    //debugger
 
     // tempSide.forEach((c: CardType, index: number) => {
     //   debugger
@@ -86,8 +86,8 @@ export default function PlayerTurn(): JSX.Element {
     //         dispatch(increaseP1Live(incr * c.atk));
     //       }
     //       else {
-    //         if (oppCard.sigils?.includes(206))
-    //           oppCard.sigils = [...oppCard.sigils.map((s) => s === 206 ? -1 : s)];
+    //         if (oppCard.sigils?.includes(604))
+    //           oppCard.sigils = [...oppCard.sigils.map((s) => s === 604 ? -1 : s)];
     //         else { //onOpponentCardDeath
     //           oppCard.def -= c.atk;
     //           if (oppCard.sigils?.includes(603)) {
@@ -178,22 +178,23 @@ export default function PlayerTurn(): JSX.Element {
     const turnOverSig: number[] = [];
     const evolveSig: number[] = [];
 
-    let tempSide = P1attack ? field.P1side : field.P2side;
-    let oppSide = P1attack ? field.P2side : field.P1side;
+    let tempSide = P1attack ? [...field.P1side] : [...field.P2side];
+    let oppSide = P1attack ? [...field.P2side] : [...field.P1side];
+
 
     tempSide.forEach((c: CardType, index: number) => {
       if (c.sigils?.find((s) => 39 < (s % 100) && (s % 100) < 50)) //40 turn over
         turnOverSig.push(index);
     });
-    //importante! lavoro sui side invertiti,
-    //così alla fine di P2 uccido/evolvo le creature di P1
+    //importante! lavoro sui side invertiti,così a fine turno uccido/evolvo le creature di P1
     oppSide.forEach((c: CardType, index: number) => {
       if (c.sigils?.find((s) => 299 < s && s < 500)) //3/400 evolve
         evolveSig.push(index);
-      if (c.sigils?.find((s) => s === 640))//rimuovi water
+      if (c.sigils?.find((s) => s === 640)) //rimuovi water
         evolveSig.push(index);
     });
 
+    debugger
     if (turnOverSig.length > 0) {
       turnOverSig.forEach((s) => {
         if (tempSide[s].sigils?.includes(940) && s < 4) {//push
@@ -202,83 +203,90 @@ export default function PlayerTurn(): JSX.Element {
           tempSide[s] = tempCard;
         }
         if (tempSide[s].sigils?.includes(640)) //water
-          tempSide[s].name = tempSide[s].name + '_sub';
+          tempSide[s] = { ...tempSide[s], name: tempSide[s].name + '_sub' };
       })
     }
 
     if (evolveSig.length > 0)
-      turnOverSig.forEach((s) =>  {
-      if (oppSide[s].sigils?.includes(402)) { //fragile
-        P1attack ? dispatch(addP1bones(oppSide[s].dropBones)) : dispatch(addP2bones(oppSide[s].dropBones));
-        dispatch(setWarning({
-          message: 'fragile',
-          subject: oppSide[s].name,
-          severity: 'info',
-          expire: 1500
-        }));
-        oppSide[s] = EMPTY_CARD;
-      }
-      if (oppSide[s].sigils?.includes(401)) { //evolve
-        const evol = (evolutions as Evolution[]).find((ev) => ev.cardName === oppSide[s].name);
-        //debugger
-        if (evol) {
-          oppSide[s] = {
-            ...evol.into,
-            cardID: oppSide[s].cardID,
-            atk: oppSide[s].atk + evol.into.atk,
-            def: oppSide[s].def + evol.into.def,
-          };
+      turnOverSig.forEach((s) => {
+        if (oppSide[s].sigils?.includes(402)) { //fragile
+          P1attack ? dispatch(addP1bones(oppSide[s].dropBones)) : dispatch(addP2bones(oppSide[s].dropBones));
           dispatch(setWarning({
-            message: 'evolves',
-            // TODO props: 'into ...newName'
+            message: 'fragile',
             subject: oppSide[s].name,
-            props: oppSide[s].name,
             severity: 'info',
             expire: 1500
           }));
+          oppSide[s] = EMPTY_CARD;
         }
-      }
-      if (oppSide[s].sigils?.includes(640)) //water
-      oppSide[s].name = oppSide[s].name.split('_sub')[0];
-    })
-
-      dispatch(updateField(
-        {
-          P1side: P1attack ? tempSide : oppSide,
-          P2side: P1attack ? oppSide : tempSide
-        }))
-    }
-
-    const onPlayerChange = () => {
-      // if (currPhase === 11 || currPhase === 21)
-      //   setTurnLabel("Wait for P" + currPlayer + ' to draw');
-      if (currPlayer && currPhase !== 10 && currPhase !== 20) { //bottone 'disabled' in wait for player
-        if (hammer)
-          dispatch(setHammer());
-
-        setTurnLabel("Battle ...");
-        if (rules.useBelts) handleClock(fieldCards, true, dispatch);
-
-        const updatedField = BattlePhase(currPlayer === 1);
-        TurnOverAndEvolvePhase(updatedField, currPlayer === 1);
-        const next = currPlayer === 1 ? 2 : 1;
-        dispatch(setCurrPlayer(0));
-
-        if (rules.isMultiplayer > 0) //elimina il click su ready, vale per tutti i single player
-          dispatch(setCurrPhase(next === 1 ? 11 : 21));
-        else {
-          setTurnLabel("Wait for P" + next);
-          dispatch(setCurrPhase(next === 1 ? 10 : 20));
+        if (oppSide[s].sigils?.includes(401)) { //evolve
+          const evol = (evolutions as Evolution[]).find((ev) => ev.cardName === oppSide[s].name);
+          //debugger
+          if (evol) {
+            oppSide[s] = {
+              ...evol.into,
+              cardID: oppSide[s].cardID,
+              atk: oppSide[s].atk + evol.into.atk,
+              def: oppSide[s].def + evol.into.def,
+            };
+            dispatch(setWarning({
+              message: 'evolves',
+              // TODO props: 'into ...newName'
+              subject: oppSide[s].name,
+              props: oppSide[s].name,
+              severity: 'info',
+              expire: 1500
+            }));
+          }
+          else {
+            oppSide[s] = {
+              ...oppSide[s],
+              name: tempSide[s].name + '_elder',
+              atk: tempSide[s].atk + 1,
+              def: tempSide[s].def + 1
+            };
+          }
         }
-      }
-    };
+        if (oppSide[s].sigils?.includes(640)) //water
+          oppSide[s].name = oppSide[s].name.split('_sub')[0];
+      })
 
-
-    return (<Button
-      className={"turn-button " + "turn-button-col-" + currPlayer}
-      label={turnLabel}
-      disabled={currPhase === 10 || (currPhase === 11 && canP1draw)
-        || currPhase === 20 || (currPhase === 21 && canP2draw)}
-      onClick={onPlayerChange}
-    />);
+    dispatch(updateField(
+      {
+        P1side: P1attack ? tempSide : oppSide,
+        P2side: P1attack ? oppSide : tempSide
+      }))
   }
+
+  const onPlayerChange = () => {
+    // if (currPhase === 11 || currPhase === 21)
+    //   setTurnLabel("Wait for P" + currPlayer + ' to draw');
+    if (currPlayer && currPhase !== 10 && currPhase !== 20) { //bottone 'disabled' in wait for player
+      if (hammer)
+        dispatch(setHammer());
+
+      setTurnLabel("Battle ...");
+      if (rules.useBelts) handleClock(fieldCards, true, dispatch);
+
+      const updatedField = BattlePhase(currPlayer === 1);
+      TurnOverAndEvolvePhase(updatedField, currPlayer === 1);
+      const next = currPlayer === 1 ? 2 : 1;
+      dispatch(setCurrPlayer(0));
+
+      if (rules.isMultiplayer > 0) //elimina il click su ready, vale per tutti i single player
+        dispatch(setCurrPhase(next === 1 ? 11 : 21));
+      else {
+        setTurnLabel("Wait for P" + next);
+        dispatch(setCurrPhase(next === 1 ? 10 : 20));
+      }
+    }
+  };
+
+  return (<Button
+    className={"turn-button " + "turn-button-col-" + currPlayer}
+    label={turnLabel}
+    disabled={currPhase === 10 || (currPhase === 11 && canP1draw)
+      || currPhase === 20 || (currPhase === 21 && canP2draw)}
+    onClick={onPlayerChange}
+  />);
+}
