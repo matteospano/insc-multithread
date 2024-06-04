@@ -1,7 +1,7 @@
 [
   {
     "name": "random-P2-0",
-    "family": "nessuna",
+    "family": "canine",
     "cardID": 2006,
     "atk": 1,
     "def": 1,
@@ -14,7 +14,7 @@
   },
   {
     "name": "random-P2-1",
-    "family": "nessuna",
+    "family": "canine",
     "cardID": 2007,
     "atk": 1,
     "def": 1,
@@ -27,7 +27,7 @@
   },
   {
     "name": "random-P2-2",
-    "family": "nessuna",
+    "family": "canine",
     "cardID": 2008,
     "atk": 1,
     "def": 1,
@@ -40,7 +40,7 @@
   },
   {
     "name": "random-P2-3",
-    "family": "nessuna",
+    "family": "canine",
     "cardID": 2009,
     "atk": 1,
     "def": 1,

@@ -61,3 +61,5 @@ export const sigil_def: SigilDefType[] = [
   //{ name: 'vampire', trad: 'aaa' },
   { id: 640, name: 'water', totem: true, trad: 'At the end of each turn, this card submerge and leave an empty space' } //onDef,onTurnOver
 ];
+
+//TODO hunter con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', cioè dropBlood=-1

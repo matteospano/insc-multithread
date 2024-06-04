@@ -70,9 +70,9 @@ export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType =
   if (drawnCard.sigils?.includes(newSigil))
     return drawnCard //already present
   let tempSigils: number[] = drawnCard.sigils || [];
-  tempSigils.push(newSigil);
+  tempSigils = tempSigils.concat([newSigil]);
   if (newSigil === 999)
-    return { ...drawnCard, sigils: tempSigils, dropBlood: 0 } //todo solo più da testare
+    return { ...drawnCard, sigils: tempSigils, dropBlood: -1 }
   return { ...drawnCard, sigils: tempSigils }
 }
 
@@ -135,7 +135,7 @@ export const replaceRandomSigil = (card: CardType): CardType => {
   if (card.sigils?.includes(900)) {
     const randIndex = Math.floor(Math.random() * (sigil_def.length - 1));
     const tempSigils: number[] = card.sigils.map((id) =>
-      id = 900 ? sigil_def[randIndex]?.id : id);
+      id === 900 ? sigil_def[randIndex]?.id : id);
     return { ...card, sigils: tempSigils }
   }
   return card
