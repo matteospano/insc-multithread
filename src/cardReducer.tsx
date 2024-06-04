@@ -3,7 +3,7 @@ import initialField from './defaultSettings/initialField.json';
 import initialHand from './defaultSettings/initialHand.json';
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
-import { EMPTY_CARD } from './utilCards';
+import { EMPTY_CARD } from './utilCards.tsx';
 const defaultHand = initialHand as Field
 const defaultField = initialField as Field
 

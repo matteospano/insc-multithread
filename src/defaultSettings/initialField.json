@@ -23,14 +23,15 @@
       "sigils":[603]
     },
     {
-      "cardID": -1,
-      "name": "",
-      "family": "none",
-      "atk": 0,
-      "def": 0,
+      "cardID": 2002,
+      "name": "mantis",
+      "family": "insect",
+      "atk": 1,
+      "def": 1,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0
+      "dropBones": 0,
+      "sigils":[401]
     },
     {
       "name": "rock",
@@ -45,16 +46,16 @@
       "sigils":[205]
     },
     {
-      "name": "wolf cub",
+      "name": "scheleton",
       "family": "lupi",
       "cardID": 2004,
       "atk": 1,
-      "def": 4,
+      "def": 1,
       "sacr": 0,
-      "bone": 0,
+      "bone": 1,
       "dropBlood": 0,
-      "dropBones": 0,
-      "sigils":[401]
+      "dropBones": 1,
+      "sigils":[402]
     }
   ],
   "P1side": [
@@ -82,14 +83,16 @@
       "sigils":[401]
     },
     {
-      "cardID": -1,
-      "name": "",
-      "family": "none",
-      "atk": 0,
-      "def": 0,
+      "name": "pusher",
+      "family": "canine",
+      "cardID": 1002,
+      "atk": 1,
+      "def": 4,
       "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 0
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils":[940]
     },
     {
       "cardID": -1,

@@ -186,15 +186,15 @@ export default function PlayerTurn(): JSX.Element {
       if (c.sigils?.find((s) => 39 < (s % 100) && (s % 100) < 50)) //40 turn over
         turnOverSig.push(index);
     });
-    //importante! lavoro sui side invertiti,così a fine turno uccido/evolvo le creature di P1
+
     oppSide.forEach((c: CardType, index: number) => {
+      //uso i side invertiti,così a fine turno uccido/evolvo già le creature
       if (c.sigils?.find((s) => 299 < s && s < 500)) //3/400 evolve
         evolveSig.push(index);
       if (c.sigils?.find((s) => s === 640)) //rimuovi water
         evolveSig.push(index);
     });
 
-    debugger
     if (turnOverSig.length > 0) {
       turnOverSig.forEach((s) => {
         if (tempSide[s].sigils?.includes(940) && s < 4) {//push
@@ -208,9 +208,10 @@ export default function PlayerTurn(): JSX.Element {
     }
 
     if (evolveSig.length > 0)
-      turnOverSig.forEach((s) => {
+      evolveSig.forEach((s) => {
         if (oppSide[s].sigils?.includes(402)) { //fragile
-          P1attack ? dispatch(addP1bones(oppSide[s].dropBones)) : dispatch(addP2bones(oppSide[s].dropBones));
+          P1attack ? dispatch(addP2bones(oppSide[s].dropBones)) : dispatch(addP1bones(oppSide[s].dropBones));
+          debugger
           dispatch(setWarning({
             message: 'fragile',
             subject: oppSide[s].name,
@@ -221,7 +222,6 @@ export default function PlayerTurn(): JSX.Element {
         }
         if (oppSide[s].sigils?.includes(401)) { //evolve
           const evol = (evolutions as Evolution[]).find((ev) => ev.cardName === oppSide[s].name);
-          //debugger
           if (evol) {
             oppSide[s] = {
               ...evol.into,
@@ -248,7 +248,7 @@ export default function PlayerTurn(): JSX.Element {
           }
         }
         if (oppSide[s].sigils?.includes(640)) //water
-          oppSide[s].name = oppSide[s].name.split('_sub')[0];
+          oppSide[s] = { ...oppSide[s], name: oppSide[s].name.split('_sub')[0] }; //riemerge
       })
 
     dispatch(updateField(
