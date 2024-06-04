@@ -71,6 +71,8 @@ export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType =
     return drawnCard //already present
   let tempSigils: number[] = drawnCard.sigils || [];
   tempSigils.push(newSigil);
+  if (newSigil === 999)
+    return { ...drawnCard, sigils: tempSigils, dropBlood: 0 } //todo solo più da testare
   return { ...drawnCard, sigils: tempSigils }
 }
 

@@ -44,7 +44,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a copy of it enters your hand' }, //onDeath
   { id: 204, name: 'infSacrifice', trad: 'When this card is sacrificed, it does not perish' }, //onDeath
   { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, listen: 'fr_spawn'
-  { id: 205, name: 'looter', trad: 'This card is not a valid sacrifice' }, //onDeath
+  { id: 999, name: 'looter', totem: true, trad: 'This card is not a valid sacrifice' }, //onDeath
   //{ name: 'magicHand', trad: 'aaa' },
   { id: 940, name: 'push', totem: true, trad: 'At the end of each turn, it inverts its position with the card at its right' }, //onTurnOver
   { id: 900, name: 'random', totem: true, trad: 'This sigil is replaced by a random sigil' },

@@ -58,13 +58,59 @@ export default function PlayerTurn(): JSX.Element {
     return sigils;
   }
 
+  const onAtk = (attacker: CardType, defIndex: number, sigils: battleSigils): CardType => {
+
+    return attacker
+  }
+
+  const onDeath=(card:CardType, sigils: battleSigils): CardType => {
+
+    return EMPTY_CARD
+  }
+
   const BattlePhase = (P1attack: boolean) => {
-    const incr = P1attack ? 1 : -1;
     let tempSide: CardType[] = P1attack ? [...fieldCards.P1side] : [...fieldCards.P2side]; //attacker
     let oppSide: CardType[] = P1attack ? [...fieldCards.P2side] : [...fieldCards.P1side]; //defender
 
     const sigils: battleSigils = checkSigilList(tempSide, oppSide);
-    //debugger
+    debugger
+    tempSide.forEach((c: CardType, s: number) => {
+      // if (sigils.enAtkListen.length > 0) {
+      //   sigils.enAtkListen.forEach((s) => {
+      //   }
+      // }
+
+
+      if (sigils.atkSig.length > 0 && sigils.atkSig.includes(s)) {
+        if (tempSide[s].sigils?.includes(500)) {//atk2
+          if (s > 0)
+            tempSide[s] = onAtk(tempSide[s], s - 1, sigils);
+          if (s < 4)
+            tempSide[s] = onAtk(tempSide[s], s + 1, sigils);
+        }
+        if (tempSide[s].sigils?.includes(501)) {//atk3
+          if (s > 0)
+            tempSide[s] = onAtk(tempSide[s], s - 1, sigils);
+          tempSide[s] = onAtk(tempSide[s], s, sigils);
+          if (s < 4)
+            tempSide[s] = onAtk(tempSide[s], s + 1, sigils);
+        }
+        if (tempSide[s].sigils?.includes(502)) { //fly
+          if (oppSide[s].sigils?.includes(600)) //blockFly
+            tempSide[s] = onAtk(tempSide[s], s, sigils);
+          else
+            dispatch(increaseP1Live((P1attack ? 1 : -1) * tempSide[s].atk)); //danno diretto
+        }
+        if (tempSide[s].sigils?.includes(503)) { //TODO sniper
+          dispatch(increaseP1Live((P1attack ? 1 : -1) * tempSide[s].atk)); //danno diretto
+        }
+      }
+      else if (oppSide[s].cardID === -1)
+        dispatch(increaseP1Live((P1attack ? 1 : -1) * tempSide[s].atk)); //danno diretto
+      else
+        tempSide[s] = onAtk(tempSide[s], s, sigils);
+    })
+
 
     // tempSide.forEach((c: CardType, index: number) => {
     //   debugger
@@ -177,18 +223,14 @@ export default function PlayerTurn(): JSX.Element {
   const TurnOverAndEvolvePhase = (field: Field, P1attack: boolean) => {
     const turnOverSig: number[] = [];
     const evolveSig: number[] = [];
-
-    let tempSide = P1attack ? [...field.P1side] : [...field.P2side];
-    let oppSide = P1attack ? [...field.P2side] : [...field.P1side];
-
+    let tempSide = P1attack ? [...field.P1side] : [...field.P2side]; //finishing turn
+    let oppSide = P1attack ? [...field.P2side] : [...field.P1side]; //uccido/evolvo già le creature
 
     tempSide.forEach((c: CardType, index: number) => {
       if (c.sigils?.find((s) => 39 < (s % 100) && (s % 100) < 50)) //40 turn over
         turnOverSig.push(index);
     });
-
     oppSide.forEach((c: CardType, index: number) => {
-      //uso i side invertiti,così a fine turno uccido/evolvo già le creature
       if (c.sigils?.find((s) => 299 < s && s < 500)) //3/400 evolve
         evolveSig.push(index);
       if (c.sigils?.find((s) => s === 640)) //rimuovi water

@@ -27,7 +27,7 @@ export const squirrel: CardType = {
     bone: 0,
     dropBlood: -1,
     dropBones: 0,
-    sigils:[205]
+    sigils:[999]
   }
 
   /* SUPPORTO */
