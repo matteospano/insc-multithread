@@ -34,14 +34,18 @@
       ]
     },
     {
-      "cardID": -1,
-      "name": "",
-      "family": "none",
-      "atk": 0,
-      "def": 0,
+      "name": "ghost",
+      "family": "lupi",
+      "cardID": 2003,
+      "atk": 1,
+      "def": 1,
       "sacr": 0,
+      "bone": 1,
       "dropBlood": 0,
-      "dropBones": 0
+      "dropBones": 1,
+      "sigils": [
+        990
+      ]
     },
     {
       "name": "scheleton",

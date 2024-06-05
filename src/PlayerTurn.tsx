@@ -13,6 +13,7 @@ import evolutions from './const/evolutions.json';
 import { Evolution } from "./Main.tsx";
 import './css/PlayerTurn.scss'
 import { EMPTY_CARD } from "./utilCards.tsx";
+import CardSlot from "./CardSlot.tsx";
 
 export default function PlayerTurn(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -116,6 +117,27 @@ export default function PlayerTurn(): JSX.Element {
     dispatch(increaseP1Live(increase * atk));
   }
 
+  const burrowerMove = (enBurrower: number[], atkIndex: number,
+    defIndex: number, tempSide: CardType[], oppSide: CardType[], sigils: battleSigils
+  ): { atkSide: CardType[], defSide: CardType[], burrows: number[] } => {
+    const listenInd = enBurrower[0];
+    oppSide[defIndex] = { ...oppSide[listenInd] };
+    oppSide[listenInd] = EMPTY_CARD;
+    debugger
+    if (oppSide[defIndex].def < tempSide[atkIndex].atk) //TODO i'm assuming he will die
+      enBurrower.shift();
+    else
+      enBurrower[0] = defIndex; //update value
+    debugger
+    let { def: defender, dannoRifl } = onAtk(tempSide[atkIndex].atk, oppSide[defIndex], defIndex, sigils);
+    oppSide[defIndex] = defender;
+    if (dannoRifl > 0) {
+      let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, tempSide[atkIndex], atkIndex, sigils, true);
+      tempSide[atkIndex] = attacker;
+    }
+    return { atkSide: tempSide, defSide: oppSide, burrows: enBurrower }
+  }
+
   const BattlePhase = (P1attack: boolean) => {
     let tempSide: CardType[] = P1attack ? [...fieldCards.P1side] : [...fieldCards.P2side]; //attacker
     let oppSide: CardType[] = P1attack ? [...fieldCards.P2side] : [...fieldCards.P1side]; //defender
@@ -139,17 +161,10 @@ export default function PlayerTurn(): JSX.Element {
             ) //fly && no blockFly, submerged enemy
               directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
             else if (oppSide[sniperIndex].cardID === -1) {
-              if (sigils.enBurrower?.length > 0) { //burrower
-                const listenInd = sigils.enBurrower[0];
-                oppSide[sniperIndex] = { ...oppSide[listenInd] };
-                oppSide[listenInd] = EMPTY_CARD;
-                sigils.enBurrower[0]= sniperIndex; //update value
-                let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[sniperIndex], sniperIndex, sigils);
-                oppSide[sniperIndex] = defender;
-                if (dannoRifl > 0) {
-                  let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
-                  tempSide[s] = attacker;
-                }
+              if (sigils.enBurrower?.length > 0) {
+                const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, sniperIndex, tempSide, oppSide, sigils)
+                tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
+                debugger
               }
               else
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -173,16 +188,8 @@ export default function PlayerTurn(): JSX.Element {
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
               else if (oppSide[s - 1].cardID === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
-                  const listenInd = sigils.enBurrower[0];
-                  oppSide[s - 1] = { ...oppSide[listenInd] };
-                  oppSide[listenInd] = EMPTY_CARD;
-                  sigils.enBurrower[0]= s - 1; //update value
-                  let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[s - 1], s - 1, sigils);
-                  oppSide[s - 1] = defender;
-                  if (dannoRifl > 0) {
-                    let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
-                    tempSide[s] = attacker;
-                  }
+                  const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s-1, tempSide, oppSide, sigils)
+                  tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
                 }
                 else
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -204,16 +211,8 @@ export default function PlayerTurn(): JSX.Element {
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
               else if (oppSide[s].cardID === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
-                  const listenInd = sigils.enBurrower[0];
-                  oppSide[s] = { ...oppSide[listenInd] };
-                  oppSide[listenInd] = EMPTY_CARD;
-                  sigils.enBurrower[0]= s; //update value
-                  let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[s], s, sigils);
-                  oppSide[s] = defender;
-                  if (dannoRifl > 0) {
-                    let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
-                    tempSide[s] = attacker;
-                  }
+                  const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s, tempSide, oppSide, sigils)
+                  tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
                 }
                 else
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -235,16 +234,8 @@ export default function PlayerTurn(): JSX.Element {
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
               else if (oppSide[s + 1].cardID === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
-                  const listenInd = sigils.enBurrower[0];
-                  oppSide[s + 1] = { ...oppSide[listenInd] };
-                  oppSide[listenInd] = EMPTY_CARD;
-                  sigils.enBurrower[0]= s + 1; //update value
-                  let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[s + 1], s + 1, sigils);
-                  oppSide[s + 1] = defender;
-                  if (dannoRifl > 0) {
-                    let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
-                    tempSide[s] = attacker;
-                  }
+                  const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s+1, tempSide, oppSide, sigils)
+                  tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
                 }
                 else
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -263,18 +254,9 @@ export default function PlayerTurn(): JSX.Element {
         else if (oppSide[s].sigils?.includes(640))
           directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
         else if (oppSide[s].cardID === -1) {
-          debugger
           if (sigils.enBurrower?.length > 0) { //burrower
-            const listenInd = sigils.enBurrower[0];
-            oppSide[s] = { ...oppSide[listenInd] };
-            oppSide[listenInd] = EMPTY_CARD;
-            sigils.enBurrower[0]= s; //update value
-            let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[s], s, sigils);
-            oppSide[s] = defender;
-            if (dannoRifl > 0) {
-              let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
-              tempSide[s] = attacker;
-            }
+            const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s, tempSide, oppSide, sigils)
+            tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
           }
           else
             directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
