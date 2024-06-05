@@ -9,7 +9,9 @@
       "sacr": 0,
       "dropBlood": 0,
       "dropBones": 0,
-      "sigils":[604]
+      "sigils": [
+        604
+      ]
     },
     {
       "cardID": 2001,
@@ -20,7 +22,9 @@
       "sacr": 0,
       "dropBlood": 0,
       "dropBones": 0,
-      "sigils":[603]
+      "sigils": [
+        603
+      ]
     },
     {
       "cardID": 2002,
@@ -31,7 +35,9 @@
       "sacr": 0,
       "dropBlood": 0,
       "dropBones": 0,
-      "sigils":[401]
+      "sigils": [
+        401
+      ]
     },
     {
       "name": "rock",
@@ -43,7 +49,9 @@
       "bone": 0,
       "dropBlood": -1,
       "dropBones": 0,
-      "sigils":[999]
+      "sigils": [
+        999
+      ]
     },
     {
       "name": "scheleton",
@@ -55,7 +63,9 @@
       "bone": 1,
       "dropBlood": 0,
       "dropBones": 1,
-      "sigils":[402]
+      "sigils": [
+        402
+      ]
     }
   ],
   "P1side": [
@@ -68,19 +78,25 @@
       "sacr": 0,
       "dropBlood": 0,
       "dropBones": 0,
-      "sigils":[640]
+      "sigils": [
+        640
+      ]
     },
     {
       "name": "wolf cub",
       "family": "canine",
       "cardID": 1001,
       "atk": 1,
-      "def": 4,
+      "def": 2,
       "sacr": 0,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils":[401]
+      "sigils": [
+        500,
+        501,
+        502
+      ]
     },
     {
       "name": "pusher",
@@ -92,7 +108,9 @@
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils":[940]
+      "sigils": [
+        940
+      ]
     },
     {
       "cardID": -1,

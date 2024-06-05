@@ -62,4 +62,4 @@ export const sigil_def: SigilDefType[] = [
   { id: 640, name: 'water', totem: true, trad: 'At the end of each turn, this card submerge and leave an empty space' } //onDef,onTurnOver
 ];
 
-//TODO hunter con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', cioè dropBlood=-1
+//TODO hunter 2 atk, 2def, 2sacr con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', senza cambiare le stats ma con sigillo looter e dropBlood=-1

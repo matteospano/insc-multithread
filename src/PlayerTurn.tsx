@@ -50,7 +50,7 @@ export default function PlayerTurn(): JSX.Element {
     enSide.forEach((c: CardType, index: number) => {
       if (c.sigils?.find((s) => 89 < (s % 100) && (s % 100) < 100)) //90 en_atk
         sigils.enAtkListen.push(index);
-      if (c.sigils?.find((s) => 599 < s && s < 700)) //600 def
+      if (c.sigils?.find((s) => 600 < s && s < 700)) //600 def, ignora blockFly
         sigils.enDefSig.push(index);
       if (c.sigils?.find((s) => 99 < s && s < 400)) //1/2/300 death
         sigils.enDeathSig.push(index);
@@ -58,14 +58,61 @@ export default function PlayerTurn(): JSX.Element {
     return sigils;
   }
 
-  const onAtk = (attacker: CardType, defIndex: number, sigils: battleSigils): CardType => {
+  const onAtk = (atk: number, defender: CardType, defInd: number, sigils: battleSigils, riflesso?: boolean): { def: CardType, dannoRifl: number } => {
+    //TODO mancano burrower che si sposta per difendere e helper che richiede al un altro di difenderlo (furoi dalla funzione)
+    if (defender.sigils && (riflesso ? true : sigils.enDefSig.includes(defInd))) {
+      if (defender.sigils.includes(604)) { //shield
+        const noShield= [...defender.sigils].filter((s) => s !== 604);
+        return {
+          def: {
+            ...defender,
+            sigils: noShield
+          }, dannoRifl: !riflesso && defender.sigils.includes(603) ? 1 : 0 //spikes non si applica 2 volte
+        }
+      }
+      else {
+        if (atk < defender.def)
+          return { def: { ...defender, def: defender.def - atk }, dannoRifl: 0 }
+        else {
+          const card = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
+          return { def: card, dannoRifl: defender.sigils.includes(603) ? 1 : 0 } //spikes 
+        }
+      }
+    }
+    else {
+      if (atk < defender.def)
+        return { def: { ...defender, def: defender.def - atk }, dannoRifl: 0 }
+      else {
+        const card = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
+        return { def: card, dannoRifl: 0 }
+      }
+    }
 
-    return attacker
+
+
   }
 
-  const onDeath=(card:CardType, sigils: battleSigils): CardType => {
+  const onDeath = (card: CardType, sigils: number[]): CardType => {
+    //             dispatch(setWarning({
+    //               message: 'dies',
+    //               subject: card.name,
+    //               severity: 'info',
+    //               expire: 1500
+    //             }));
+    console.log('dies ', card.name);
 
     return EMPTY_CARD
+  }
+
+  const directAtk = (increase: number, atk: number, cardName: string, dispatch: any) => {
+    //       dispatch(setWarning({
+    //         message: 'direct_attack',
+    //         subject: cardName,
+    //         severity: 'info',
+    //         expire: 1500
+    //       }));
+    console.log('direct_attack ', cardName);
+    dispatch(increaseP1Live(increase * atk));
   }
 
   const BattlePhase = (P1attack: boolean) => {
@@ -73,147 +120,97 @@ export default function PlayerTurn(): JSX.Element {
     let oppSide: CardType[] = P1attack ? [...fieldCards.P2side] : [...fieldCards.P1side]; //defender
 
     const sigils: battleSigils = checkSigilList(tempSide, oppSide);
-    debugger
+
     tempSide.forEach((c: CardType, s: number) => {
-      // if (sigils.enAtkListen.length > 0) {
-      //   sigils.enAtkListen.forEach((s) => {
-      //   }
-      // }
+      if (c.atk) {
+        if (sigils.atkSig.length > 0 && sigils.atkSig.includes(s)) {
+          //uniche possibilità: [sniper, 2, 3, sniper-fly, 2-fly, 3-fly]
+          const sniper = c.sigils?.includes(503);
+          const triple = c.sigils?.includes(501);
+          const double = triple || c.sigils?.includes(500);
+          const fly = c.sigils?.includes(502);
 
-
-      if (sigils.atkSig.length > 0 && sigils.atkSig.includes(s)) {
-        if (tempSide[s].sigils?.includes(500)) {//atk2
-          if (s > 0)
-            tempSide[s] = onAtk(tempSide[s], s - 1, sigils);
-          if (s < 4)
-            tempSide[s] = onAtk(tempSide[s], s + 1, sigils);
+          if (sniper) {
+            const sniperIndex = 3 //TODO scelta indice
+            if (
+              (fly && !(oppSide[sniperIndex].sigils?.includes(600))) ||
+              oppSide[sniperIndex].cardID === -1 ||
+              oppSide[sniperIndex].sigils?.includes(640)
+            ) //fly && no blockFly, no enemy, submerged enemy
+              directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
+            else {
+              let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[sniperIndex], sniperIndex, sigils);
+              oppSide[sniperIndex] = defender;
+              if (dannoRifl > 0) {
+                let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
+                tempSide[s] = attacker;
+              }
+            }
+          }
+          if (double) {
+            if (s > 0) {
+              if (
+                (fly && !(oppSide[s - 1].sigils?.includes(600))) ||
+                oppSide[s - 1].cardID === -1 ||
+                oppSide[s - 1].sigils?.includes(640)
+              ) //fly && no blockFly, no enemy, submerged enemy
+                directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
+              else {
+                let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[s - 1], s - 1, sigils);
+                oppSide[s - 1] = defender;
+                if (dannoRifl > 0) {
+                  let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
+                  tempSide[s] = attacker;
+                }
+              }
+            }
+            if (triple && tempSide[s].def > 0) {
+              if (
+                (fly && !(oppSide[s].sigils?.includes(600))) ||
+                oppSide[s].cardID === -1 ||
+                oppSide[s].sigils?.includes(640)
+              ) //fly && no blockFly, no enemy, submerged enemy
+                directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
+              else {
+                let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[s], s, sigils);
+                oppSide[s] = defender;
+                if (dannoRifl > 0) {
+                  let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
+                  tempSide[s] = attacker;
+                }
+              }
+            }
+            if (s < 4 && tempSide[s].def > 0) {
+              if (
+                (fly && !(oppSide[s + 1].sigils?.includes(600))) ||
+                oppSide[s + 1].cardID === -1 ||
+                oppSide[s + 1].sigils?.includes(640)
+              ) //fly && no blockFly, no enemy, submerged enemy
+                directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
+              else {
+                let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[s + 1], s + 1, sigils);
+                oppSide[s + 1] = defender;
+                if (dannoRifl > 0) {
+                  let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
+                  tempSide[s] = attacker;
+                }
+              }
+            }
+          }
         }
-        if (tempSide[s].sigils?.includes(501)) {//atk3
-          if (s > 0)
-            tempSide[s] = onAtk(tempSide[s], s - 1, sigils);
-          tempSide[s] = onAtk(tempSide[s], s, sigils);
-          if (s < 4)
-            tempSide[s] = onAtk(tempSide[s], s + 1, sigils);
-        }
-        if (tempSide[s].sigils?.includes(502)) { //fly
-          if (oppSide[s].sigils?.includes(600)) //blockFly
-            tempSide[s] = onAtk(tempSide[s], s, sigils);
-          else
-            dispatch(increaseP1Live((P1attack ? 1 : -1) * tempSide[s].atk)); //danno diretto
-        }
-        if (tempSide[s].sigils?.includes(503)) { //TODO sniper
-          dispatch(increaseP1Live((P1attack ? 1 : -1) * tempSide[s].atk)); //danno diretto
+        else if (oppSide[s].cardID === -1 || oppSide[s].sigils?.includes(640))
+          directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
+        else { //normal atk
+          let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[s], s, sigils);
+          oppSide[s] = defender;
+          if (dannoRifl > 0) {
+            let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
+            tempSide[s] = attacker;
+          }
         }
       }
-      else if (oppSide[s].cardID === -1)
-        dispatch(increaseP1Live((P1attack ? 1 : -1) * tempSide[s].atk)); //danno diretto
-      else
-        tempSide[s] = onAtk(tempSide[s], s, sigils);
     })
 
-
-    // tempSide.forEach((c: CardType, index: number) => {
-    //   debugger
-    //   if (c.atk > 0) {
-    //     /* select attacker */
-    //     let tempCard: CardType = { ...c, fight: true };
-    //     tempSide[index] = tempCard;
-
-    //     let oppCard: CardType = { ...oppSide[index], fight: true };
-    //     if (oppCard?.def > 0) {
-    //       debugger
-    //       if (c.sigils?.includes(502) && !oppCard.sigils?.includes(600)) {
-    //         dispatch(setWarning({
-    //           message: 'fly_attack',
-    //           subject: c.name,
-    //           severity: 'info',
-    //           expire: 1500
-    //         }))
-    //         dispatch(increaseP1Live(incr * c.atk));
-    //       }
-    //       else {
-    //         if (oppCard.sigils?.includes(604))
-    //           oppCard.sigils = [...oppCard.sigils.map((s) => s === 604 ? -1 : s)];
-    //         else { //onOpponentCardDeath
-    //           oppCard.def -= c.atk;
-    //           if (oppCard.sigils?.includes(603)) {
-    //             tempCard.def = c.def - 1; /* c.def -= 1; */
-    //             if (tempCard.def <= 0) {
-    //               P1attack ? dispatch(addP1bones(c.dropBones)) : dispatch(addP2bones(c.dropBones));
-    //               dispatch(setWarning({
-    //                 message: 'dies',
-    //                 subject: oppCard.name,
-    //                 severity: 'info',
-    //                 expire: 1500
-    //               }));
-    //               tempCard = EMPTY_CARD;
-    //             }
-    //           }
-
-    //           if (oppCard.def <= 0) { //onDeath
-    //             if (oppCard.sigils?.includes(207)) { //'snakeBomb'
-    //               const opponentCards = 0//opponent_deck?.length || 0; //TODO controllo interno ?
-    //               // opponentCards > 2 ? DrawFromDeck(!P1attack, deck, handCards, rules, dispatch) :
-    //               //   DrawFromSQR(!P1attack, SQR, handCards, rules, dispatch);
-    //               // opponentCards > 1 ? DrawFromDeck(!P1attack, deck, handCards, rules, dispatch) :
-    //               //   DrawFromSQR(!P1attack, SQR, handCards, rules, dispatch);
-    //               // opponentCards > 0 ? DrawFromDeck(!P1attack, deck, handCards, rules, dispatch) :
-    //               //   DrawFromSQR(!P1attack, SQR, handCards, rules, dispatch);
-    //             }
-    //             P1attack ? dispatch(addP2bones(c.dropBones)) : dispatch(addP1bones(c.dropBones));
-    //             debugger
-    //             dispatch(setWarning({
-    //               message: 'dies',
-    //               subject: oppCard.name,
-    //               severity: 'info',
-    //               expire: 1500
-    //             }));
-    //             oppCard = EMPTY_CARD;
-    //           }
-    //         }
-
-    //         //TODO sposta in func onDeath e fai fading della carta (sfondo -> transparent per 700ms)
-    //         debugger
-    //         //TODO fix copia by reference e si spacca
-    //         tempSide[index] = { ...tempCard, fight: false };
-    //         /* deselect defender*/
-    //         oppSide[index] = { ...oppCard, fight: false }; //senza scudo, ferita o EMPTY
-    //         debugger
-    //         dispatch(updateField(
-    //           {
-    //             P1side: P1attack ? tempSide : oppSide,
-    //             P2side: P1attack ? oppSide : tempSide
-    //           }))
-    //       }
-    //     }
-    //     else //no enemy
-    //     // TODO bug, non attaccano la roccia???
-    //     {
-    //       dispatch(updateField(
-    //         {
-    //           P1side: P1attack ? tempSide : oppSide,
-    //           P2side: P1attack ? oppSide : tempSide
-    //         }))
-
-    //       dispatch(setWarning({
-    //         message: 'direct_attack',
-    //         subject: c.name,
-    //         severity: 'info',
-    //         expire: 1500
-    //       }));
-    //       dispatch(increaseP1Live(incr * c.atk));
-
-    //       /* deselect attacker*/
-    //       tempCard = { ...tempCard, fight: false };
-    //       tempSide[index] = tempCard;
-    //       dispatch(updateField(
-    //         {
-    //           P1side: P1attack ? tempSide : oppSide,
-    //           P2side: P1attack ? oppSide : tempSide
-    //         }))
-    //     }
-    //   }
-    // })
     return {
       P1side: P1attack ? tempSide : oppSide,
       P2side: P1attack ? oppSide : tempSide
@@ -253,7 +250,6 @@ export default function PlayerTurn(): JSX.Element {
       evolveSig.forEach((s) => {
         if (oppSide[s].sigils?.includes(402)) { //fragile
           P1attack ? dispatch(addP2bones(oppSide[s].dropBones)) : dispatch(addP1bones(oppSide[s].dropBones));
-          debugger
           dispatch(setWarning({
             message: 'fragile',
             subject: oppSide[s].name,
@@ -264,6 +260,7 @@ export default function PlayerTurn(): JSX.Element {
         }
         if (oppSide[s].sigils?.includes(401)) { //evolve
           const evol = (evolutions as Evolution[]).find((ev) => ev.cardName === oppSide[s].name);
+          //TODO controlla se c'è un totem e riassegnalo all'evoluzione const sigilWithFamily=evol.into.sigils.push(rules...)
           if (evol) {
             oppSide[s] = {
               ...evol.into,
