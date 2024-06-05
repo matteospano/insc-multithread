@@ -1,30 +1,24 @@
 {
   "P2side": [
     {
-      "cardID": 2000,
-      "name": "avv_def",
+      "cardID": -1,
+      "name": "",
       "family": "none",
-      "atk": 1,
-      "def": 1,
+      "atk": 0,
+      "def": 0,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0,
-      "sigils": [
-        604
-      ]
+      "dropBones": 0
     },
     {
-      "cardID": 2001,
-      "name": "avv_spikes",
+      "cardID": -1,
+      "name": "",
       "family": "none",
-      "atk": 1,
-      "def": 1,
+      "atk": 0,
+      "def": 0,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0,
-      "sigils": [
-        603
-      ]
+      "dropBones": 0
     },
     {
       "cardID": 2002,
@@ -40,31 +34,27 @@
       ]
     },
     {
-      "name": "rock",
-      "family": "terrain",
-      "cardID": 2003,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
       "atk": 0,
-      "def": 4,
+      "def": 0,
       "sacr": 0,
-      "bone": 0,
-      "dropBlood": -1,
-      "dropBones": 0,
-      "sigils": [
-        999
-      ]
+      "dropBlood": 0,
+      "dropBones": 0
     },
     {
       "name": "scheleton",
       "family": "lupi",
       "cardID": 2004,
       "atk": 1,
-      "def": 1,
+      "def": 30,
       "sacr": 0,
       "bone": 1,
       "dropBlood": 0,
       "dropBones": 1,
       "sigils": [
-        402
+        990
       ]
     }
   ],
@@ -93,9 +83,7 @@
       "dropBlood": 1,
       "dropBones": 0,
       "sigils": [
-        500,
-        501,
-        502
+        503
       ]
     },
     {

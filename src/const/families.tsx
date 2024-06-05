@@ -29,7 +29,7 @@ export const sigil_def: SigilDefType[] = [
   //{ name: 'bloodLust', trad: 'aaa' },
   { id: 201, name: 'bomb', trad: 'Death: it will explode and cause damage to its front enemy and side cards' }, // onDeath
   { id: 400, name: 'boneDigger', trad: 'Every new turn it makes you gaign bone' }, //onEvolve
-  { id: 601, name: 'burrower', totem: true, trad: 'It moves to any empty space that is attacked by an enemy to block it' }, //onDef
+  { id: 990, name: 'burrower', totem: true, trad: 'It moves to any empty space that is attacked by an enemy to block it' }, //listen: 'en_atk'
   { id: 202, name: 'degnoSacr', trad: 'Sacrificed: it counts as 3 blood' }, //onDeath
   //{ name: 'doubleDeath', trad: 'aaa' },
   { id: 300, name: 'dinamite', trad: 'Next turn (or on its death) it will explode and cause damage to its front enemy and side cards (even if it is still in your hand)' }, //onDeath, onEvolve
@@ -40,7 +40,7 @@ export const sigil_def: SigilDefType[] = [
   //{ name: 'gemme', trad: 'aaa' },
   //{ name: 'ghost', trad: 'aaa' },
   { id: 970, name: 'guardian', totem: true, trad: 'It moves in front of the last enemy spawn' }, //listen: 'en_spawn'
-  { id: 602, name: 'helper', trad: 'if enemy attaks, the spawner of this card will strike back' },//onDef todo sigillo proprio delle campane
+  { id: 991, name: 'helper', trad: 'if enemy attaks, the spawner of this card will strike back' },//listen: 'en_atk' todo sigillo proprio delle campane
   { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a copy of it enters your hand' }, //onDeath
   { id: 204, name: 'infSacrifice', trad: 'When this card is sacrificed, it does not perish' }, //onDeath
   { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, listen: 'fr_spawn'
