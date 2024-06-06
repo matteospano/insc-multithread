@@ -12,7 +12,7 @@ export const families = [ //TODO {nome: cervi, name: deers}
 ];
 
 export interface SigilDefType {
-  id: number, /*phase nella prima cifra: 0/1 spawn, 1/2/3 death, 3/4 evolve, 5 atk, 6 def, 9 solo listener
+  id: number, /*phase nella prima cifra: 0/1 spawn, 1/2/3 death, 3/4 evolve, 5 atk, 6 def, 7 sacr, 9 solo listener
               listerers nella seconda cifra: 4 turn over, 5/6 fr_spawn, 6/7 en_spawn  9 en_atk*/
   name: string,
   totem?: boolean, /* flag valid for totem */
@@ -21,7 +21,7 @@ export interface SigilDefType {
 
 export const sigil_def: SigilDefType[] = [
   { id: 170, name: 'alarm', totem: true, trad: 'Enemy placed (or already placed) in front of this card: it gaigns 1 atk' }, //onSpawn, onDeath, listen: 'en_spawn'
-  { id: 200, name: 'apple', trad: 'Sacrificed: the new card gaigns its atk and def' }, //onDeath
+  { id: 700, name: 'apple', trad: 'Sacrificed: the new card gaigns its atk and def' }, //onSacr
   { id: 500, name: 'atk2', trad: 'Atk enemies on its sides if available' }, //onAtk
   { id: 501, name: 'atk3', trad: 'Atk enemies in front and on its sides if available' }, //onAtk
   { id: 100, name: 'bells', trad: 'Spawn bells on its sides, they die with him' }, //onSpawn, onDeath
@@ -30,7 +30,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 201, name: 'bomb', trad: 'Death: it will explode and cause damage to its front enemy and side cards' }, // onDeath
   { id: 400, name: 'boneDigger', trad: 'Every new turn it makes you gaign bone' }, //onEvolve
   { id: 990, name: 'burrower', totem: true, trad: 'It moves to any empty space that is attacked by an enemy to block it' }, //listen: 'en_atk'
-  { id: 202, name: 'degnoSacr', trad: 'Sacrificed: it counts as 3 blood' }, //onDeath
+  { id: 702, name: 'degnoSacr', trad: 'Sacrificed: it counts as 3 blood' }, //onSacr
   //{ name: 'doubleDeath', trad: 'aaa' },
   { id: 300, name: 'dinamite', trad: 'Next turn (or on its death) it will explode and cause damage to its front enemy and side cards (even if it is still in your hand)' }, //onDeath, onEvolve
   { id: 1, name: 'egg', trad: 'If enemy field is empty add an egg that may become a bird' }, //onSpawn
@@ -43,7 +43,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 991, name: 'helper', trad: 'if enemy attaks, the spawner of this card will strike back' },//listen: 'en_atk' todo sigillo proprio delle campane
   { id: 601, name: 'ice', trad: 'On the first damage dealt, it evolves' }, //onDef
   { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a copy of it enters your hand' }, //onDeath
-  { id: 204, name: 'infSacrifice', trad: 'When this card is sacrificed, it does not perish' }, //onDeath
+  { id: 704, name: 'infSacrifice', trad: 'When this card is sacrificed, it does not perish' }, //onSacr
   { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, listen: 'fr_spawn'
   { id: 999, name: 'looter', totem: true, trad: 'This card is not a valid sacrifice' }, //onDeath
   //{ name: 'magicHand', trad: 'aaa' },

@@ -99,6 +99,9 @@ export default function PlayerTurn(): JSX.Element {
   }
 
   const onDeath = (card: CardType, sigils: number[]): CardType => {
+    //TODO rimuovi effetti di: bells,leader,alarm
+    //TODO: applica,immortal,snakeBomb,trap,tail,bomb,dinamite
+
     //             dispatch(setWarning({
     //               message: 'dies',
     //               subject: card.name,
@@ -209,7 +212,7 @@ export default function PlayerTurn(): JSX.Element {
                 tempSide[s] = attacker;
               }
               else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
-              tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+                tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
             }
           }
           if (double) {
@@ -235,7 +238,7 @@ export default function PlayerTurn(): JSX.Element {
                   tempSide[s] = attacker;
                 }
                 else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
-                tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+                  tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
               }
             }
             if (triple && tempSide[s].def > 0) {
@@ -260,7 +263,7 @@ export default function PlayerTurn(): JSX.Element {
                   tempSide[s] = attacker;
                 }
                 else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
-                tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+                  tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
               }
             }
             if (s < 4 && tempSide[s].def > 0) {
@@ -285,7 +288,7 @@ export default function PlayerTurn(): JSX.Element {
                   tempSide[s] = attacker;
                 }
                 else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
-                tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+                  tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
               }
             }
           }
@@ -308,7 +311,7 @@ export default function PlayerTurn(): JSX.Element {
             tempSide[s] = attacker;
           }
           else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
-          tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+            tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
         }
       }
     })
