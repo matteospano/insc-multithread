@@ -55,7 +55,7 @@
       "family": "lupi",
       "cardID": 2004,
       "atk": 1,
-      "def": 30,
+      "def": 7,
       "sacr": 0,
       "bone": 1,
       "dropBlood": 0,
@@ -90,7 +90,7 @@
       "dropBlood": 1,
       "dropBones": 0,
       "sigils": [
-        504
+        402
       ]
     },
     {
