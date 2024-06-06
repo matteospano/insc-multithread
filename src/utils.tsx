@@ -3,7 +3,7 @@ import {
   RuleType, resetActiveEvent, turnClock, updateHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
-import { EMPTY_CARD, hunter, squirrel } from "./utilCards.tsx";
+import { EMPTY_CARD, angler, hunter, prospector, squirrel } from "./utilCards.tsx";
 
 export const sigilDefinition = (sigilId: number) => {
   if (sigilId > 0) {
@@ -18,9 +18,10 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Fi
   const randCardIndex = Math.floor(Math.random() * deck.length);
   let drawnCard = deck[randCardIndex];
 
-  if (rules.useCandles.activeEvent) { //solo il primo sconfitto ha diritto al vantaggio
+  if (rules.boss.length > 0) { //solo il primo sconfitto ha diritto al vantaggio
     dispatch(resetActiveEvent());
-    drawnCard = replaceRandomSigil({ ...hunter, cardID: isP1Owner ? 1500 : 2500 });
+    const boss = rules.boss === 'prospector' ? prospector : rules.boss === 'hunter' ? hunter : angler
+    drawnCard = { ...boss, cardID: isP1Owner ? 1500 : 2500 }
   }
   //debugger
   //TODO bug, non appare il bounty hunter

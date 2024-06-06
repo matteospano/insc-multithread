@@ -19,9 +19,9 @@ export interface CardType {
   /* 4 slot sigilli */
   sigils?: number[]
   /* select card for sacrifice */
-  selected? : boolean
+  selected?: boolean
   /* in atk o def */
-  fight? : boolean
+  fight?: boolean
 }
 export interface RuleType {
   isMultiplayer: number,
@@ -31,9 +31,8 @@ export interface RuleType {
   useHammer: boolean,
   useBelts: boolean,
   useWatches: { P1: boolean, P2: boolean }
-  useCandles: { P1: boolean, P2: boolean, activeEvent?: string }
-  prospector: boolean,
-  bountyHunter: boolean,
+  useCandles: { P1: boolean, P2: boolean }
+  boss: string,
   randomSigils: boolean,
   useTotems: {
     P1Head: string | undefined,
@@ -57,8 +56,7 @@ const DEFAULT_RULES: RuleType = {
     P1: false,
     P2: false
   },
-  prospector: false,
-  bountyHunter: false,
+  boss: '',
   useTotems: {
     P1Head: undefined,
     P1Sigil: undefined,
@@ -168,7 +166,7 @@ const cardSlice = createSlice({
       P1Live: state.P1Live + action.payload,
       P2Live: state.P2Live - action.payload
     }),
-    resetLive: (state, action: PayloadAction<{ P1: boolean, P2: boolean, activeEvent?: string }>) => ({
+    resetLive: (state, action: PayloadAction<{ P1: boolean, P2: boolean }>) => ({
       ...state,
       P1Live: 5,
       P2Live: 5,
@@ -178,10 +176,7 @@ const cardSlice = createSlice({
       ...state,
       rules: {
         ...state.rules,
-        useCandles: {
-          ...state.rules.useCandles,
-          activeEvent: undefined
-        }
+        boss: ''
       }
     }),
     P1DeckNextID: (state, action: PayloadAction<CardType[]>) => ({
@@ -245,7 +240,7 @@ const cardSlice = createSlice({
       ...state,
       warningToast: action.payload,
     }),
-    setDecks: (state, action: PayloadAction<{P1Deck:CardType[], P2Deck:CardType[]}>) => ({
+    setDecks: (state, action: PayloadAction<{ P1Deck: CardType[], P2Deck: CardType[] }>) => ({
       ...state,
       P1Deck: [...action.payload.P1Deck],
       P2Deck: [...action.payload.P2Deck],

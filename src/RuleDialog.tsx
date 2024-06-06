@@ -17,6 +17,7 @@ import deck_P2_Medium from './defaultSettings/P2DeckMedium.json';
 import deck_P2_Hard from './defaultSettings/P2DeckHard.json';
 import field_P2_Workshop from './defaultSettings/initialFieldP2Magnificus.json';
 import { rock } from "./utilCards.tsx";
+import { Dropdown } from "primereact/dropdown";
 
 //TODO inizializza i dati da localstorage come scorsa partita
 //TODO implementa il prospettore (già settato negli eventi della candela)
@@ -49,8 +50,7 @@ export default function RuleDialog() {
   const [useBelts, setBelts] = useState<boolean>(rules.useBelts);
   const [useWatches, setWatches] = useState<boolean>(rules.useWatches.P1 || rules.useWatches.P2);
   const [useCandles, setCandles] = useState<boolean>(rules.useCandles.P1 || rules.useCandles.P2);
-  const [prospector, setProspector] = useState<boolean>(rules.prospector ? true : false);
-  const [bountyHunter, setBountyHunter] = useState<boolean>(rules.bountyHunter ? true : false);
+  const [boss, setBoss] = useState<string>(rules.boss || '');
   const [randomSigils, setRandomSigils] = useState<boolean>(rules.randomSigils ? true : false);
   const [useTotems, setTotems] = useState<boolean>(rules.useTotems.P1Head ? true : false);
 
@@ -127,10 +127,10 @@ export default function RuleDialog() {
   const onConfirmRules = () => {
     /*Achievements segreti*/
     let secretName: string = ''
-    if (useBones && useLeshiLine && useCandles && prospector && useTotems &&
+    if (useBones && useLeshiLine && useCandles && boss === 'prospector' && useTotems &&
       !useHammer && !useBelts && use4slots && !useWatches)
       secretName = 'Leshi'; //bones + leshiLine + candles + prospector + totems
-    if (!use4slots && useBelts && bountyHunter &&
+    if (!use4slots && useBelts && boss === 'hunter' &&
       !useBones && !useLeshiLine && !useCandles &&
       !useHammer && !useWatches && !randomSigils && !useTotems)
       secretName = 'P03'; //5lines + belts + bountyHunter
@@ -155,13 +155,13 @@ export default function RuleDialog() {
       }))
     }
 
-    const tempRules = {
+    const tempRules: RuleType = {
       isMultiplayer,
       useBones, useLeshiLine, useHammer,
       use4slots, useBelts,
       useWatches: { P1: useWatches, P2: useWatches },
       useCandles: { P1: useCandles, P2: useCandles },
-      prospector, bountyHunter, randomSigils,
+      boss, randomSigils,
       useTotems: {
         P1Head: useTotems ? P1TotemHead : undefined,
         P1Sigil: useTotems ? P1TotemSigil : undefined,
@@ -260,29 +260,30 @@ export default function RuleDialog() {
                 disabled={disableEdit}
                 onChange={e => {
                   setCandles(e.checked || false)
-                  if (!e.value) {
-                    setProspector(false)
-                    setBountyHunter(false)
-                  }
+                  if (!e.value) setBoss('')
                 }} />
               <p className="mt-0 ml-1 mb-0"
                 title="3 lives or one-shot victory"> Light candels</p>
             </div>
             <div className="flex-row mt-1">
-              <Checkbox checked={prospector}
-                disabled={disableEdit || !useCandles || bountyHunter}
-                onChange={e => setProspector(e.checked || false)} />
-              <p className={"mt-0 ml-1 mb-0" +
-                ((disableEdit || !useCandles || bountyHunter) ? ' disabled' : '')}
-                title="on candle blown out, it transforms all creatures into gold nuggets">Call the Prospector</p>
-            </div>
-            <div className="flex-row mt-1">
-              <Checkbox checked={bountyHunter}
-                disabled={disableEdit || !useCandles || prospector}
-                onChange={e => setBountyHunter(e.checked || false)} />
-              <p className={"mt-0 ml-1 mb-0" +
-                ((disableEdit || !useCandles || prospector) ? ' disabled' : '')}
-                title="helps the player who lost 1 life, the next drawn card will be the Bounty Hunter">Spawn the Bounty Hunter</p>
+              <p className={"mt-0 ml-1 mb-0 mr-1" +
+                ((disableEdit || !useCandles) ? ' disabled' : '')}
+                title="on candle blown out, you will drawn a special card">Spawn</p>
+              <Dropdown
+                disabled={(disableEdit || !useCandles)}
+                value={boss}
+                placeholder="select a boss"
+                options={
+                  [{ label: "the Angler", value: "angler" },
+                  { label: "Prospector", value: "prospector" },
+                  { label: "the Hunter", value: "hunter" },
+                  { label: "Necromancer", value: "necromancer" }]
+                }
+                optionValue="value"
+                optionLabel="label"
+                onChange={(data) => setBoss(data.value)}
+                className="mt-0 mr-2"
+              />
             </div>
           </div>
 

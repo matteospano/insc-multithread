@@ -19,8 +19,6 @@ export default function LifeCounter(props: {
   const oppCandle = useAppSelector((state) =>
     owner === 1 ? state.card.rules.useCandles.P2 : state.card.rules.useCandles.P1);
   const isMultiplayer = useAppSelector((state) => state.card.rules.isMultiplayer);
-  const bountyHunter = useAppSelector((state) => state.card.rules.bountyHunter);
-  const prospector = useAppSelector((state) => state.card.rules.prospector);
   const playerLabel = secretName && owner === 2 ? secretName : "Player" + owner;
   const [playerSurrender, setPlayerSurrender] = useState<boolean>(false);
 
@@ -29,15 +27,9 @@ export default function LifeCounter(props: {
       if (myCandle !== true)
         return true
       else {
-        let activeEvent: string | undefined = undefined;
-        if (bountyHunter && oppCandle)//solo il primo sconfitto ha diritto al vantaggio
-          activeEvent = 'bountyHunter'
-        else if (prospector)
-          activeEvent = 'prospector'
         const candles = {
           P1: owner === 1 ? false : oppCandle,
-          P2: owner === 2 ? false : oppCandle,
-          activeEvent
+          P2: owner === 2 ? false : oppCandle
         }
         dispatch(setWarning({ message: 'P' + owner + ' has lost its candle!', severity: 'warning' }));
         dispatch(resetLive(candles));

@@ -1,17 +1,14 @@
 {
   "P2side": [
     {
-      "cardID": 2000,
-      "name": "bomb",
-      "family": "terrain",
-      "atk": 1,
-      "def": 1,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
+      "atk": 0,
+      "def": 0,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0,
-      "sigils": [
-        201
-      ]
+      "dropBones": 0
     },
     {
       "cardID": 2001,
@@ -21,7 +18,7 @@
       "def": 30,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0
+      "dropBones": 1
     },
     {
       "cardID": -1,
@@ -64,13 +61,13 @@
       "sacr": 0,
       "bone": 0,
       "dropBlood": 1,
-      "dropBones": 0
+      "dropBones": 1
     },
     {
       "name": "wolf cub",
       "family": "canine",
       "cardID": 1001,
-      "atk": 3,
+      "atk": 8,
       "def": 2,
       "sacr": 0,
       "bone": 0,
