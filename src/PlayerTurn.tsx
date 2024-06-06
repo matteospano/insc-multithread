@@ -4,7 +4,8 @@ import {
   addP1bones, addP2bones, increaseP1Live, updateField,
   CardType,
   setWarning,
-  setCurrPhase
+  setCurrPhase,
+  updateHand
 } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import { handleClock } from "./utils.tsx";
@@ -13,7 +14,6 @@ import evolutions from './const/evolutions.json';
 import { Evolution } from "./Main.tsx";
 import './css/PlayerTurn.scss'
 import { EMPTY_CARD } from "./utilCards.tsx";
-import CardSlot from "./CardSlot.tsx";
 
 export default function PlayerTurn(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -26,6 +26,7 @@ export default function PlayerTurn(): JSX.Element {
   const rules = useAppSelector((state) => state.card.rules);
   const canP1draw = useAppSelector((state) => state.card.canP1draw);
   const canP2draw = useAppSelector((state) => state.card.canP2draw);
+  const handCards = useAppSelector((state) => state.card.handCards);
 
   useEffect(() => {
     if (currPhase === 11 || currPhase === 21) {
@@ -100,7 +101,7 @@ export default function PlayerTurn(): JSX.Element {
 
   const onDeath = (card: CardType, sigils: number[]): { card: CardType, effect: number } => {
     //TODO rimuovi effetti di: bells,leader,alarm
-    //TODO: applica: immortal,snakeBomb,trap,tail,bomb,dinamite
+    //TODO: applica: immortal,snakeBomb,tail
 
     //             dispatch(setWarning({
     //               message: 'dies',
@@ -108,6 +109,18 @@ export default function PlayerTurn(): JSX.Element {
     //               severity: 'info',
     //               expire: 1500
     //             }));
+    if (card.sigils?.includes(203)) { //immortal
+      const isP1Owner = card.cardID < 2000;
+      let tempSide = isP1Owner ? handCards.P1side : handCards.P2side;
+      const cardCopy = card; //TODO ricerca la carta con le stats pulite da un elenco, aggiungi i totem
+      tempSide = [...tempSide, cardCopy];
+      dispatch(updateHand({
+        P1side: isP1Owner ? tempSide : handCards.P1side,
+        P2side: isP1Owner ? handCards.P2side : tempSide
+      }));
+      console.log('dies ', card.name);
+      return { card: EMPTY_CARD, effect: -1 }
+    }
     if (card.sigils?.includes(208)) { //trap
       console.log('dies ', card.name);
       return { card: EMPTY_CARD, effect: -10 }

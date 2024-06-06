@@ -10,7 +10,7 @@
       "dropBlood": 0,
       "dropBones": 0,
       "sigils": [
-        208
+        203
       ]
     },
     {
@@ -24,49 +24,37 @@
       "dropBones": 0
     },
     {
-      "cardID": 2002,
-      "name": "amber",
-      "family": "terrain",
+      "cardID": -1,
+      "name": "",
+      "family": "none",
       "atk": 0,
-      "def": 3,
+      "def": 0,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0,
-      "sigils": [
-        601
-      ]
+      "dropBones": 0
     },
     {
-      "name": "ghost",
-      "family": "lupi",
-      "cardID": 2003,
-      "atk": 1,
-      "def": 1,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
+      "atk": 0,
+      "def": 0,
       "sacr": 0,
-      "bone": 1,
       "dropBlood": 0,
-      "dropBones": 1,
-      "sigils": [
-        990
-      ]
+      "dropBones": 0
     },
     {
-      "name": "scheleton",
-      "family": "lupi",
-      "cardID": 2004,
-      "atk": 5,
-      "def": 7,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
+      "atk": 0,
+      "def": 0,
       "sacr": 0,
-      "bone": 1,
       "dropBlood": 0,
-      "dropBones": 1,
-      "sigils": [
-        990
-      ]
+      "dropBones": 0
     }
   ],
   "P1side": [
-
     {
       "name": "dummy",
       "family": "canine",
