@@ -3,7 +3,7 @@ import {
   RuleType, resetActiveEvent, turnClock, updateHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
-import { EMPTY_CARD, angler, hunter, prospector, squirrel } from "./utilCards.tsx";
+import { EMPTY_CARD, angler, hunter, necromancer, prospector, squirrel } from "./utilCards.tsx";
 
 export const sigilDefinition = (sigilId: number) => {
   if (sigilId > 0) {
@@ -20,7 +20,11 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Fi
 
   if (rules.boss.length > 0) { //solo il primo sconfitto ha diritto al vantaggio
     dispatch(resetActiveEvent());
-    const boss = rules.boss === 'prospector' ? prospector : rules.boss === 'hunter' ? hunter : angler
+    const boss = rules.boss === 'prospector' ? prospector
+      : rules.boss === 'hunter' ? hunter
+        : rules.boss === 'angler' ? angler
+          : rules.boss === 'necromancer' ? necromancer
+            : squirrel //altri...
     drawnCard = { ...boss, cardID: isP1Owner ? 1500 : 2500 }
   }
   //debugger

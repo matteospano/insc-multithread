@@ -11,14 +11,18 @@
       "dropBones": 0
     },
     {
-      "cardID": 2001,
-      "name": "cage",
+      "name": "rock",
       "family": "terrain",
-      "atk": 2,
-      "def": 30,
+      "cardID": 2001,
+      "atk": 0,
+      "def": 4,
       "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 1
+      "bone": 0,
+      "dropBlood": -1,
+      "dropBones": 0,
+      "sigils": [
+        999
+      ]
     },
     {
       "cardID": -1,
@@ -53,49 +57,48 @@
   ],
   "P1side": [
     {
-      "name": "dummy",
-      "family": "canine",
-      "cardID": 1001,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
       "atk": 0,
-      "def": 2,
+      "def": 0,
       "sacr": 0,
-      "bone": 0,
-      "dropBlood": 1,
-      "dropBones": 1
+      "dropBlood": 0,
+      "dropBones": 0
     },
     {
-      "name": "wolf cub",
-      "family": "canine",
-      "cardID": 1001,
-      "atk": 8,
-      "def": 2,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    },
+    {
+      "cardID": -1,
+      "name": "",
+      "family": "none",
+      "atk": 0,
+      "def": 0,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0
+    },
+    {
+      "name": "rock",
+      "family": "terrain",
+      "cardID": 1003,
+      "atk": 0,
+      "def": 4,
       "sacr": 0,
       "bone": 0,
-      "dropBlood": 1,
+      "dropBlood": -1,
       "dropBones": 0,
       "sigils": [
-        503
+        999
       ]
-    },
-    {
-      "cardID": -1,
-      "name": "",
-      "family": "none",
-      "atk": 0,
-      "def": 0,
-      "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 0
-    },
-    {
-      "cardID": -1,
-      "name": "",
-      "family": "none",
-      "atk": 0,
-      "def": 0,
-      "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 0
     },
     {
       "cardID": -1,

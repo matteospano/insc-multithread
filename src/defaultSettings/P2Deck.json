@@ -1,54 +1,48 @@
 [
   {
-    "name": "random-P2-0",
-    "family": "canine",
+    "name": "bee",
+    "family": "insetti",
+    "cardID": 2005,
+    "atk": 1,
+    "def": 2,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 0,
+    "sigils": [502]
+  },
+  {
+    "name": "scheletro",
+    "family": "nessuna",
     "cardID": 2006,
     "atk": 1,
     "def": 1,
     "sacr": 0,
-    "bone": 0,
-    "dropBlood": 1,
-    "dropBones": 0,
-    "blockfly": true,
-    "sigils":[900]
+    "bone": 1,
+    "dropBlood": 0,
+    "dropBones": 1,
+    "sigils": [402]
   },
   {
-    "name": "random-P2-1",
-    "family": "canine",
+    "name": "lupo",
+    "family": "lupi",
     "cardID": 2007,
-    "atk": 1,
+    "atk": 3,
     "def": 1,
-    "sacr": 0,
+    "sacr": 2,
     "bone": 0,
     "dropBlood": 1,
-    "dropBones": 0,
-    "blockfly": true,
-    "sigils":[900]
+    "dropBones": 1
   },
   {
-    "name": "random-P2-2",
-    "family": "canine",
+    "name": "geco",
+    "family": "none",
     "cardID": 2008,
     "atk": 1,
     "def": 1,
     "sacr": 0,
     "bone": 0,
     "dropBlood": 1,
-    "dropBones": 0,
-    "blockfly": true,
-    "sigils":[900]
-  },
-  {
-    "name": "random-P2-3",
-    "family": "canine",
-    "cardID": 2009,
-    "atk": 1,
-    "def": 1,
-    "sacr": 0,
-    "bone": 0,
-    "dropBlood": 1,
-    "dropBones": 0,
-    "blockfly": true,
-    "sigils":[900]
+    "dropBones": 0
   }
 ]

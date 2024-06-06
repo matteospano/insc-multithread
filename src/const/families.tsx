@@ -1,4 +1,4 @@
-export const families = [ //TODO {nome: cervi, name: deers}
+export const families = [
   'avian',
   'canine',
   //'feline', cat and stoat, we can add tiger
@@ -81,3 +81,5 @@ export const sigil_def: SigilDefType[] = [
 //hunter 2 atk, 2def, 2sacr con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', senza cambiare le stats ma con sigillo looter e dropBlood=-1
 //crea 1 carta terrain per ogni famiglia con sigillo 601 cage->wolf, amber->mosquitos, death snake-> hog nosed snake, ice->opossum
 
+//per pubblicarla: effetti boss in single player(non carte), elimina le initial hand card.json e crea dei veri mazzi
+//nice2have: sigilli più belli, automatizza le leshi lines, sniper con scelta onClick, lista completa carta

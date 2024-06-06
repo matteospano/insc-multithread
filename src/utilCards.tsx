@@ -82,5 +82,15 @@ export const angler: CardType = {
   dropBones: 1,
   sigils: [70, 640, 600] //water, smell, blockFly
 }
-
-//TODO aggiungi boss Necromancer o simile con fertilità zombie
+export const necromancer: CardType = {
+  name: "Necromancer",
+  family: "none",
+  cardID: -1,
+  atk: 3,
+  def: 1,
+  sacr: 0,
+  bone: 0,
+  dropBlood: 1,
+  dropBones: 1,
+  sigils: [208, 600] //TODO fertilità zombie non 208, blockFly
+}

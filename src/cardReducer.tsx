@@ -1,10 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import initialField from './defaultSettings/initialField.json';
-import initialHand from './defaultSettings/initialHand.json';
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
 import { EMPTY_CARD } from './utilCards.tsx';
-const defaultHand = initialHand as Field
 const defaultField = initialField as Field
 
 export interface CardType {
@@ -118,7 +116,7 @@ const initialState: CardState = {
   currPhase: 12, // 10: P1 ready, 11: P1 turn, 12: battle phase, 19: evolution phase
   showRules: undefined,
   rules: DEFAULT_RULES,
-  handCards: defaultHand,
+  handCards: EMPTY_FIELD,
   leshiField: EMPTY_FIELD,
   fieldCards: defaultField,
   dragCardInfo: EMPTY_CARD,
