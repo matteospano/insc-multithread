@@ -27,12 +27,12 @@ export const sigil_def: SigilDefType[] = [
   { id: 100, name: 'bells', trad: 'Spawn bells on its sides, they die with him' }, //onSpawn, onDeath
   { id: 600, name: 'blockFly', totem: true, trad: 'Blocks front enemy fly attak' }, //onDef
   //{ name: 'bloodLust', trad: 'aaa' },
-  { id: 201, name: 'bomb', trad: 'Death: it will explode and cause damage to its front enemy and side cards' }, // onDeath
+  { id: 201, name: 'bomb', trad: 'Death: it will explode and cause damage to its side cards and front enemy' }, // onDeath
   { id: 400, name: 'boneDigger', trad: 'Every new turn it makes you gaign bone' }, //onEvolve
   { id: 990, name: 'burrower', totem: true, trad: 'It moves to any empty space that is attacked by an enemy to block it' }, //listen: 'en_atk'
   { id: 702, name: 'degnoSacr', trad: 'Sacrificed: it counts as 3 blood' }, //onSacr
   //{ name: 'doubleDeath', trad: 'aaa' },
-  { id: 300, name: 'dinamite', trad: 'Next turn (or on its death) it will explode and cause damage to its front enemy and side cards (even if it is still in your hand)' }, //onDeath, onEvolve
+  { id: 300, name: 'dinamite', trad: 'Next turn or on its death, it will explode (even if it is still in your hand) and cause damage to its side cards and front enemy' }, //onDeath, onEvolve
   { id: 1, name: 'egg', trad: 'If enemy field is empty add an egg that may become a bird' }, //onSpawn
   { id: 401, name: 'evolve', totem: true, trad: 'Evolves itself in a stronger form at the start of its next turn' }, // onEvolve
   { id: 502, name: 'fly', trad: 'It can attack directly the opponent (but still be blocked by the block sigil)' }, //onAtk
@@ -52,12 +52,12 @@ export const sigil_def: SigilDefType[] = [
   { id: 971, name: 'regression', totem: true, trad: 'Blocks enemies on the ground and the spawned ones from evolving' }, //listen: 'en_spawn',
   //{ id: 999, name: 'scavenger', trad: 'aaa' },
   { id: 604, name: 'shield', trad: 'It absorbs the first damage dealt' }, //onDef
-  { id: 70, name: 'smell', totem: true, trad: 'It decrease opposing enemy atk by one' }, //onSpawn: true, listen: 'en_spawn'
+  { id: 70, name: 'smell', totem: true, trad: 'It decrease opposing enemy atk by one' }, //onSpawn, listen: 'en_spawn'
   { id: 207, name: 'snakeBomb', trad: 'Death: gifts 3 cards from your deck to your opponent' }, //onDeath
   { id: 503, name: 'sniper', trad: 'Chooses which opposing spaces to strike' }, //onAtk
   { id: 603, name: 'spikes', totem: true, trad: 'When being attacked, inflicts 1 damage to the attacker' }, //onDef
   { id: 209, name: 'tail', trad: 'When this card is going to die, it moves on the right (if possible) and drops a tail' }, //onDeath: true
-  { id: 208, name: 'trap', trad: 'When this card dies, the card opposing it also dies' }, //onDeath: true
+  { id: 208, name: 'trap', trad: 'When this card dies, the card opposing it also dies' }, //onDeath
   { id: 972, name: 'turret', trad: 'From now on, when an enemy is spawn in fron of it, it takes 1 damage' }, //listen: 'en_spawn'
   { id: 504, name: 'vampire', trad: 'After a sucessfull atk, it gains 1 def' }, //onAtk todo
   { id: 640, name: 'water', totem: true, trad: 'At the end of each turn, this card submerge and leave an empty space' } //onDef,onTurnOver

@@ -83,8 +83,8 @@ export default function PlayerTurn(): JSX.Element {
             return { def: defender, dannoRifl: -1 }
         }
         else {
-          const card = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
-          return { def: card, dannoRifl: defender.sigils.includes(603) ? 1 : -1 } //spikes 
+          const { card, effect } = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
+          return { def: card, dannoRifl: defender.sigils.includes(603) ? 1 : effect } //spikes 
         }
       }
     }
@@ -92,15 +92,15 @@ export default function PlayerTurn(): JSX.Element {
       if (atk < defender.def)
         return { def: { ...defender, def: defender.def - atk }, dannoRifl: -1 }
       else {
-        const card = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
-        return { def: card, dannoRifl: -1 }
+        const { card, effect } = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
+        return { def: card, dannoRifl: effect }
       }
     }
   }
 
-  const onDeath = (card: CardType, sigils: number[]): CardType => {
+  const onDeath = (card: CardType, sigils: number[]): { card: CardType, effect: number } => {
     //TODO rimuovi effetti di: bells,leader,alarm
-    //TODO: applica,immortal,snakeBomb,trap,tail,bomb,dinamite
+    //TODO: applica: immortal,snakeBomb,trap,tail,bomb,dinamite
 
     //             dispatch(setWarning({
     //               message: 'dies',
@@ -108,9 +108,16 @@ export default function PlayerTurn(): JSX.Element {
     //               severity: 'info',
     //               expire: 1500
     //             }));
-    console.log('dies ', card.name);
+    if (card.sigils?.includes(208)) { //trap
+      console.log('dies ', card.name);
+      return { card: EMPTY_CARD, effect: -10 }
+    }
+    if (card.sigils?.includes(201) || card.sigils?.includes(300)) { //bomb || dinamite
+      console.log('dies ', card.name);
+      return { card: EMPTY_CARD, effect: -11 }
+    }
 
-    return EMPTY_CARD
+    return { card: EMPTY_CARD, effect: -1 }
   }
 
   const directAtk = (increase: number, atk: number, cardName: string, dispatch: any) => {
@@ -142,6 +149,36 @@ export default function PlayerTurn(): JSX.Element {
     }
     else if (tempSide[atkIndex].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
       tempSide[atkIndex] = { ...tempSide[atkIndex], def: tempSide[atkIndex].def + 1 }
+    else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
+      if (dannoRifl === -11 && defIndex > 0 && oppSide[defIndex - 1].cardID !== -1) {
+        const sigils = oppSide[defIndex - 1].sigils || [];
+        if (sigils.includes(604)) { //shield
+          const noShield = [...sigils].filter((s) => s !== 604);
+          oppSide[defIndex - 1] = { ...oppSide[defIndex - 1], sigils: noShield }
+        }
+        else
+          oppSide[defIndex - 1] = EMPTY_CARD;
+      }
+
+      const sigils = tempSide[defIndex].sigils || [];
+      if (sigils.includes(604)) { //shield
+        const noShield = [...sigils].filter((s) => s !== 604);
+        tempSide[defIndex] = { ...tempSide[defIndex], sigils: noShield }
+      }
+      else
+        tempSide[defIndex] = EMPTY_CARD;
+
+      if (dannoRifl === -11 && defIndex < 4 && oppSide[defIndex + 1].cardID !== -1) {
+        const sigils = oppSide[defIndex + 1].sigils || [];
+        if (sigils.includes(604)) { //shield
+          const noShield = [...sigils].filter((s) => s !== 604);
+          oppSide[defIndex + 1] = { ...oppSide[defIndex + 1], sigils: noShield }
+        }
+        else
+          oppSide[defIndex + 1] = EMPTY_CARD;
+      }
+    }
+    tempSide[atkIndex] = { ...tempSide[atkIndex], def: tempSide[atkIndex].def + 1 }
     return { atkSide: tempSide, defSide: oppSide, burrows: enBurrower }
   }
 
@@ -189,7 +226,7 @@ export default function PlayerTurn(): JSX.Element {
           const fly = c.sigils?.includes(502);
 
           if (sniper) {
-            const sniperIndex = 3 //TODO scelta indice
+            const sniperIndex = 0 //TODO scelta indice
             if (
               (fly && !(oppSide[sniperIndex].sigils?.includes(600))) ||
               oppSide[sniperIndex].sigils?.includes(640)
@@ -213,6 +250,35 @@ export default function PlayerTurn(): JSX.Element {
               }
               else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
                 tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+              else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
+                if (dannoRifl === -11 && sniperIndex > 0 && oppSide[sniperIndex - 1].cardID !== -1) {
+                  const sigils = oppSide[sniperIndex - 1].sigils || [];
+                  if (sigils.includes(604)) { //shield
+                    const noShield = [...sigils].filter((s) => s !== 604);
+                    oppSide[sniperIndex - 1] = { ...oppSide[sniperIndex - 1], sigils: noShield }
+                  }
+                  else
+                    oppSide[sniperIndex - 1] = EMPTY_CARD;
+                }
+
+                const sigils = tempSide[sniperIndex].sigils || [];
+                if (sigils.includes(604)) { //shield
+                  const noShield = [...sigils].filter((s) => s !== 604);
+                  tempSide[sniperIndex] = { ...tempSide[sniperIndex], sigils: noShield }
+                }
+                else
+                  tempSide[sniperIndex] = EMPTY_CARD;
+
+                if (dannoRifl === -11 && sniperIndex < 4 && oppSide[sniperIndex + 1].cardID !== -1) {
+                  const sigils = oppSide[sniperIndex + 1].sigils || [];
+                  if (sigils.includes(604)) { //shield
+                    const noShield = [...sigils].filter((s) => s !== 604);
+                    oppSide[sniperIndex + 1] = { ...oppSide[sniperIndex + 1], sigils: noShield }
+                  }
+                  else
+                    oppSide[sniperIndex + 1] = EMPTY_CARD;
+                }
+              }
             }
           }
           if (double) {
@@ -239,6 +305,36 @@ export default function PlayerTurn(): JSX.Element {
                 }
                 else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
                   tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+                else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
+                  const centralInd = s - 1;
+                  if (dannoRifl === -11 && centralInd > 0 && oppSide[centralInd - 1].cardID !== -1) {
+                    const sigils = oppSide[centralInd - 1].sigils || [];
+                    if (sigils.includes(604)) { //shield
+                      const noShield = [...sigils].filter((s) => s !== 604);
+                      oppSide[centralInd - 1] = { ...oppSide[centralInd - 1], sigils: noShield }
+                    }
+                    else
+                      oppSide[centralInd - 1] = EMPTY_CARD;
+                  }
+
+                  const sigils = tempSide[centralInd].sigils || [];
+                  if (sigils.includes(604)) { //shield
+                    const noShield = [...sigils].filter((s) => s !== 604);
+                    tempSide[centralInd] = { ...tempSide[centralInd], sigils: noShield }
+                  }
+                  else
+                    tempSide[centralInd] = EMPTY_CARD;
+
+                  if (dannoRifl === -11 && centralInd < 4 && oppSide[centralInd + 1].cardID !== -1) {
+                    const sigils = oppSide[centralInd + 1].sigils || [];
+                    if (sigils.includes(604)) { //shield
+                      const noShield = [...sigils].filter((s) => s !== 604);
+                      oppSide[centralInd + 1] = { ...oppSide[centralInd + 1], sigils: noShield }
+                    }
+                    else
+                      oppSide[centralInd + 1] = EMPTY_CARD;
+                  }
+                }
               }
             }
             if (triple && tempSide[s].def > 0) {
@@ -264,6 +360,35 @@ export default function PlayerTurn(): JSX.Element {
                 }
                 else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
                   tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+                else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
+                  if (dannoRifl === -11 && s > 0 && oppSide[s - 1].cardID !== -1) {
+                    const sigils = oppSide[s - 1].sigils || [];
+                    if (sigils.includes(604)) { //shield
+                      const noShield = [...sigils].filter((s) => s !== 604);
+                      oppSide[s - 1] = { ...oppSide[s - 1], sigils: noShield }
+                    }
+                    else
+                      oppSide[s - 1] = EMPTY_CARD;
+                  }
+
+                  const sigils = tempSide[s].sigils || [];
+                  if (sigils.includes(604)) { //shield
+                    const noShield = [...sigils].filter((s) => s !== 604);
+                    tempSide[s] = { ...tempSide[s], sigils: noShield }
+                  }
+                  else
+                    tempSide[s] = EMPTY_CARD;
+
+                  if (dannoRifl === -11 && s < 4 && oppSide[s + 1].cardID !== -1) {
+                    const sigils = oppSide[s + 1].sigils || [];
+                    if (sigils.includes(604)) { //shield
+                      const noShield = [...sigils].filter((s) => s !== 604);
+                      oppSide[s + 1] = { ...oppSide[s + 1], sigils: noShield }
+                    }
+                    else
+                      oppSide[s + 1] = EMPTY_CARD;
+                  }
+                }
               }
             }
             if (s < 4 && tempSide[s].def > 0) {
@@ -289,6 +414,36 @@ export default function PlayerTurn(): JSX.Element {
                 }
                 else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
                   tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+                else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
+                  const centralInd = s + 1;
+                  if (dannoRifl === -11 && centralInd > 0 && oppSide[centralInd - 1].cardID !== -1) {
+                    const sigils = oppSide[centralInd - 1].sigils || [];
+                    if (sigils.includes(604)) { //shield
+                      const noShield = [...sigils].filter((s) => s !== 604);
+                      oppSide[centralInd - 1] = { ...oppSide[centralInd - 1], sigils: noShield }
+                    }
+                    else
+                      oppSide[centralInd - 1] = EMPTY_CARD;
+                  }
+
+                  const sigils = tempSide[centralInd].sigils || [];
+                  if (sigils.includes(604)) { //shield
+                    const noShield = [...sigils].filter((s) => s !== 604);
+                    tempSide[centralInd] = { ...tempSide[centralInd], sigils: noShield }
+                  }
+                  else
+                    tempSide[centralInd] = EMPTY_CARD;
+
+                  if (dannoRifl === -11 && centralInd < 4 && oppSide[centralInd + 1].cardID !== -1) {
+                    const sigils = oppSide[centralInd + 1].sigils || [];
+                    if (sigils.includes(604)) { //shield
+                      const noShield = [...sigils].filter((s) => s !== 604);
+                      oppSide[centralInd + 1] = { ...oppSide[centralInd + 1], sigils: noShield }
+                    }
+                    else
+                      oppSide[centralInd + 1] = EMPTY_CARD;
+                  }
+                }
               }
             }
           }
@@ -312,6 +467,35 @@ export default function PlayerTurn(): JSX.Element {
           }
           else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
             tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+          else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
+            if (dannoRifl === -11 && s > 0 && oppSide[s - 1].cardID !== -1) {
+              const sigils = oppSide[s - 1].sigils || [];
+              if (sigils.includes(604)) { //shield
+                const noShield = [...sigils].filter((s) => s !== 604);
+                oppSide[s - 1] = { ...oppSide[s - 1], sigils: noShield }
+              }
+              else
+                oppSide[s - 1] = EMPTY_CARD;
+            }
+
+            const sigils = tempSide[s].sigils || [];
+            if (sigils.includes(604)) { //shield
+              const noShield = [...sigils].filter((s) => s !== 604);
+              tempSide[s] = { ...tempSide[s], sigils: noShield }
+            }
+            else
+              tempSide[s] = EMPTY_CARD;
+
+            if (dannoRifl === -11 && s < 4 && oppSide[s + 1].cardID !== -1) {
+              const sigils = oppSide[s + 1].sigils || [];
+              if (sigils.includes(604)) { //shield
+                const noShield = [...sigils].filter((s) => s !== 604);
+                oppSide[s + 1] = { ...oppSide[s + 1], sigils: noShield }
+              }
+              else
+                oppSide[s + 1] = EMPTY_CARD;
+            }
+          }
         }
       }
     })
@@ -368,6 +552,43 @@ export default function PlayerTurn(): JSX.Element {
         }
         if (oppSide[s].sigils?.includes(640)) //water
           oppSide[s] = { ...oppSide[s], name: oppSide[s].name.split('_sub')[0] }; //riemerge
+
+        if (oppSide[s].sigils?.includes(300)) {//dinamite
+          if (s > 0 && oppSide[s - 1].cardID !== -1) {
+            const sigils = oppSide[s - 1].sigils || [];
+            if (sigils.includes(604)) { //shield
+              const noShield = [...sigils].filter((s) => s !== 604);
+              oppSide[s - 1] = { ...oppSide[s - 1], sigils: noShield }
+            }
+            else
+              oppSide[s - 1] = EMPTY_CARD;
+          }
+
+          const sigils = tempSide[s].sigils || [];
+          if (sigils.includes(604)) { //shield
+            const noShield = [...sigils].filter((s) => s !== 604);
+            tempSide[s] = { ...tempSide[s], sigils: noShield }
+          }
+          else
+            tempSide[s] = EMPTY_CARD;
+          const sigilsDef = oppSide[s].sigils || [];
+          if (sigilsDef.includes(604)) { //shield
+            const noShield = [...sigils].filter((s) => s !== 604);
+            oppSide[s] = { ...oppSide[s], sigils: noShield }
+          }
+          else
+            oppSide[s] = EMPTY_CARD;
+
+          if (s < 4 && oppSide[s + 1].cardID !== -1) {
+            const sigils = oppSide[s + 1].sigils || [];
+            if (sigils.includes(604)) { //shield
+              const noShield = [...sigils].filter((s) => s !== 604);
+              oppSide[s + 1] = { ...oppSide[s + 1], sigils: noShield }
+            }
+            else
+              oppSide[s + 1] = EMPTY_CARD;
+          }
+        }
       })
 
     dispatch(updateField(

@@ -1,14 +1,17 @@
 {
   "P2side": [
     {
-      "cardID": -1,
-      "name": "",
-      "family": "none",
-      "atk": 0,
-      "def": 0,
+      "cardID": 2000,
+      "name": "bomb",
+      "family": "terrain",
+      "atk": 1,
+      "def": 3,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0
+      "dropBones": 0,
+      "sigils": [
+        208
+      ]
     },
     {
       "cardID": 2001,
@@ -18,10 +21,7 @@
       "def": 3,
       "sacr": 0,
       "dropBlood": 0,
-      "dropBones": 0,
-      "sigils": [
-        601
-      ]
+      "dropBones": 0
     },
     {
       "cardID": 2002,
@@ -54,7 +54,7 @@
       "name": "scheleton",
       "family": "lupi",
       "cardID": 2004,
-      "atk": 1,
+      "atk": 5,
       "def": 7,
       "sacr": 0,
       "bone": 1,
@@ -66,46 +66,41 @@
     }
   ],
   "P1side": [
+
     {
-      "cardID": 1000,
-      "name": "prova",
-      "family": "hooved",
-      "atk": 2,
-      "def": 1,
+      "name": "dummy",
+      "family": "canine",
+      "cardID": 1001,
+      "atk": 0,
+      "def": 2,
       "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 0,
-      "sigils": [
-        640
-      ]
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0
     },
     {
       "name": "wolf cub",
       "family": "canine",
       "cardID": 1001,
-      "atk": 1,
+      "atk": 3,
       "def": 2,
       "sacr": 0,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
       "sigils": [
-        402
+        503
       ]
     },
     {
-      "name": "pusher",
-      "family": "canine",
-      "cardID": 1002,
-      "atk": 1,
-      "def": 4,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
+      "atk": 0,
+      "def": 0,
       "sacr": 0,
-      "bone": 0,
-      "dropBlood": 1,
-      "dropBones": 0,
-      "sigils": [
-        940
-      ]
+      "dropBlood": 0,
+      "dropBones": 0
     },
     {
       "cardID": -1,
