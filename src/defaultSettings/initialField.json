@@ -11,26 +11,29 @@
       "dropBones": 0
     },
     {
-      "cardID": -1,
-      "name": "",
-      "family": "none",
+      "cardID": 2001,
+      "name": "cage",
+      "family": "terrain",
       "atk": 0,
-      "def": 0,
-      "sacr": 0,
-      "dropBlood": 0,
-      "dropBones": 0
-    },
-    {
-      "cardID": 2002,
-      "name": "mantis",
-      "family": "insect",
-      "atk": 1,
-      "def": 1,
+      "def": 3,
       "sacr": 0,
       "dropBlood": 0,
       "dropBones": 0,
       "sigils": [
-        401
+        601
+      ]
+    },
+    {
+      "cardID": 2002,
+      "name": "amber",
+      "family": "terrain",
+      "atk": 0,
+      "def": 3,
+      "sacr": 0,
+      "dropBlood": 0,
+      "dropBones": 0,
+      "sigils": [
+        601
       ]
     },
     {

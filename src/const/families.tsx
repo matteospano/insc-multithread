@@ -41,6 +41,7 @@ export const sigil_def: SigilDefType[] = [
   //{ name: 'ghost', trad: 'aaa' },
   { id: 970, name: 'guardian', totem: true, trad: 'It moves in front of the last enemy spawn' }, //listen: 'en_spawn'
   { id: 991, name: 'helper', trad: 'if enemy attaks, the spawner of this card will strike back' },//listen: 'en_atk' todo sigillo proprio delle campane
+  { id: 601, name: 'ice', trad: 'On the first damage dealt, it evolves' }, //onDef
   { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a copy of it enters your hand' }, //onDeath
   { id: 204, name: 'infSacrifice', trad: 'When this card is sacrificed, it does not perish' }, //onDeath
   { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, listen: 'fr_spawn'
@@ -58,8 +59,25 @@ export const sigil_def: SigilDefType[] = [
   { id: 209, name: 'tail', trad: 'When this card is going to die, it moves on the right (if possible) and drops a tail' }, //onDeath: true
   { id: 208, name: 'trap', trad: 'When this card dies, the card opposing it also dies' }, //onDeath: true
   { id: 972, name: 'turret', trad: 'From now on, when an enemy is spawn in fron of it, it takes 1 damage' }, //listen: 'en_spawn'
-  //{ name: 'vampire', trad: 'aaa' },
+  { id: 504, name: 'vampire', trad: 'After a sucessfull atk, it gains 1 def' }, //onAtk todo
   { id: 640, name: 'water', totem: true, trad: 'At the end of each turn, this card submerge and leave an empty space' } //onDef,onTurnOver
 ];
 
-//TODO hunter 2 atk, 2def, 2sacr con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', senza cambiare le stats ma con sigillo looter e dropBlood=-1
+//diverso rispetto ad Inscryption:
+//sigillo immortale funziona solo onDeath non se la sacrifichi tu
+//tail non ha i sigilli della creatura
+//opossum congelato e gattino->tigre hanno ice: al primo danno subito rilasciano la creatura interna
+//no bambino 13, gatto con vite infinite (non 9)
+//api, scheletri ecc senza sangue
+//fertilità modificata
+
+//TODO sigillo fertilità-zombie: sacrificando la carta te ne da una uguale in mano ma con -1 atk
+//TODO aggiungi carta mulo, spawna 2 carte del mazzo del proprietario alla propria morte (cloni o le ruba?)
+//TODO aggiungi regola irritante (aggiunge il sigillo annoying a 2 carte random di entrambi i giocatori o a me in single player)
+//TODO aggiungi il procione con blood lust (potenzia 1akt ad ogni kill)
+//TODO aggiungi uccellino che spawna uovo di corvo (50% non fecondato ma non si vede la differenza)
+
+//TODO aggiungi carte:
+//hunter 2 atk, 2def, 2sacr con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', senza cambiare le stats ma con sigillo looter e dropBlood=-1
+//crea 1 carta terrain per ogni famiglia con sigillo 601 cage->wolf, amber->mosquitos, death snake-> hog nosed snake, ice->opossum
+

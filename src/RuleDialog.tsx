@@ -20,14 +20,13 @@ import { rock } from "./utilCards.tsx";
 
 //TODO inizializza i dati da localstorage come scorsa partita
 //TODO implementa il prospettore (già settato negli eventi della candela)
-//TODO implementa giocatore singolo: avversario spawna circa 2 carte nelle leshiline,
-// gancio ruba 'il pesce più fresco'
+//TODO gancio in giocatore singolo ruba 'il pesce più fresco'
 //in multiplayer gancio uso singolo su carta a scelta
 
-//TODO aggiungi carta mulo, spawna 2 carte del mazzo del proprietario alla propria morte (cloni o le ruba?)
-//TODO aggiungi regola irritante (aggiunge il sigillo annoying a 2 carte random di entrambi i giocatori o a me in single player)
-//TODO aggiungi il procione con blood lust (potenzia 1akt ad ogni kill)
-//TODO aggiungi uccellino che spawna uovo di corvo (50% non fecondato ma non si vede la differenza)
+//TODO apprendista tu e avversario selezionate 1 carta a testa, crea copia nei vostri deck
+// con +o-1 atk,def, aggiunge sigillo random o raramente +1 sacr richiesti.
+
+
 
 export default function RuleDialog() {
   const dispatch = useAppDispatch();

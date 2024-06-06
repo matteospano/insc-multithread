@@ -73,8 +73,15 @@ export default function PlayerTurn(): JSX.Element {
         }
       }
       else {
-        if (atk < defender.def)
-          return { def: { ...defender, def: defender.def - atk }, dannoRifl: 0 }
+        if (atk < defender.def) {
+          defender= { ...defender, def: defender.def - atk }
+          if (defender.sigils?.includes(601)) {//ice
+            debugger
+            return { def: onEvolve(defender), dannoRifl: 0 }
+          }
+          else
+            return { def: defender, dannoRifl: 0 }
+        }
         else {
           const card = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
           return { def: card, dannoRifl: defender.sigils.includes(603) ? 1 : 0 } //spikes 
@@ -123,12 +130,10 @@ export default function PlayerTurn(): JSX.Element {
     const listenInd = enBurrower[0];
     oppSide[defIndex] = { ...oppSide[listenInd] };
     oppSide[listenInd] = EMPTY_CARD;
-    debugger
     if (oppSide[defIndex].def < tempSide[atkIndex].atk) //TODO i'm assuming he will die
       enBurrower.shift();
     else
       enBurrower[0] = defIndex; //update value
-    debugger
     let { def: defender, dannoRifl } = onAtk(tempSide[atkIndex].atk, oppSide[defIndex], defIndex, sigils);
     oppSide[defIndex] = defender;
     if (dannoRifl > 0) {
@@ -136,6 +141,34 @@ export default function PlayerTurn(): JSX.Element {
       tempSide[atkIndex] = attacker;
     }
     return { atkSide: tempSide, defSide: oppSide, burrows: enBurrower }
+  }
+
+  const onEvolve = (young: CardType): CardType => {
+    const evol = (evolutions as Evolution[]).find((ev) => ev.cardName === young.name);
+    //TODO controlla se c'è un totem e riassegnalo all'evoluzione const sigilWithFamily=evol.into.sigils.push(rules...)
+    if (evol) {
+      dispatch(setWarning({
+        message: 'evolves',
+        subject: young.name,
+        props: evol.into.name,
+        severity: 'info',
+        expire: 1500
+      }));
+      return {
+        ...evol.into,
+        cardID: young.cardID,
+        atk: young.atk + evol.into.atk,
+        def: young.def + evol.into.def,
+      };
+    }
+    else {
+      return {
+        ...young,
+        name: young.name + '_elder',
+        atk: young.atk + 1,
+        def: young.def + 1
+      };
+    }
   }
 
   const BattlePhase = (P1attack: boolean) => {
@@ -163,8 +196,7 @@ export default function PlayerTurn(): JSX.Element {
             else if (oppSide[sniperIndex].cardID === -1) {
               if (sigils.enBurrower?.length > 0) {
                 const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, sniperIndex, tempSide, oppSide, sigils)
-                tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
-                debugger
+                tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
               }
               else
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -188,8 +220,8 @@ export default function PlayerTurn(): JSX.Element {
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
               else if (oppSide[s - 1].cardID === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
-                  const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s-1, tempSide, oppSide, sigils)
-                  tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
+                  const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s - 1, tempSide, oppSide, sigils)
+                  tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
                 }
                 else
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -212,7 +244,7 @@ export default function PlayerTurn(): JSX.Element {
               else if (oppSide[s].cardID === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
                   const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s, tempSide, oppSide, sigils)
-                  tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
+                  tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
                 }
                 else
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -234,8 +266,8 @@ export default function PlayerTurn(): JSX.Element {
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
               else if (oppSide[s + 1].cardID === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
-                  const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s+1, tempSide, oppSide, sigils)
-                  tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
+                  const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s + 1, tempSide, oppSide, sigils)
+                  tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
                 }
                 else
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -256,7 +288,7 @@ export default function PlayerTurn(): JSX.Element {
         else if (oppSide[s].cardID === -1) {
           if (sigils.enBurrower?.length > 0) { //burrower
             const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s, tempSide, oppSide, sigils)
-            tempSide = [ ...atkSide ]; oppSide = [ ...defSide ]; sigils.enBurrower = [...burrows];
+            tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
           }
           else
             directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
@@ -320,32 +352,7 @@ export default function PlayerTurn(): JSX.Element {
           oppSide[s] = EMPTY_CARD;
         }
         if (oppSide[s].sigils?.includes(401)) { //evolve
-          const evol = (evolutions as Evolution[]).find((ev) => ev.cardName === oppSide[s].name);
-          //TODO controlla se c'è un totem e riassegnalo all'evoluzione const sigilWithFamily=evol.into.sigils.push(rules...)
-          if (evol) {
-            oppSide[s] = {
-              ...evol.into,
-              cardID: oppSide[s].cardID,
-              atk: oppSide[s].atk + evol.into.atk,
-              def: oppSide[s].def + evol.into.def,
-            };
-            dispatch(setWarning({
-              message: 'evolves',
-              // TODO props: 'into ...newName'
-              subject: oppSide[s].name,
-              props: oppSide[s].name,
-              severity: 'info',
-              expire: 1500
-            }));
-          }
-          else {
-            oppSide[s] = {
-              ...oppSide[s],
-              name: tempSide[s].name + '_elder',
-              atk: tempSide[s].atk + 1,
-              def: tempSide[s].def + 1
-            };
-          }
+          oppSide[s] = onEvolve(oppSide[s]);
         }
         if (oppSide[s].sigils?.includes(640)) //water
           oppSide[s] = { ...oppSide[s], name: oppSide[s].name.split('_sub')[0] }; //riemerge

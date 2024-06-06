@@ -74,6 +74,20 @@
     }
   },
   {
+    "cardName": "cage",
+    "into": {
+      "name": "free wolf",
+      "family": "canine",
+      "cardID": -1,
+      "atk": 2,
+      "def": 0,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0
+    }
+  },
+  {
     "cardName": "mantis",
     "into": {
       "name": "mantis god",
@@ -117,6 +131,21 @@
     }
   },
   {
+    "cardName": "amber",
+    "into": {
+      "name": "mosquitos",
+      "family": "insect",
+      "cardID": -1,
+      "atk": 2,
+      "def": 0,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": [502]
+    }
+  },
+  {
     "cardName": "tadpole",
     "into": {
       "name": "bullfrog",
@@ -144,6 +173,21 @@
       "dropBlood": 1,
       "dropBones": 0,
       "sigils": [600]
+    }
+  },
+  {
+    "cardName": "ice",
+    "into": {
+      "name": "opossum",
+      "family": "none",
+      "cardID": -1,
+      "atk": 2,
+      "def": 0,
+      "sacr": 2,
+      "bone": 0,
+      "dropBlood": 1,
+      "dropBones": 0,
+      "sigils": [502]
     }
   }
 ]
