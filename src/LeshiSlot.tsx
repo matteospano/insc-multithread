@@ -20,7 +20,7 @@ export default function LeshiSlot(props: { owner: number, index: number }): JSX.
   const pendingSacr = useAppSelector((state) => state.card.pendingSacr);
   const leshiField: Field = useAppSelector((state) => state.card.leshiField);
   const mySide = P1Owner ? leshiField.P1side : leshiField.P2side;
-  const hammer = useAppSelector((state) => state.card.hammer);
+  //const hammer = useAppSelector((state) => state.card.hammer);
 
   const [currCard, setCurrCard] = useState<CardType>(mySide[index]);
   const [selected, setSelected] = useState<boolean>(false);
@@ -108,13 +108,10 @@ export default function LeshiSlot(props: { owner: number, index: number }): JSX.
 
   const validateSelection = () => {
     if (currPlayer === owner && currCard.name) {
-      if (hammer) { //click con martello svuota slot
-        //TODO apply all the OnDeath effects (es. armatura->distruggi armatura,
-        //immortal, and bomba) before destrying the card
-        emptyCard();
-      }
-      else if (currCard.dropBlood >= 0) {
-        //TODO bug: sulla selezione + click in basso (su altra carta?) spariscono
+      // if (hammer) { //click con martello svuota slot
+      //   emptyCard();
+      // }
+      if (currCard.dropBlood >= 0) {
         if (selected) {
           setSelected(false)
           dispatch(setWarning({

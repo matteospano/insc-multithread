@@ -101,7 +101,7 @@ export default function PlayerTurn(): JSX.Element {
 
   const onDeath = (card: CardType, sigils: number[]): { card: CardType, effect: number } => {
     //TODO rimuovi effetti di: bells,leader,alarm
-    //TODO: applica: immortal,snakeBomb,tail
+    //TODO: applica: snakeBomb,tail
 
     //             dispatch(setWarning({
     //               message: 'dies',
@@ -109,7 +109,11 @@ export default function PlayerTurn(): JSX.Element {
     //               severity: 'info',
     //               expire: 1500
     //             }));
-    if (card.sigils?.includes(203)) { //immortal
+    console.log('dies ', card.name);
+    card.cardID < 2000 ? dispatch(addP1bones(card.dropBones))
+      : dispatch(addP2bones(card.dropBones));
+
+    if (card.sigils?.includes(203)) { //immortal non droppa ossa
       const isP1Owner = card.cardID < 2000;
       let tempSide = isP1Owner ? handCards.P1side : handCards.P2side;
       const cardCopy = card; //TODO ricerca la carta con le stats pulite da un elenco, aggiungi i totem
@@ -118,19 +122,20 @@ export default function PlayerTurn(): JSX.Element {
         P1side: isP1Owner ? tempSide : handCards.P1side,
         P2side: isP1Owner ? handCards.P2side : tempSide
       }));
-      console.log('dies ', card.name);
       return { card: EMPTY_CARD, effect: -1 }
     }
-    if (card.sigils?.includes(208)) { //trap
-      console.log('dies ', card.name);
+    if (card.sigils?.includes(208)) //trap non droppa ossa
       return { card: EMPTY_CARD, effect: -10 }
-    }
-    if (card.sigils?.includes(201) || card.sigils?.includes(300)) { //bomb || dinamite
-      console.log('dies ', card.name);
+    if (card.sigils?.includes(201) || card.sigils?.includes(300)) //bomb || dinamite non droppano ossa
       return { card: EMPTY_CARD, effect: -11 }
-    }
 
     return { card: EMPTY_CARD, effect: -1 }
+  }
+
+  const addBones = (card: CardType): CardType => {
+    console.log('dies ', card.name);
+    card.cardID < 2000 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
+    return EMPTY_CARD
   }
 
   const directAtk = (increase: number, atk: number, cardName: string, dispatch: any) => {
@@ -149,7 +154,7 @@ export default function PlayerTurn(): JSX.Element {
   ): { atkSide: CardType[], defSide: CardType[], burrows: number[] } => {
     const listenInd = enBurrower[0];
     oppSide[defIndex] = { ...oppSide[listenInd] };
-    oppSide[listenInd] = EMPTY_CARD;
+    oppSide[listenInd] = EMPTY_CARD; //si è spostata su defInd
     if (oppSide[defIndex].def < tempSide[atkIndex].atk) //TODO i'm assuming he will die
       enBurrower.shift();
     else
@@ -170,7 +175,7 @@ export default function PlayerTurn(): JSX.Element {
           oppSide[defIndex - 1] = { ...oppSide[defIndex - 1], sigils: noShield }
         }
         else
-          oppSide[defIndex - 1] = EMPTY_CARD;
+          oppSide[defIndex - 1] = addBones(oppSide[defIndex - 1]);
       }
 
       const sigils = tempSide[defIndex].sigils || [];
@@ -179,7 +184,7 @@ export default function PlayerTurn(): JSX.Element {
         tempSide[defIndex] = { ...tempSide[defIndex], sigils: noShield }
       }
       else
-        tempSide[defIndex] = EMPTY_CARD;
+        tempSide[defIndex] = addBones(tempSide[defIndex]);
 
       if (dannoRifl === -11 && defIndex < 4 && oppSide[defIndex + 1].cardID !== -1) {
         const sigils = oppSide[defIndex + 1].sigils || [];
@@ -188,7 +193,7 @@ export default function PlayerTurn(): JSX.Element {
           oppSide[defIndex + 1] = { ...oppSide[defIndex + 1], sigils: noShield }
         }
         else
-          oppSide[defIndex + 1] = EMPTY_CARD;
+          oppSide[defIndex + 1] = addBones(oppSide[defIndex + 1]);
       }
     }
     tempSide[atkIndex] = { ...tempSide[atkIndex], def: tempSide[atkIndex].def + 1 }
@@ -271,7 +276,7 @@ export default function PlayerTurn(): JSX.Element {
                     oppSide[sniperIndex - 1] = { ...oppSide[sniperIndex - 1], sigils: noShield }
                   }
                   else
-                    oppSide[sniperIndex - 1] = EMPTY_CARD;
+                    oppSide[sniperIndex - 1] = addBones(oppSide[sniperIndex - 1]);
                 }
 
                 const sigils = tempSide[sniperIndex].sigils || [];
@@ -280,8 +285,7 @@ export default function PlayerTurn(): JSX.Element {
                   tempSide[sniperIndex] = { ...tempSide[sniperIndex], sigils: noShield }
                 }
                 else
-                  tempSide[sniperIndex] = EMPTY_CARD;
-
+                  tempSide[sniperIndex] = addBones(tempSide[sniperIndex]);
                 if (dannoRifl === -11 && sniperIndex < 4 && oppSide[sniperIndex + 1].cardID !== -1) {
                   const sigils = oppSide[sniperIndex + 1].sigils || [];
                   if (sigils.includes(604)) { //shield
@@ -289,7 +293,7 @@ export default function PlayerTurn(): JSX.Element {
                     oppSide[sniperIndex + 1] = { ...oppSide[sniperIndex + 1], sigils: noShield }
                   }
                   else
-                    oppSide[sniperIndex + 1] = EMPTY_CARD;
+                    oppSide[sniperIndex + 1] = addBones(oppSide[sniperIndex + 1]);
                 }
               }
             }
@@ -327,7 +331,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[centralInd - 1] = { ...oppSide[centralInd - 1], sigils: noShield }
                     }
                     else
-                      oppSide[centralInd - 1] = EMPTY_CARD;
+                      oppSide[centralInd - 1] = addBones(oppSide[centralInd - 1]);
                   }
 
                   const sigils = tempSide[centralInd].sigils || [];
@@ -336,7 +340,7 @@ export default function PlayerTurn(): JSX.Element {
                     tempSide[centralInd] = { ...tempSide[centralInd], sigils: noShield }
                   }
                   else
-                    tempSide[centralInd] = EMPTY_CARD;
+                    tempSide[centralInd] = addBones(tempSide[centralInd]);
 
                   if (dannoRifl === -11 && centralInd < 4 && oppSide[centralInd + 1].cardID !== -1) {
                     const sigils = oppSide[centralInd + 1].sigils || [];
@@ -345,7 +349,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[centralInd + 1] = { ...oppSide[centralInd + 1], sigils: noShield }
                     }
                     else
-                      oppSide[centralInd + 1] = EMPTY_CARD;
+                      oppSide[centralInd + 1] = addBones(oppSide[centralInd + 1]);
                   }
                 }
               }
@@ -381,7 +385,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[s - 1] = { ...oppSide[s - 1], sigils: noShield }
                     }
                     else
-                      oppSide[s - 1] = EMPTY_CARD;
+                      oppSide[s - 1] = addBones(oppSide[s - 1]);
                   }
 
                   const sigils = tempSide[s].sigils || [];
@@ -390,7 +394,7 @@ export default function PlayerTurn(): JSX.Element {
                     tempSide[s] = { ...tempSide[s], sigils: noShield }
                   }
                   else
-                    tempSide[s] = EMPTY_CARD;
+                    tempSide[s] = addBones(tempSide[s]);
 
                   if (dannoRifl === -11 && s < 4 && oppSide[s + 1].cardID !== -1) {
                     const sigils = oppSide[s + 1].sigils || [];
@@ -399,7 +403,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[s + 1] = { ...oppSide[s + 1], sigils: noShield }
                     }
                     else
-                      oppSide[s + 1] = EMPTY_CARD;
+                      oppSide[s + 1] = addBones(oppSide[s + 1]);
                   }
                 }
               }
@@ -436,7 +440,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[centralInd - 1] = { ...oppSide[centralInd - 1], sigils: noShield }
                     }
                     else
-                      oppSide[centralInd - 1] = EMPTY_CARD;
+                      oppSide[centralInd - 1] = addBones(oppSide[centralInd - 1]);
                   }
 
                   const sigils = tempSide[centralInd].sigils || [];
@@ -445,7 +449,7 @@ export default function PlayerTurn(): JSX.Element {
                     tempSide[centralInd] = { ...tempSide[centralInd], sigils: noShield }
                   }
                   else
-                    tempSide[centralInd] = EMPTY_CARD;
+                    tempSide[centralInd] = addBones(tempSide[centralInd]);
 
                   if (dannoRifl === -11 && centralInd < 4 && oppSide[centralInd + 1].cardID !== -1) {
                     const sigils = oppSide[centralInd + 1].sigils || [];
@@ -454,7 +458,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[centralInd + 1] = { ...oppSide[centralInd + 1], sigils: noShield }
                     }
                     else
-                      oppSide[centralInd + 1] = EMPTY_CARD;
+                      oppSide[centralInd + 1] = addBones(oppSide[centralInd + 1]);
                   }
                 }
               }
@@ -488,7 +492,7 @@ export default function PlayerTurn(): JSX.Element {
                 oppSide[s - 1] = { ...oppSide[s - 1], sigils: noShield }
               }
               else
-                oppSide[s - 1] = EMPTY_CARD;
+                oppSide[s - 1] = addBones(oppSide[s - 1]);
             }
 
             const sigils = tempSide[s].sigils || [];
@@ -496,8 +500,8 @@ export default function PlayerTurn(): JSX.Element {
               const noShield = [...sigils].filter((s) => s !== 604);
               tempSide[s] = { ...tempSide[s], sigils: noShield }
             }
-            else
-              tempSide[s] = EMPTY_CARD;
+            else 
+              tempSide[s] = addBones(tempSide[s]);
 
             if (dannoRifl === -11 && s < 4 && oppSide[s + 1].cardID !== -1) {
               const sigils = oppSide[s + 1].sigils || [];
@@ -505,8 +509,8 @@ export default function PlayerTurn(): JSX.Element {
                 const noShield = [...sigils].filter((s) => s !== 604);
                 oppSide[s + 1] = { ...oppSide[s + 1], sigils: noShield }
               }
-              else
-                oppSide[s + 1] = EMPTY_CARD;
+              else 
+                oppSide[s + 1] = addBones(oppSide[s + 1]);
             }
           }
         }
@@ -558,7 +562,7 @@ export default function PlayerTurn(): JSX.Element {
             severity: 'info',
             expire: 1500
           }));
-          oppSide[s] = EMPTY_CARD;
+          oppSide[s] = addBones(oppSide[s]);
         }
         if (oppSide[s].sigils?.includes(401)) { //evolve
           oppSide[s] = onEvolve(oppSide[s]);
@@ -574,7 +578,7 @@ export default function PlayerTurn(): JSX.Element {
               oppSide[s - 1] = { ...oppSide[s - 1], sigils: noShield }
             }
             else
-              oppSide[s - 1] = EMPTY_CARD;
+              oppSide[s - 1] = addBones(oppSide[s-1]);
           }
 
           const sigils = tempSide[s].sigils || [];
@@ -582,15 +586,15 @@ export default function PlayerTurn(): JSX.Element {
             const noShield = [...sigils].filter((s) => s !== 604);
             tempSide[s] = { ...tempSide[s], sigils: noShield }
           }
-          else
-            tempSide[s] = EMPTY_CARD;
+          else 
+            tempSide[s] = addBones(tempSide[s]);
           const sigilsDef = oppSide[s].sigils || [];
           if (sigilsDef.includes(604)) { //shield
             const noShield = [...sigils].filter((s) => s !== 604);
             oppSide[s] = { ...oppSide[s], sigils: noShield }
           }
-          else
-            oppSide[s] = EMPTY_CARD;
+          else 
+            oppSide[s] = addBones(oppSide[s]);
 
           if (s < 4 && oppSide[s + 1].cardID !== -1) {
             const sigils = oppSide[s + 1].sigils || [];
@@ -598,8 +602,8 @@ export default function PlayerTurn(): JSX.Element {
               const noShield = [...sigils].filter((s) => s !== 604);
               oppSide[s + 1] = { ...oppSide[s + 1], sigils: noShield }
             }
-            else
-              oppSide[s + 1] = EMPTY_CARD;
+            else 
+              oppSide[s + 1] = addBones(oppSide[s+1]);
           }
         }
       })

@@ -13,9 +13,7 @@ export const CustomToastSacr = () => {
   const currentWatches = useAppSelector((state) => state.card.rules.useWatches);
   const fieldCards: Field = useAppSelector((state) => state.card.fieldCards);
 
-  //todo se c'è un message nel reducer mostra toast con sfondo=severity
-
-  const moveClock = (isClockwise: boolean, canTurn: boolean) => { //TODO usa quello delle utils
+  const moveClock = (isClockwise: boolean, canTurn: boolean) => {
     if (canTurn) {
       const usedWatches = warningToast.subject === 'Player1' ?
         { P1: false, P2: currentWatches.P2 } : { P1: currentWatches.P1, P2: false };
@@ -70,7 +68,7 @@ export const CustomToastSacr = () => {
     }
   }
 
-  //TODO icona modalità debug. Apre un form che setta tutte le stats e sigilli della cart selezionata
+  //TODO icona modalità debug. Apre un form che setta tutte le stats e sigilli della carta selezionata
 
   return (
     <div className={'custom-toast' + (warningToast.severity !== 'close' ? 'show' : '')
@@ -83,11 +81,15 @@ export const CustomToastSacr = () => {
       {
         warningToast.message === 'use_clock' && <>
           <Button label='clockwise' className='rounded'
-            onClick={() => moveClock(true, warningToast.subject === 'Player1'
-              ? currentWatches.P1 : currentWatches.P2)} />
+            onClick={() => {
+              moveClock(true, warningToast.subject === 'Player1'
+                ? currentWatches.P1 : currentWatches.P2); handleToastClose();
+            }} />
           <Button label='anticlockwise' className='rounded'
-            onClick={() => moveClock(false, warningToast.subject === 'Player1'
-              ? currentWatches.P1 : currentWatches.P2)} />
+            onClick={() => {
+              moveClock(false, warningToast.subject === 'Player1'
+                ? currentWatches.P1 : currentWatches.P2); handleToastClose();
+            }} />
           <Button label='save it for later' className='rounded' onClick={handleToastClose} />
         </>
       }

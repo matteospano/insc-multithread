@@ -5,20 +5,20 @@
       "name": "bomb",
       "family": "terrain",
       "atk": 1,
-      "def": 3,
+      "def": 1,
       "sacr": 0,
       "dropBlood": 0,
       "dropBones": 0,
       "sigils": [
-        203
+        201
       ]
     },
     {
       "cardID": 2001,
       "name": "cage",
       "family": "terrain",
-      "atk": 0,
-      "def": 3,
+      "atk": 2,
+      "def": 30,
       "sacr": 0,
       "dropBlood": 0,
       "dropBones": 0

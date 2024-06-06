@@ -7,7 +7,6 @@ import { EMPTY_CARD } from './utilCards.tsx';
 const defaultHand = initialHand as Field
 const defaultField = initialField as Field
 
-export interface Coordinate { x: number, y: number }
 export interface CardType {
   /* identificativi */
   cardID: number, name: string, family: string
@@ -19,8 +18,6 @@ export interface CardType {
   dropBlood: number, dropBones: number,
   /* 4 slot sigilli */
   sigils?: number[]
-  /* card move */
-  coord?: Coordinate //TODO da togliere
   /* select card for sacrifice */
   selected? : boolean
   /* in atk o def */

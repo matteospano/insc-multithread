@@ -69,11 +69,11 @@ function Main() {
             <LifeCounter owner={2} />
             {(rules.useCandles.P1 || rules.useCandles.P2)
               && <h3 className="m-0">{"Lit candles: " + (rules.useCandles.P2 ? '1' : '0')}</h3>}
-            {rules.useBones && <h3 className="m-0">{"Bones: " + P2Bones}</h3>}
+            {rules.useBones && <h3 className="m-0">{"Bones: " + P2Bones + '🦴'}</h3>}
           </>
           <PlayerTurn />
           <>
-            {rules.useBones && <h3 className="m-0">{"Bones: " + P1Bones}</h3>}
+            {rules.useBones && <h3 className="m-0">{"Bones: " + P1Bones + '🦴'}</h3>}
             {(rules.useCandles.P1 || rules.useCandles.P2)
               && <h3 className="m-0">{"Lit candles: " + (rules.useCandles.P1 ? '1' : '0')}</h3>}
             <LifeCounter owner={1} />
@@ -89,7 +89,7 @@ function Main() {
             label='cards info'
             onClick={onDialodOpen} />
 
-          {rules.useWatches.P2 && <div className="clock-image"
+          {rules.useWatches.P2 && <div className="clock-image border-P2"
             onClick={() => currPlayer === 2 ?
               dispatch(setWarning({
                 message: 'use_clock',
@@ -121,7 +121,7 @@ function Main() {
               currPlayer && dispatch(setHammer())
             }} />}
 
-          {rules.useWatches.P1 && <div className="clock-image"
+          {rules.useWatches.P1 && <div className="clock-image  border-P1"
             onClick={() => currPlayer === 1 ?
               dispatch(setWarning({
                 message: 'use_clock',

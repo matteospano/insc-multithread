@@ -84,9 +84,15 @@ export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: a
         fieldCards.P1side[2],
         fieldCards.P1side[3],
         fieldCards.P1side[4],
-        fieldCards.P2side[4]],
+        {
+          ...fieldCards.P2side[4],
+          cardID: fieldCards.P2side[4].cardID !== -1 ? 1900 : -1 //todo genera un id valido
+        }],
       P2side: [
-        fieldCards.P1side[0],
+        {
+          ...fieldCards.P1side[0],
+          cardID: fieldCards.P1side[0].cardID !== -1 ? 2900 : -1 //todo genera un id valido
+        },
         fieldCards.P2side[0],
         fieldCards.P2side[1],
         fieldCards.P2side[2],
@@ -94,7 +100,10 @@ export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: a
     } :
     {
       P1side: [
-        fieldCards.P2side[0],
+        {
+          ...fieldCards.P2side[0],
+          cardID: fieldCards.P2side[0].cardID !== -1 ? 1900 : -1 //todo genera un id valido
+        },
         fieldCards.P1side[0],
         fieldCards.P1side[1],
         fieldCards.P1side[2],
@@ -105,10 +114,12 @@ export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: a
         fieldCards.P2side[2],
         fieldCards.P2side[3],
         fieldCards.P2side[4],
-        fieldCards.P1side[4]]
+        {
+          ...fieldCards.P1side[4],
+          cardID: fieldCards.P1side[4].cardID !== -1 ? 2900 : -1 //todo genera un id valido
+        }],
     };
   usedWatches ? dispatch(turnClock({ turnedField, usedWatches })) : dispatch(turnClock({ turnedField }));
-  //TODO non fa l'update del field
 }
 
 export const fillEmptySpots = (spots: CardType[], n_cards: number, dataSet: CardType[]) => {

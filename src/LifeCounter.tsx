@@ -52,7 +52,7 @@ export default function LifeCounter(props: {
   return (
     <>
       {isMultiplayer < 4 ?
-        <h3 className={"live-counter-" + live + " m-0"}>{playerLabel + ": " + live}</h3> /* TODO <p className="pi pi-heart" /> */
+        <h3 className={"live-counter-" + live + " m-0"}>{playerLabel + ": " + live + '♥'}</h3>
         : <Button className="surrender-button" label={'Surrender!'} onClick={() => setPlayerSurrender(true)} />
       }
 

@@ -148,13 +148,10 @@ export default function CardSlot(props: {
 
   const validateSelection = () => {
     if (currPlayer === owner && currCard.name) {
-      if (hammer) { //click con martello svuota slot
-        //TODO apply all the OnDeath effects (es. armatura->distruggi armatura,
-        //immortal, and bomba) before destrying the card
+      if (hammer) { //click con martello svuota slot, non applica effetti OnDeath
         destroyCard();
       }
       else if (currCard.dropBlood >= 0) {
-        //TODO bug: sulla selezione + click in basso (su altra carta?) spariscono
         let tempSide: CardType[] = [...mySide];
         const tempSacr = pendingSacr;
         if (currCard.selected) {
