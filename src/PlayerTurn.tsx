@@ -249,61 +249,6 @@ export default function PlayerTurn(): JSX.Element {
           const double = triple || c.sigils?.includes(500);
           const fly = c.sigils?.includes(502);
 
-          if (sniper) {
-            const sniperIndex = 0 //TODO scelta indice
-            if (
-              (fly && !(oppSide[sniperIndex].sigils?.includes(600))) ||
-              oppSide[sniperIndex].sigils?.includes(640)
-            ) //fly && no blockFly, submerged enemy
-              directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
-            else if (oppSide[sniperIndex].cardID === -1) {
-              if (sigils.enBurrower?.length > 0) {
-                const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, sniperIndex, tempSide, oppSide, sigils)
-                tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
-              }
-              else
-                directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
-            }
-            else {
-              //todo case 991
-              let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[sniperIndex], sniperIndex, sigils);
-              oppSide[sniperIndex] = defender;
-              if (dannoRifl > 0) {
-                let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
-                tempSide[s] = attacker;
-              }
-              else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
-                tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
-              else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
-                if (dannoRifl === -11 && sniperIndex > 0 && oppSide[sniperIndex - 1].cardID !== -1) {
-                  const sigils = oppSide[sniperIndex - 1].sigils || [];
-                  if (sigils.includes(604)) { //shield
-                    const noShield = [...sigils].filter((s) => s !== 604);
-                    oppSide[sniperIndex - 1] = { ...oppSide[sniperIndex - 1], sigils: noShield }
-                  }
-                  else
-                    oppSide[sniperIndex - 1] = addBones(oppSide[sniperIndex - 1]);
-                }
-
-                const sigils = tempSide[sniperIndex].sigils || [];
-                if (sigils.includes(604)) { //shield
-                  const noShield = [...sigils].filter((s) => s !== 604);
-                  tempSide[sniperIndex] = { ...tempSide[sniperIndex], sigils: noShield }
-                }
-                else
-                  tempSide[sniperIndex] = addBones(tempSide[sniperIndex]);
-                if (dannoRifl === -11 && sniperIndex < 4 && oppSide[sniperIndex + 1].cardID !== -1) {
-                  const sigils = oppSide[sniperIndex + 1].sigils || [];
-                  if (sigils.includes(604)) { //shield
-                    const noShield = [...sigils].filter((s) => s !== 604);
-                    oppSide[sniperIndex + 1] = { ...oppSide[sniperIndex + 1], sigils: noShield }
-                  }
-                  else
-                    oppSide[sniperIndex + 1] = addBones(oppSide[sniperIndex + 1]);
-                }
-              }
-            }
-          }
           if (double) {
             if (s > 0) {
               if (
@@ -470,6 +415,62 @@ export default function PlayerTurn(): JSX.Element {
               }
             }
           }
+          else { //fly con o senza sniper
+            const sniperIndex = sniper ? 0 : s //TODO scelta indice(cambia solo 0, s è giusto)
+            if (
+              (fly && !(oppSide[sniperIndex].sigils?.includes(600))) ||
+              oppSide[sniperIndex].sigils?.includes(640)
+            ) //fly && no blockFly, submerged enemy
+              directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
+            else if (oppSide[sniperIndex].cardID === -1) {
+              if (sigils.enBurrower?.length > 0) {
+                const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, sniperIndex, tempSide, oppSide, sigils)
+                tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
+              }
+              else
+                directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
+            }
+            else {
+              //todo case 991
+              let { def: defender, dannoRifl } = onAtk(c.atk, oppSide[sniperIndex], sniperIndex, sigils);
+              oppSide[sniperIndex] = defender;
+              if (dannoRifl > 0) {
+                let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, true);
+                tempSide[s] = attacker;
+              }
+              else if (tempSide[s].sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
+                tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 }
+              else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
+                if (dannoRifl === -11 && sniperIndex > 0 && oppSide[sniperIndex - 1].cardID !== -1) {
+                  const sigils = oppSide[sniperIndex - 1].sigils || [];
+                  if (sigils.includes(604)) { //shield
+                    const noShield = [...sigils].filter((s) => s !== 604);
+                    oppSide[sniperIndex - 1] = { ...oppSide[sniperIndex - 1], sigils: noShield }
+                  }
+                  else
+                    oppSide[sniperIndex - 1] = addBones(oppSide[sniperIndex - 1]);
+                }
+
+                const sigils = tempSide[sniperIndex].sigils || [];
+                if (sigils.includes(604)) { //shield
+                  const noShield = [...sigils].filter((s) => s !== 604);
+                  tempSide[sniperIndex] = { ...tempSide[sniperIndex], sigils: noShield }
+                }
+                else
+                  tempSide[sniperIndex] = addBones(tempSide[sniperIndex]);
+                if (dannoRifl === -11 && sniperIndex < 4 && oppSide[sniperIndex + 1].cardID !== -1) {
+                  const sigils = oppSide[sniperIndex + 1].sigils || [];
+                  if (sigils.includes(604)) { //shield
+                    const noShield = [...sigils].filter((s) => s !== 604);
+                    oppSide[sniperIndex + 1] = { ...oppSide[sniperIndex + 1], sigils: noShield }
+                  }
+                  else
+                    oppSide[sniperIndex + 1] = addBones(oppSide[sniperIndex + 1]);
+                }
+              }
+            }
+          }
+
         }
         else if (oppSide[s].sigils?.includes(640))
           directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);

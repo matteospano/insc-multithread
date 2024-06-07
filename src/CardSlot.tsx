@@ -72,40 +72,37 @@ export default function CardSlot(props: {
     }
   }, [pendingSacr]);
 
-  const onSpawn = (card: CardType) => {
+  const onSpawn = (card: CardType): Field | undefined => {
     card = { ...card, selected: false };
-    if (card.sigils?.find((s) => s < 200)){ //0/1 spawn
-    debugger
-    //TODO cerca se qualche sigillo hanno flag onSpawn
-    if (card.sigils?.includes(1)) { //1='egg'
-      const positionId = P1Owner ? 200 + index : 100 + index;
-      let oppField = [...fieldCards.P2side]
-      if (oppField[index].cardID === -1) {
-        oppField[index] = { ...egg, cardID: positionId };
-        debugger
-        //todo bug non fa niente
-        dispatch(updateField({
-          P1side: P1Owner ? fieldCards.P1side : {...oppField},
-          P2side: P1Owner ? {...oppField} : fieldCards.P2side
-        }));
+    let field: Field = fieldCards;
+    if (card.sigils?.find((s) => s < 200)) { //0/1 spawn
+      if (card.sigils?.includes(1)) { //1='egg'
+        const positionId = P1Owner ? 200 + index : 100 + index;
+        let oppField = [...fieldCards.P2side]
+        if (oppField[index].cardID === -1) {
+          oppField[index] = { ...egg, cardID: positionId };
+          field = {
+            P1side: P1Owner ? field.P1side : [...oppField],
+            P2side: P1Owner ? [...oppField] : field.P2side
+          };
+        }
       }
-    }
 
-  }
+
+    }
 
     setCurrCard(card);
     dispatch(updateSacrificeCount(0));
     dispatch(setDeleteCardHand(card));
-    //emptyCard();
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
       card.selected && !(card?.sigils?.includes(202)) ? onSacrifice(card) //202='degnoSacr'
         : { ...card, selected: false }); // eccezione gatto gestita
 
     tempSide[index] = card;
-    dispatch(updateField({
-      P1side: P1Owner ? tempSide : fieldCards.P1side,
-      P2side: P1Owner ? fieldCards.P2side : tempSide
-    }));
+    return {
+      P1side: P1Owner ? [...tempSide] : field.P1side,
+      P2side: P1Owner ? field.P2side : [...tempSide]
+    };
   }
 
   const onSacrifice = (card: CardType) => {
@@ -147,8 +144,11 @@ export default function CardSlot(props: {
         severity: 'warning',
         props: dragCard.name
       }))
-    else
-      onSpawn(dragCard); //replace this card
+    else {
+      const newField = onSpawn(dragCard); //replace this card
+      if (newField)
+        dispatch(updateField(newField));
+    }
   }
 
   const validateSelection = () => {
