@@ -71,6 +71,9 @@ export const EMPTY_FIELD: Field = {
   P1side: [EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD],
   P2side: [EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD, EMPTY_CARD]
 }
+export const EMPTY_HAND_CARDS: Field = {
+  P1side: [], P2side: []
+}
 
 export interface warningToast {
   message: string,
@@ -116,7 +119,7 @@ const initialState: CardState = {
   currPhase: 12, // 10: P1 ready, 11: P1 turn, 12: battle phase, 19: evolution phase
   showRules: undefined,
   rules: DEFAULT_RULES,
-  handCards: EMPTY_FIELD,
+  handCards: EMPTY_HAND_CARDS,
   leshiField: EMPTY_FIELD,
   fieldCards: defaultField,
   dragCardInfo: EMPTY_CARD,
@@ -209,10 +212,27 @@ const cardSlice = createSlice({
       ...state,
       P2Bones: state.P2Bones + action.payload
     }),
-    updateHand: (state, action: PayloadAction<Field>) => ({
+    drawnHand: (state, action: PayloadAction<{ isP1Owner: boolean, drawnCard: CardType }>) => ({
       ...state,
-      handCards: action.payload,
-      movedCardID: undefined
+      handCards: {
+        ...state.handCards,
+        P1side: action.payload.isP1Owner ?
+          [...state.handCards.P1side, action.payload.drawnCard] : state.handCards.P1side,
+        P2side: action.payload.isP1Owner ?
+          state.handCards.P2side : [...state.handCards.P2side, action.payload.drawnCard],
+      }
+    }),
+    deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardHandID: number }>) => ({
+      ...state,
+      handCards: {
+        ...state.handCards,
+        P1side: action.payload.isP1Owner ?
+          [...state.handCards.P1side.filter((c: CardType) => c.cardID !== action.payload.deleteCardHandID)]
+          : state.handCards.P1side,
+        P2side: action.payload.isP1Owner ?
+          state.handCards.P2side :
+          [...state.handCards.P2side.filter((c: CardType) => c.cardID !== action.payload.deleteCardHandID)]
+      }
     }),
     updateLeshiField: (state, action: PayloadAction<Field>) => ({
       ...state,
@@ -272,7 +292,7 @@ export const { setCurrPlayer, setCurrPhase,
   increaseP1Live, resetLive, resetActiveEvent,
   addP1bones, addP2bones,
   setDragCardInfo, setDeleteCardHand, updateSacrificeCount,
-  updateHand, updateLeshiField, updateField,
+  drawnHand, deleteHand, updateLeshiField, updateField,
   setShowRules, setRules, setWarning,
   setDecks, turnClock, setHammer,
   setSecretName, setShowSidebarInfo } = cardSlice.actions;

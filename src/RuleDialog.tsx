@@ -8,7 +8,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import './css/RuleDialog.scss';
 import "./icons/Icons.scss";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
-import { CardType, RuleType, setDecks, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
+import { CardType, EMPTY_HAND_CARDS, RuleType, setDecks, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
 import { SigilDefType, families, sigil_def } from "./const/families.tsx";
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
@@ -18,6 +18,7 @@ import deck_P2_Hard from './defaultSettings/P2DeckHard.json';
 import field_P2_Workshop from './defaultSettings/initialFieldP2Magnificus.json';
 import { rock } from "./utilCards.tsx";
 import { Dropdown } from "primereact/dropdown";
+import { DrawFromDeck, DrawFromSQR } from "./utils.tsx";
 
 //TODO inizializza i dati da localstorage come scorsa partita
 //TODO implementa il prospettore (già settato negli eventi della candela)
@@ -190,6 +191,22 @@ export default function RuleDialog() {
       P1side[1] = P1side[0]; //rimuovo roccia
       let P2side = [...field_P2_Workshop] as CardType[];
       dispatch(updateField({ P1side, P2side }));
+    }
+    /* distribute cards P1*/
+    DrawFromSQR(true, 20, rules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    if (isMultiplayer === 0) {
+      /* distribute cards P2*/
+      DrawFromSQR(false, 20, rules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
     }
   }
 

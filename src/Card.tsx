@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./css/Card.scss";
-import { CardType, updateHand, setDragCardInfo, setWarning } from "./cardReducer.tsx";
+import { CardType, deleteHand, setDragCardInfo, setWarning } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
 import { EMPTY_CARD } from "./utilCards.tsx";
@@ -36,30 +36,23 @@ export default function Card(props: {
           subject: 'Player ' + currPlayer,
           severity: 'error'
         }))
-      else{
-        if(localSelected){
+      else {
+        if (localSelected) {
           setLocalSelected(false);
           dispatch(setDragCardInfo(EMPTY_CARD));
         }
-        else{
-        setLocalSelected(true);
-        dispatch(setDragCardInfo({ ...props.cardInfo, selected: true }));
-      }
+        else {
+          setLocalSelected(true);
+          dispatch(setDragCardInfo({ ...props.cardInfo, selected: true }));
+        }
       }
     }
   }
 
   useEffect(() => {
     if (cardID === deleteCardHandID) {
-      let tempSide = isP1Owner ? handCards.P1side : handCards.P2side;
-      tempSide = tempSide.filter((c: CardType) => c.cardID !== deleteCardHandID);
-
-      dispatch(updateHand(
-        {
-          P1side: isP1Owner ? tempSide : handCards.P1side,
-          P2side: isP1Owner ? handCards.P2side : tempSide
-        }));
-        setLocalSelected(false);
+      dispatch(deleteHand({isP1Owner, deleteCardHandID}));
+      setLocalSelected(false);
     }
   }, [deleteCardHandID]);
 

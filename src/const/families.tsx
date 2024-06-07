@@ -1,3 +1,5 @@
+import { ReducerType } from "@reduxjs/toolkit";
+
 export const families = [
   'avian',
   'canine',
@@ -71,8 +73,6 @@ export const sigil_def: SigilDefType[] = [
 //api, scheletri ecc senza sangue
 //fertilità modificata
 
-//TODO sigillo fertilità-zombie: sacrificando la carta te ne da una uguale in mano ma con -1 atk
-//TODO aggiungi carta mulo, spawna 2 carte del mazzo del proprietario alla propria morte (cloni o le ruba?)
 //TODO aggiungi regola irritante (aggiunge il sigillo annoying a 2 carte random di entrambi i giocatori o a me in single player)
 //TODO aggiungi il procione con blood lust (potenzia 1akt ad ogni kill)
 //TODO aggiungi uccellino che spawna uovo di corvo (50% non fecondato ma non si vede la differenza)
@@ -81,5 +81,15 @@ export const sigil_def: SigilDefType[] = [
 //hunter 2 atk, 2def, 2sacr con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', senza cambiare le stats ma con sigillo looter e dropBlood=-1
 //crea 1 carta terrain per ogni famiglia con sigillo 601 cage->wolf, amber->mosquitos, death snake-> hog nosed snake, ice->opossum
 
-//per pubblicarla: effetti boss in single player(non carte), elimina le initial hand card.json e crea dei veri mazzi
-//nice2have: sigilli più belli, automatizza le leshi lines, sniper con scelta onClick, lista completa carta
+//per pubblicarla: 
+// --crea dei veri mazzi
+// --starvation dinamite
+// --id 0 299
+// --splice attributi _sub,_elder
+// --sigilli onSpawn
+// --sigilli onSacr
+//TODO sigillo fertilità-zombie: sacrificando la carta te ne da una uguale in mano ma con -1 atk
+//TODO aggiungi carta mulo, spawna 2 carte del mazzo del proprietario alla propria morte (cloni o le ruba?)
+//nice2have: sigilli più belli, automatizza le leshi lines, sniper con scelta onClick,
+//effetti boss in single player(non carte)
+//lista completa carte(magari divise per difficoltà leshi), carte draggable

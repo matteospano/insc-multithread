@@ -20,7 +20,7 @@ export default function Deck(props: { owner: number }): JSX.Element {
   const onDeckClick = () => {
     if ((currPlayer === owner) && canPlayerDraw) {
       isP1Owner ? dispatch(updateP1draw(false)) : dispatch(updateP2draw(false));
-      DrawFromDeck(isP1Owner, deck, handCards, rules, dispatch);
+      DrawFromDeck(isP1Owner, deck, rules, dispatch);
       dispatch(setWarning({
         message: 'must_draw',
         subject: 'Player ' + currPlayer,
@@ -38,7 +38,7 @@ export default function Deck(props: { owner: number }): JSX.Element {
   const onDeckSQRClick = () => {
     if ((currPlayer === owner) && canPlayerDraw) {
       isP1Owner ? dispatch(updateP1draw(false)) : dispatch(updateP2draw(false));
-      DrawFromSQR(isP1Owner, SQRLength, handCards, rules, dispatch);
+      DrawFromSQR(isP1Owner, SQRLength, rules, dispatch);
       dispatch(setWarning({
         message: 'must_draw',
         subject: 'Player ' + currPlayer,

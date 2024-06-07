@@ -1,6 +1,6 @@
 import {
   CardType, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
-  RuleType, resetActiveEvent, turnClock, updateHand
+  RuleType, resetActiveEvent, turnClock, drawnHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
 import { EMPTY_CARD, angler, hunter, necromancer, prospector, squirrel } from "./utilCards.tsx";
@@ -13,8 +13,7 @@ export const sigilDefinition = (sigilId: number) => {
   return ''
 }
 
-export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Field, rules: RuleType, dispatch: any) => {
-  let tempSide = isP1Owner ? handCards.P1side : handCards.P2side;
+export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
   const randCardIndex = Math.floor(Math.random() * deck.length);
   let drawnCard = deck[randCardIndex];
 
@@ -27,8 +26,6 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Fi
             : squirrel //altri...
     drawnCard = { ...boss, cardID: isP1Owner ? 1500 : 2500 }
   }
-  //debugger
-  //TODO bug, non appare il bounty hunter
 
   if (rules.randomSigils)
     drawnCard = addTotemSigil(drawnCard, 900);
@@ -36,38 +33,20 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], handCards: Fi
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
-
   drawnCard = replaceRandomSigil(drawnCard);
-  tempSide = [...tempSide, drawnCard];
-  dispatch(updateHand({
-    P1side: isP1Owner ? tempSide : handCards.P1side,
-    P2side: isP1Owner ? handCards.P2side : tempSide
-  }))
+  dispatch(drawnHand({ isP1Owner, drawnCard }))
   const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
   isP1Owner ? dispatch(P1DeckNextID(tempDeck)) : dispatch(P2DeckNextID(tempDeck));
 }
 
-export const DrawFromSQR = (isP1Owner: boolean, SQR: number, handCards: Field, rules: RuleType, dispatch: any) => {
-  let tempSide = isP1Owner ? handCards.P1side : handCards.P2side;
+export const DrawFromSQR = (isP1Owner: boolean, SQR: number, rules: RuleType, dispatch: any) => {
   const SQR_ID = isP1Owner ? 1900 + SQR : 2900 + SQR; //scoiattili con ID da 1920 a 1901
-  if (rules.useTotems.P1Head === 'scoiattoli' && rules.useTotems.P1Sigil) {
-    tempSide = [...tempSide, {
-      ...squirrel, cardID: SQR_ID,
-      sigils: [rules.useTotems.P1Sigil]
-    }];
-  }
-  else if (rules.useTotems.P2Head === 'scoiattoli' && rules.useTotems.P2Sigil) {
-    tempSide = [...tempSide, {
-      ...squirrel, cardID: SQR_ID,
-      sigils: [rules.useTotems.P2Sigil]
-    }];
-  }
-  else
-    tempSide = [...tempSide, { ...squirrel, cardID: SQR_ID }];
-  dispatch(updateHand({
-    P1side: isP1Owner ? tempSide : handCards.P1side,
-    P2side: isP1Owner ? handCards.P2side : tempSide
-  }))
+  let tempSQR = { ...squirrel, cardID: SQR_ID };
+  if (rules.useTotems.P1Head === 'scoiattoli' && rules.useTotems.P1Sigil)
+    tempSQR = { ...tempSQR, sigils: [rules.useTotems.P1Sigil] };
+  else if (rules.useTotems.P2Head === 'scoiattoli' && rules.useTotems.P2Sigil)
+    tempSQR = { ...tempSQR, sigils: [rules.useTotems.P2Sigil] };
+  dispatch(drawnHand({ isP1Owner, drawnCard: tempSQR }))
   isP1Owner ? dispatch(P1DeckSQRNextID()) : dispatch(P2DeckSQRNextID());
 }
 
