@@ -5,7 +5,8 @@ import {
   CardType,
   setWarning,
   setCurrPhase,
-  drawnHand
+  drawnHand,
+  deleteHand
 } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import { handleClock } from "./utils.tsx";
@@ -26,6 +27,7 @@ export default function PlayerTurn(): JSX.Element {
   const rules = useAppSelector((state) => state.card.rules);
   const canP1draw = useAppSelector((state) => state.card.canP1draw);
   const canP2draw = useAppSelector((state) => state.card.canP2draw);
+  const handCards = useAppSelector((state) => state.card.handCards);
 
   useEffect(() => {
     if (currPhase === 11 || currPhase === 21) {
@@ -115,7 +117,7 @@ export default function PlayerTurn(): JSX.Element {
     if (card.sigils?.includes(203)) { //immortal non droppa ossa
       const isP1Owner = card.cardID < 200;
       const cardCopy = card; //TODO ricerca la carta con le stats pulite da un elenco, aggiungi i totem
-      dispatch(drawnHand({ isP1Owner, drawnCard:cardCopy }));
+      dispatch(drawnHand({ isP1Owner, drawnCard: cardCopy }));
       return { card: EMPTY_CARD, effect: -1 }
     }
     if (card.sigils?.includes(208)) //trap non droppa ossa
@@ -494,7 +496,7 @@ export default function PlayerTurn(): JSX.Element {
               const noShield = [...sigils].filter((s) => s !== 604);
               tempSide[s] = { ...tempSide[s], sigils: noShield }
             }
-            else 
+            else
               tempSide[s] = addBones(tempSide[s]);
 
             if (dannoRifl === -11 && s < 4 && oppSide[s + 1].cardID !== -1) {
@@ -503,7 +505,7 @@ export default function PlayerTurn(): JSX.Element {
                 const noShield = [...sigils].filter((s) => s !== 604);
                 oppSide[s + 1] = { ...oppSide[s + 1], sigils: noShield }
               }
-              else 
+              else
                 oppSide[s + 1] = addBones(oppSide[s + 1]);
             }
           }
@@ -572,7 +574,7 @@ export default function PlayerTurn(): JSX.Element {
               oppSide[s - 1] = { ...oppSide[s - 1], sigils: noShield }
             }
             else
-              oppSide[s - 1] = addBones(oppSide[s-1]);
+              oppSide[s - 1] = addBones(oppSide[s - 1]);
           }
 
           const sigils = tempSide[s].sigils || [];
@@ -580,14 +582,14 @@ export default function PlayerTurn(): JSX.Element {
             const noShield = [...sigils].filter((s) => s !== 604);
             tempSide[s] = { ...tempSide[s], sigils: noShield }
           }
-          else 
+          else
             tempSide[s] = addBones(tempSide[s]);
           const sigilsDef = oppSide[s].sigils || [];
           if (sigilsDef.includes(604)) { //shield
             const noShield = [...sigils].filter((s) => s !== 604);
             oppSide[s] = { ...oppSide[s], sigils: noShield }
           }
-          else 
+          else
             oppSide[s] = addBones(oppSide[s]);
 
           if (s < 4 && oppSide[s + 1].cardID !== -1) {
@@ -596,11 +598,20 @@ export default function PlayerTurn(): JSX.Element {
               const noShield = [...sigils].filter((s) => s !== 604);
               oppSide[s + 1] = { ...oppSide[s + 1], sigils: noShield }
             }
-            else 
-              oppSide[s + 1] = addBones(oppSide[s+1]);
+            else
+              oppSide[s + 1] = addBones(oppSide[s + 1]);
           }
         }
       })
+    /* dinamite in mano */
+    const oppHand = P1attack ? handCards.P2side : handCards.P1side;
+    const tntInd = oppHand.find(h => h.name === 'dinamite')?.cardID;
+    if (tntInd) {
+      dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardHandID: tntInd - 1 }));
+      dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardHandID: tntInd }));
+      dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardHandID: tntInd + 1 }));
+      dispatch(increaseP1Live(P1attack ? 1 : -1));
+    }
 
     dispatch(updateField(
       {

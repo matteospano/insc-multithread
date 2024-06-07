@@ -8,7 +8,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import './css/RuleDialog.scss';
 import "./icons/Icons.scss";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
-import { CardType, EMPTY_HAND_CARDS, RuleType, setDecks, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
+import { CardType, RuleType, setDecks, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
 import { SigilDefType, families, sigil_def } from "./const/families.tsx";
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
@@ -37,8 +37,6 @@ export default function RuleDialog() {
   const visible: boolean = showRules === false ? false : true;
   const disableEdit: boolean = (showRules !== undefined);
   const fieldCards = useAppSelector((state) => state.card.fieldCards);
-  const hand1Length: number = useAppSelector((state) => state.card.handCards.P1side.length);
-  const hand2Length: number = useAppSelector((state) => state.card.handCards.P2side.length);
 
   const [isMultiplayer, setMultiplayer] = useState<number>(0); //0:multiplayer, 1/2/3:singleplayer, 4:workshop
   const easyTitle: string = "one or two tiar 1 cards played per turn";
@@ -195,21 +193,21 @@ export default function RuleDialog() {
       dispatch(updateField({ P1side, P2side }));
     }
     /* distribute cards P1*/
-    DrawFromSQR(true, hand1Length, rules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
+    DrawFromSQR(true, rules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, dispatch);
     //TODO bug: forse pesca doppioni va rallentata la pesca con await?
     if (isMultiplayer === 0) {
       /* distribute cards P2*/
-      DrawFromSQR(false, hand2Length, rules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
+      DrawFromSQR(false, rules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, dispatch);
       //TODO bug: forse pesca doppioni va rallentata la pesca con await?
     }
   }

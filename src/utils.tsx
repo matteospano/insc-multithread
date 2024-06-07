@@ -13,8 +13,7 @@ export const sigilDefinition = (sigilId: number) => {
   return ''
 }
 
-export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, hand: number, dispatch: any) => {
-  const newID = isP1Owner ? 100 + hand : 200 + hand;
+export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
   let drawnCard = squirrel;
 
   if (rules.boss.length > 0) { //solo il primo sconfitto ha diritto al vantaggio
@@ -24,7 +23,7 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
         : rules.boss === 'angler' ? angler
           : rules.boss === 'necromancer' ? necromancer
             : squirrel //altri...
-    drawnCard = { ...boss, cardID: newID }
+    drawnCard = { ...boss }
   }
   else {
     const randCardIndex = Math.floor(Math.random() * deck.length);
@@ -38,15 +37,13 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
     drawnCard = replaceRandomSigil(drawnCard);
     const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
     isP1Owner ? dispatch(P1DeckNextID(tempDeck)) : dispatch(P2DeckNextID(tempDeck));
-    drawnCard = { ...drawnCard, cardID: newID };
   }
 
   dispatch(drawnHand({ isP1Owner, drawnCard }));
 }
 
-export const DrawFromSQR = (isP1Owner: boolean, hand: number, rules: RuleType, dispatch: any) => {
-  const newID = isP1Owner ? 100 + hand : 200 + hand;
-  let drawnCard = { ...squirrel, cardID: newID };
+export const DrawFromSQR = (isP1Owner: boolean, rules: RuleType, dispatch: any) => {
+  let drawnCard = squirrel;
   if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
@@ -56,9 +53,8 @@ export const DrawFromSQR = (isP1Owner: boolean, hand: number, rules: RuleType, d
   isP1Owner ? dispatch(P1DeckSQRNextID()) : dispatch(P2DeckSQRNextID());
 }
 
-export const DrawFromDinamite = (isP1Owner: boolean, hand: number, dispatch: any) => {
-  const newID = isP1Owner ? 100 + hand : 200 + hand;
-  let drawnCard = { ...dinamite, cardID: newID };
+export const DrawFromDinamite = (isP1Owner: boolean, dispatch: any) => {
+  let drawnCard = dinamite;
   dispatch(drawnHand({ isP1Owner, drawnCard }))
 }
 

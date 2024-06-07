@@ -217,9 +217,16 @@ const cardSlice = createSlice({
       handCards: {
         ...state.handCards,
         P1side: action.payload.isP1Owner ?
-          [...state.handCards.P1side, action.payload.drawnCard] : state.handCards.P1side,
+          [...state.handCards.P1side, {
+            ...action.payload.drawnCard,
+            cardID: 100 + state.handCards.P1side.length
+          }
+          ] : state.handCards.P1side,
         P2side: action.payload.isP1Owner ?
-          state.handCards.P2side : [...state.handCards.P2side, action.payload.drawnCard],
+          state.handCards.P2side : [...state.handCards.P2side, {
+            ...action.payload.drawnCard,
+            cardID: 200 + state.handCards.P2side.length
+          }],
       }
     }),
     deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardHandID: number }>) => ({

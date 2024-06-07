@@ -15,12 +15,11 @@ export default function Deck(props: { owner: number }): JSX.Element {
 
   const deck: CardType[] = useAppSelector((state) => isP1Owner ? state.card.P1Deck : state.card.P2Deck);
   const rules = useAppSelector((state) => state.card.rules);
-  const handLength: number = useAppSelector((state) => isP1Owner ? state.card.handCards.P1side.length : state.card.handCards.P2side.length);
 
   const onDeckClick = () => {
     if ((currPlayer === owner) && canPlayerDraw) {
       isP1Owner ? dispatch(updateP1draw(false)) : dispatch(updateP2draw(false));
-      DrawFromDeck(isP1Owner, deck, rules, handLength, dispatch);
+      DrawFromDeck(isP1Owner, deck, rules, dispatch);
       dispatch(setWarning({
         message: 'must_draw',
         subject: 'Player ' + currPlayer,
@@ -38,7 +37,7 @@ export default function Deck(props: { owner: number }): JSX.Element {
   const onDeckSQRClick = () => {
     if ((currPlayer === owner) && canPlayerDraw) {
       isP1Owner ? dispatch(updateP1draw(false)) : dispatch(updateP2draw(false));
-      DrawFromSQR(isP1Owner, handLength, rules, dispatch);
+      DrawFromSQR(isP1Owner, rules, dispatch);
       dispatch(setWarning({
         message: 'must_draw',
         subject: 'Player ' + currPlayer,
@@ -56,7 +55,7 @@ export default function Deck(props: { owner: number }): JSX.Element {
   const onDeckTntClick = () => {
     if ((currPlayer === owner) && canPlayerDraw) {
       isP1Owner ? dispatch(updateP1draw(false)) : dispatch(updateP2draw(false));
-      DrawFromDinamite(isP1Owner, handLength, dispatch);
+      DrawFromDinamite(isP1Owner, dispatch);
       dispatch(setWarning({
         message: 'must_draw',
         subject: 'Player ' + currPlayer,
@@ -84,12 +83,12 @@ export default function Deck(props: { owner: number }): JSX.Element {
           onClick={onDeckSQRClick}>
         </div>
       }
-      {deckLength < 1 && SQRLength < 1 &&
+      {/* {deckLength < 1 && SQRLength < 1 && */}
         <div className={canPlayerDraw ? "deck-shape" : "deck-shape-disabled"}
           key={'deckDinamite'}
           onClick={onDeckTntClick}>
         </div>
-      }
+      {/* } */}
     </div >
   );
 }

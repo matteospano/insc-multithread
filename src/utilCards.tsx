@@ -80,7 +80,7 @@ export const prospector: CardType = {
   bone: 0,
   dropBlood: 1,
   dropBones: 1,
-  sigils: [208, 970, 600] //TODO sostituisci 208 con sigillo mulo, guardian, blockFly
+  sigils: [208, 970, 600] //TODO sostituisci 208 con sigillo mulo in amno ad avv, guardian, blockFly
 }
 export const angler: CardType = {
   name: "the Angler",
@@ -106,3 +106,5 @@ export const necromancer: CardType = {
   dropBones: 1,
   sigils: [208, 600] //TODO fertilità zombie non 208, blockFly
 }
+
+//pirate(Limoncello) aggiungi sig lancia dinamite
