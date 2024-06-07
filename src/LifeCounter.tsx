@@ -4,6 +4,7 @@ import { Dialog } from 'primereact/dialog';
 import { useAppDispatch, useAppSelector } from "./hooks.ts";
 import { resetLive, setWarning } from "./cardReducer.tsx";
 import { Button } from "primereact/button";
+import { DrawFromBoss } from "./utils.tsx";
 
 export default function LifeCounter(props: {
   owner: number
@@ -18,7 +19,7 @@ export default function LifeCounter(props: {
     owner === 1 ? state.card.rules.useCandles.P1 : state.card.rules.useCandles.P2);
   const oppCandle = useAppSelector((state) =>
     owner === 1 ? state.card.rules.useCandles.P2 : state.card.rules.useCandles.P1);
-  const isMultiplayer = useAppSelector((state) => state.card.rules.isMultiplayer);
+  const rules = useAppSelector((state) => state.card.rules);
   const playerLabel = secretName && owner === 2 ? secretName : "Player" + owner;
   const [playerSurrender, setPlayerSurrender] = useState<boolean>(false);
 
@@ -33,6 +34,7 @@ export default function LifeCounter(props: {
         }
         dispatch(setWarning({ message: 'P' + owner + ' has lost its candle!', severity: 'warning' }));
         dispatch(resetLive(candles));
+        DrawFromBoss(owner === 1, rules, dispatch);
       }
     }
     return false
@@ -43,8 +45,14 @@ export default function LifeCounter(props: {
 
   return (
     <>
-      {isMultiplayer < 4 ?
-        <h3 className={"live-counter-" + live + " m-0"}>{playerLabel + ": " + live + '♥'}</h3>
+      {rules.isMultiplayer < 4 ?
+        <>
+          <h3 className={"live-counter-" + live + " m-0"}>{playerLabel}</h3>
+          <h3 className={"live-counter-" + live + " m-0"}>{'lives: ' + live + '♥'
+            + ((rules.useCandles.P1 || rules.useCandles.P2) ?
+              (' and ' + ((owner === 1 && rules.useCandles.P1) || (owner === 2 && rules.useCandles.P2))
+                ? '1🕯' : '0🕯') : '')}</h3>
+        </>
         : <Button className="surrender-button" label={'Surrender!'} onClick={() => setPlayerSurrender(true)} />
       }
 

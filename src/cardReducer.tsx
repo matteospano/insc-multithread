@@ -173,7 +173,7 @@ const cardSlice = createSlice({
       P2Live: 5,
       rules: { ...state.rules, useCandles: action.payload }
     }),
-    resetActiveEvent: (state) => ({
+    resetBoss: (state) => ({
       ...state,
       rules: {
         ...state.rules,
@@ -296,7 +296,7 @@ const cardSlice = createSlice({
 export const { setCurrPlayer, setCurrPhase,
   P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
   updateP1draw, updateP2draw,
-  increaseP1Live, resetLive, resetActiveEvent,
+  increaseP1Live, resetLive, resetBoss,
   addP1bones, addP2bones,
   setDragCardInfo, setDeleteCardHand, updateSacrificeCount,
   drawnHand, deleteHand, updateLeshiField, updateField,

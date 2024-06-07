@@ -1,6 +1,6 @@
 import {
   CardType, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
-  RuleType, resetActiveEvent, turnClock, drawnHand
+  RuleType, resetBoss, turnClock, drawnHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
 import { EMPTY_CARD, angler, dinamite, hunter, necromancer, prospector, squirrel } from "./utilCards.tsx";
@@ -14,30 +14,17 @@ export const sigilDefinition = (sigilId: number) => {
 }
 
 export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
-  let drawnCard = squirrel;
-
-  if (rules.boss.length > 0) { //solo il primo sconfitto ha diritto al vantaggio
-    dispatch(resetActiveEvent());
-    const boss = rules.boss === 'prospector' ? prospector
-      : rules.boss === 'hunter' ? hunter
-        : rules.boss === 'angler' ? angler
-          : rules.boss === 'necromancer' ? necromancer
-            : squirrel //altri...
-    drawnCard = { ...boss }
-  }
-  else {
-    const randCardIndex = Math.floor(Math.random() * deck.length);
-    drawnCard = deck[randCardIndex];
-    if (rules.randomSigils)
-      drawnCard = addTotemSigil(drawnCard, 900);
-    else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
-      drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
-    else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
-      drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
-    drawnCard = replaceRandomSigil(drawnCard);
-    const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
-    isP1Owner ? dispatch(P1DeckNextID(tempDeck)) : dispatch(P2DeckNextID(tempDeck));
-  }
+  const randCardIndex = Math.floor(Math.random() * deck.length);
+  let drawnCard = deck[randCardIndex];
+  if (rules.randomSigils)
+    drawnCard = addTotemSigil(drawnCard, 900);
+  else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
+    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
+  else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
+    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+  drawnCard = replaceRandomSigil(drawnCard);
+  const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
+  isP1Owner ? dispatch(P1DeckNextID(tempDeck)) : dispatch(P2DeckNextID(tempDeck));
 
   dispatch(drawnHand({ isP1Owner, drawnCard }));
 }
@@ -51,6 +38,16 @@ export const DrawFromSQR = (isP1Owner: boolean, rules: RuleType, dispatch: any) 
   debugger
   dispatch(drawnHand({ isP1Owner, drawnCard }))
   isP1Owner ? dispatch(P1DeckSQRNextID()) : dispatch(P2DeckSQRNextID());
+}
+
+export const DrawFromBoss = (isP1Owner: boolean, rules: RuleType, dispatch: any) => {
+  dispatch(resetBoss());
+  const boss = rules.boss === 'prospector' ? prospector
+    : rules.boss === 'hunter' ? hunter
+      : rules.boss === 'angler' ? angler
+        : rules.boss === 'necromancer' ? necromancer
+          : squirrel //altri...
+  dispatch(drawnHand({ isP1Owner, drawnCard: boss }));
 }
 
 export const DrawFromDinamite = (isP1Owner: boolean, dispatch: any) => {

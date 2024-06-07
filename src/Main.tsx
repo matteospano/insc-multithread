@@ -67,16 +67,12 @@ function Main() {
         <div className="side-stats ml-1">
           <>
             <LifeCounter owner={2} />
-            {(rules.useCandles.P1 || rules.useCandles.P2)
-              && <h3 className="m-0">{"Lit candles: " + (rules.useCandles.P2 ? '1' : '0')}</h3>}
             {rules.useBones && <h3 className="m-0">{"Bones: " + P2Bones + '🦴'}</h3>}
           </>
           <PlayerTurn />
-          <>
-            {rules.useBones && <h3 className="m-0">{"Bones: " + P1Bones + '🦴'}</h3>}
-            {(rules.useCandles.P1 || rules.useCandles.P2)
-              && <h3 className="m-0">{"Lit candles: " + (rules.useCandles.P1 ? '1' : '0')}</h3>}
+          <>            
             <LifeCounter owner={1} />
+            {rules.useBones && <h3 className="m-0">{"Bones: " + P1Bones + '🦴'}</h3>}
           </>
         </div>
         <div className="board-grids">

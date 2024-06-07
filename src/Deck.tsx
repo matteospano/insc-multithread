@@ -83,12 +83,12 @@ export default function Deck(props: { owner: number }): JSX.Element {
           onClick={onDeckSQRClick}>
         </div>
       }
-      {/* {deckLength < 1 && SQRLength < 1 && */}
+      {deckLength < 1 && SQRLength < 1 &&
         <div className={canPlayerDraw ? "deck-shape" : "deck-shape-disabled"}
           key={'deckDinamite'}
           onClick={onDeckTntClick}>
         </div>
-      {/* } */}
+      }
     </div >
   );
 }
