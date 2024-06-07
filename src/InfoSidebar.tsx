@@ -35,7 +35,7 @@ export default function InfoSidebar(props: {
           <p>Cost: {selCardInfo?.sacr || selCardInfo?.bone}
             {selCardInfo?.bone ? ' bones' : ' sacrifices'}</p>
           <p>{'Family: ' + selCardInfo?.family}</p>
-          {selCardInfo.sigils && <>
+          {selCardInfo.sigils?.length && <>
             <p>Sigils:</p>
             <p>{sigilDefinition(selCardInfo.sigils[0] || -1)} </p>
             <p>{sigilDefinition(selCardInfo.sigils[1] || -1)} </p>

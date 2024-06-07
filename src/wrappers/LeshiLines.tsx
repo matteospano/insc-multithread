@@ -32,7 +32,7 @@ export default function LeshiLines(props: { owner: number }): JSX.Element {
     //TODO provide a dataset depending on isMultiplayer mode
     const newLeshiP2side = fillEmptySpots(movedLeshi, 1, [{ ...squirrel, cardID: 15 }]);
 
-    dispatch(updateField({ P1side: fieldCards.P1side, P2side: newP2side })); //TODO gestisci qui l'onSpawn
+    dispatch(updateField({ P1side: fieldCards.P1side, P2side: newP2side })); //TODO gestisci qui l'onSpawn al posto di cardslot
     dispatch(updateLeshiField({ ...EMPTY_FIELD, P2side: newLeshiP2side }));
   }
 

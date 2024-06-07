@@ -9,7 +9,7 @@
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
-    "sigils": [1,502]
+    "sigils": [300]
   },
   {
     "name": "cat",
@@ -21,10 +21,10 @@
     "bone": 0,
     "dropBlood": 3,
     "dropBones": 1,
-    "sigils": [1,502]
+    "sigils": [204]
   },
   {
-    "name": "wolf",
+    "name": "porcospino",
     "family": "nessuna",
     "cardID": 1007,
     "atk": 3,
@@ -33,10 +33,10 @@
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
-    "sigils": [603,502]
+    "sigils": [603]
   },
   {
-    "name": "aaa",
+    "name": "cerbiatto",
     "family": "cervi",
     "cardID": 1008,
     "atk": 2,
@@ -45,18 +45,18 @@
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
-    "sigils": [1]
+    "sigils": [401]
   },
   {
-    "name": "raven egg",
+    "name": "cat",
     "family": "nessuna",
     "cardID": 1009,
-    "atk": 0,
+    "atk": 1,
     "def": 1,
     "sacr": 1,
     "bone": 0,
     "dropBlood": 3,
     "dropBones": 1,
-    "sigils": [401]
+    "sigils": [704]
   }
 ]

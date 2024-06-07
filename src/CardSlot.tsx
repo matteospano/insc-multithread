@@ -72,33 +72,36 @@ export default function CardSlot(props: {
     }
   }, [pendingSacr]);
 
-  const onSpawn = (tempCard: CardType) => {
-    tempCard = { ...tempCard, selected: false };
-    const positionId = P1Owner ? 100 + index : 200 + index;
-
-    //debugger
+  const onSpawn = (card: CardType) => {
+    card = { ...card, selected: false };
+    if (card.sigils?.find((s) => s < 200)){ //0/1 spawn
+    debugger
     //TODO cerca se qualche sigillo hanno flag onSpawn
-    if (tempCard.sigils?.includes(1)) { //1='egg'
-      debugger
+    if (card.sigils?.includes(1)) { //1='egg'
+      const positionId = P1Owner ? 200 + index : 100 + index;
       let oppField = [...fieldCards.P2side]
       if (oppField[index].cardID === -1) {
         oppField[index] = { ...egg, cardID: positionId };
+        debugger
+        //todo bug non fa niente
         dispatch(updateField({
-          P1side: P1Owner ? fieldCards.P1side : oppField,
-          P2side: P1Owner ? oppField : fieldCards.P2side
+          P1side: P1Owner ? fieldCards.P1side : {...oppField},
+          P2side: P1Owner ? {...oppField} : fieldCards.P2side
         }));
       }
     }
 
-    setCurrCard(tempCard);
+  }
+
+    setCurrCard(card);
     dispatch(updateSacrificeCount(0));
-    dispatch(setDeleteCardHand(tempCard));
+    dispatch(setDeleteCardHand(card));
     //emptyCard();
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
       card.selected && !(card?.sigils?.includes(202)) ? onSacrifice(card) //202='degnoSacr'
         : { ...card, selected: false }); // eccezione gatto gestita
 
-    tempSide[index] = tempCard;
+    tempSide[index] = card;
     dispatch(updateField({
       P1side: P1Owner ? tempSide : fieldCards.P1side,
       P2side: P1Owner ? fieldCards.P2side : tempSide

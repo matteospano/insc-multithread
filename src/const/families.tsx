@@ -83,8 +83,6 @@ export const sigil_def: SigilDefType[] = [
 
 //per pubblicarla: 
 // --crea dei veri mazzi
-// --id 0 299
-// --splice attributi _sub,_elder
 // --sigilli onSpawn
 // --sigilli onSacr
 //TODO sigillo fertilità-zombie: sacrificando la carta te ne da una uguale in mano ma con -1 atk
@@ -92,3 +90,4 @@ export const sigil_def: SigilDefType[] = [
 //nice2have: sigilli più belli, automatizza le leshi lines, sniper con scelta onClick,
 //effetti boss in single player(non carte)
 //lista completa carte(magari divise per difficoltà leshi), carte draggable
+//elimina i selected o rendi effettiva la loro funzione (con delle await che rallentano la battaglia)

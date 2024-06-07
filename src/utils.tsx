@@ -8,7 +8,9 @@ import { EMPTY_CARD, angler, dinamite, hunter, necromancer, prospector, squirrel
 export const sigilDefinition = (sigilId: number) => {
   if (sigilId > 0) {
     const sigil = sigil_def.find((s) => s.id === sigilId)
-    return sigil?.name + ': ' + sigil?.trad;
+    if (sigil?.name)
+      return sigil?.name + ': ' + sigil?.trad + '.';
+    return ''
   }
   return ''
 }

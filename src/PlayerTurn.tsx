@@ -197,9 +197,19 @@ export default function PlayerTurn(): JSX.Element {
   }
 
   const onEvolve = (young: CardType): CardType => {
-    const evol = (evolutions as Evolution[]).find((ev) => ev.cardName === young.name);
+    const evol = (evolutions as Evolution[]).find((ev) => ev.cardName.split('_')[0] === young.name); //ignora attributi _sub,_elder
     //TODO controlla se c'è un totem e riassegnalo all'evoluzione const sigilWithFamily=evol.into.sigils.push(rules...)
     if (evol) {
+      if (young.name === 'raven egg') {
+        const noRaven = Math.random() < 0.5;
+        if (noRaven)
+          evol.into = {
+            ...young,
+            name: 'broken egg',
+            sigils: undefined
+          }
+      }
+
       dispatch(setWarning({
         message: 'evolves',
         subject: young.name,
