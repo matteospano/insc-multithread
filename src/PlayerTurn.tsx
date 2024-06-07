@@ -109,11 +109,11 @@ export default function PlayerTurn(): JSX.Element {
     //               expire: 1500
     //             }));
     console.log('dies ', card.name);
-    card.cardID < 2000 ? dispatch(addP1bones(card.dropBones))
+    card.cardID < 200 ? dispatch(addP1bones(card.dropBones))
       : dispatch(addP2bones(card.dropBones));
 
     if (card.sigils?.includes(203)) { //immortal non droppa ossa
-      const isP1Owner = card.cardID < 2000;
+      const isP1Owner = card.cardID < 200;
       const cardCopy = card; //TODO ricerca la carta con le stats pulite da un elenco, aggiungi i totem
       dispatch(drawnHand({ isP1Owner, drawnCard:cardCopy }));
       return { card: EMPTY_CARD, effect: -1 }
@@ -128,7 +128,7 @@ export default function PlayerTurn(): JSX.Element {
 
   const addBones = (card: CardType): CardType => {
     console.log('dies ', card.name);
-    card.cardID < 2000 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
+    card.cardID < 200 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
     return EMPTY_CARD
   }
 

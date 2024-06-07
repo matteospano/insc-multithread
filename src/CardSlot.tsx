@@ -73,14 +73,16 @@ export default function CardSlot(props: {
   }, [pendingSacr]);
 
   const onSpawn = (tempCard: CardType) => {
-    tempCard = { ...tempCard, selected: false }
+    tempCard = { ...tempCard, selected: false };
+    const positionId = P1Owner ? 100 + index : 200 + index;
+
     //debugger
     //TODO cerca se qualche sigillo hanno flag onSpawn
     if (tempCard.sigils?.includes(1)) { //1='egg'
       debugger
       let oppField = [...fieldCards.P2side]
       if (oppField[index].cardID === -1) {
-        oppField[index] = { ...egg, cardID: 2777 }; //TODO generate id
+        oppField[index] = { ...egg, cardID: positionId };
         dispatch(updateField({
           P1side: P1Owner ? fieldCards.P1side : oppField,
           P2side: P1Owner ? oppField : fieldCards.P2side

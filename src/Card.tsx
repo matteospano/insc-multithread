@@ -14,8 +14,8 @@ export default function Card(props: {
   const currPlayer: number = useAppSelector((state) => state.card.currPlayer);
   const deleteCardHandID = useAppSelector((state) => state.card.deleteCardHand?.cardID);
   const handCards = useAppSelector((state) => state.card.handCards);
-  const isValidCard = cardID >= 1000;
-  const isP1Owner = cardID < 2000;
+  const isValidCard = cardID >= 100;
+  const isP1Owner = cardID < 200;
   const canPlayerDraw = useAppSelector((state) => isP1Owner ?
     state.card.canP1draw : state.card.canP2draw);
   const [localSelected, setLocalSelected] = useState<boolean>(false);

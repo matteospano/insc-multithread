@@ -83,7 +83,6 @@ export const sigil_def: SigilDefType[] = [
 
 //per pubblicarla: 
 // --crea dei veri mazzi
-// --starvation dinamite
 // --id 0 299
 // --splice attributi _sub,_elder
 // --sigilli onSpawn

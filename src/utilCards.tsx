@@ -44,8 +44,20 @@ export const egg: CardType = {
   dropBones: 0,
   sigils: [401]
 }
+export const dinamite: CardType = {
+  name: "dinamite",
+  family: "terrain",
+  cardID: -1,
+  atk: 0,
+  def: 1,
+  sacr: 0,
+  bone: 0,
+  dropBlood: -1,
+  dropBones: 0,
+  sigils: [300]
+}
 
-/* EVENTI */
+/* BOSS ed EVENTI */
 export const hunter: CardType = {
   name: "the Hunter",
   family: "none",

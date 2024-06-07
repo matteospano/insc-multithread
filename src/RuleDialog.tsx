@@ -37,6 +37,8 @@ export default function RuleDialog() {
   const visible: boolean = showRules === false ? false : true;
   const disableEdit: boolean = (showRules !== undefined);
   const fieldCards = useAppSelector((state) => state.card.fieldCards);
+  const hand1Length: number = useAppSelector((state) => state.card.handCards.P1side.length);
+  const hand2Length: number = useAppSelector((state) => state.card.handCards.P2side.length);
 
   const [isMultiplayer, setMultiplayer] = useState<number>(0); //0:multiplayer, 1/2/3:singleplayer, 4:workshop
   const easyTitle: string = "one or two tiar 1 cards played per turn";
@@ -193,20 +195,22 @@ export default function RuleDialog() {
       dispatch(updateField({ P1side, P2side }));
     }
     /* distribute cards P1*/
-    DrawFromSQR(true, 20, rules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
+    DrawFromSQR(true, hand1Length, rules, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
+    DrawFromDeck(true, P1deck, tempRules, hand1Length, dispatch);
+    //TODO bug: forse pesca doppioni va rallentata la pesca con await?
     if (isMultiplayer === 0) {
       /* distribute cards P2*/
-      DrawFromSQR(false, 20, rules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      DrawFromSQR(false, hand2Length, rules, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
+      DrawFromDeck(false, P2deck, tempRules, hand2Length, dispatch);
+      //TODO bug: forse pesca doppioni va rallentata la pesca con await?
     }
   }
 

@@ -3,7 +3,7 @@ import {
   RuleType, resetActiveEvent, turnClock, drawnHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
-import { EMPTY_CARD, angler, hunter, necromancer, prospector, squirrel } from "./utilCards.tsx";
+import { EMPTY_CARD, angler, dinamite, hunter, necromancer, prospector, squirrel } from "./utilCards.tsx";
 
 export const sigilDefinition = (sigilId: number) => {
   if (sigilId > 0) {
@@ -13,9 +13,9 @@ export const sigilDefinition = (sigilId: number) => {
   return ''
 }
 
-export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
-  const randCardIndex = Math.floor(Math.random() * deck.length);
-  let drawnCard = deck[randCardIndex];
+export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, hand: number, dispatch: any) => {
+  const newID = isP1Owner ? 100 + hand : 200 + hand;
+  let drawnCard = squirrel;
 
   if (rules.boss.length > 0) { //solo il primo sconfitto ha diritto al vantaggio
     dispatch(resetActiveEvent());
@@ -24,30 +24,42 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
         : rules.boss === 'angler' ? angler
           : rules.boss === 'necromancer' ? necromancer
             : squirrel //altri...
-    drawnCard = { ...boss, cardID: isP1Owner ? 1500 : 2500 }
+    drawnCard = { ...boss, cardID: newID }
+  }
+  else {
+    const randCardIndex = Math.floor(Math.random() * deck.length);
+    drawnCard = deck[randCardIndex];
+    if (rules.randomSigils)
+      drawnCard = addTotemSigil(drawnCard, 900);
+    else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
+      drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
+    else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
+      drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+    drawnCard = replaceRandomSigil(drawnCard);
+    const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
+    isP1Owner ? dispatch(P1DeckNextID(tempDeck)) : dispatch(P2DeckNextID(tempDeck));
+    drawnCard = { ...drawnCard, cardID: newID };
   }
 
-  if (rules.randomSigils)
-    drawnCard = addTotemSigil(drawnCard, 900);
-  else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
-    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
-  else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
-    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
-  drawnCard = replaceRandomSigil(drawnCard);
-  dispatch(drawnHand({ isP1Owner, drawnCard }))
-  const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
-  isP1Owner ? dispatch(P1DeckNextID(tempDeck)) : dispatch(P2DeckNextID(tempDeck));
+  dispatch(drawnHand({ isP1Owner, drawnCard }));
 }
 
-export const DrawFromSQR = (isP1Owner: boolean, SQR: number, rules: RuleType, dispatch: any) => {
-  const SQR_ID = isP1Owner ? 1900 + SQR : 2900 + SQR; //scoiattili con ID da 1920 a 1901
-  let tempSQR = { ...squirrel, cardID: SQR_ID };
-  if (rules.useTotems.P1Head === 'scoiattoli' && rules.useTotems.P1Sigil)
-    tempSQR = { ...tempSQR, sigils: [rules.useTotems.P1Sigil] };
-  else if (rules.useTotems.P2Head === 'scoiattoli' && rules.useTotems.P2Sigil)
-    tempSQR = { ...tempSQR, sigils: [rules.useTotems.P2Sigil] };
-  dispatch(drawnHand({ isP1Owner, drawnCard: tempSQR }))
+export const DrawFromSQR = (isP1Owner: boolean, hand: number, rules: RuleType, dispatch: any) => {
+  const newID = isP1Owner ? 100 + hand : 200 + hand;
+  let drawnCard = { ...squirrel, cardID: newID };
+  if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
+    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
+  if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
+    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+  debugger
+  dispatch(drawnHand({ isP1Owner, drawnCard }))
   isP1Owner ? dispatch(P1DeckSQRNextID()) : dispatch(P2DeckSQRNextID());
+}
+
+export const DrawFromDinamite = (isP1Owner: boolean, hand: number, dispatch: any) => {
+  const newID = isP1Owner ? 100 + hand : 200 + hand;
+  let drawnCard = { ...dinamite, cardID: newID };
+  dispatch(drawnHand({ isP1Owner, drawnCard }))
 }
 
 export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType => {
@@ -61,47 +73,41 @@ export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType =
 }
 
 export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: any, usedWatches?: any) => {
+  function changeId(card: CardType, newpos: number, P1Owner: boolean): CardType {
+    if (card.cardID === -1)
+      return card
+    const newID = P1Owner ? 100 + newpos : 200 + newpos;
+    return { ...card, cardID: newID }
+  }
+
   const turnedField: Field = isClockwise ?
     {
       P1side: [
-        fieldCards.P1side[1],
-        fieldCards.P1side[2],
-        fieldCards.P1side[3],
-        fieldCards.P1side[4],
-        {
-          ...fieldCards.P2side[4],
-          cardID: fieldCards.P2side[4].cardID !== -1 ? 1900 : -1 //todo genera un id valido
-        }],
+        changeId(fieldCards.P1side[1], 0, true),
+        changeId(fieldCards.P1side[2], 1, true),
+        changeId(fieldCards.P1side[3], 2, true),
+        changeId(fieldCards.P1side[4], 3, true),
+        changeId(fieldCards.P2side[4], 4, true)],
       P2side: [
-        {
-          ...fieldCards.P1side[0],
-          cardID: fieldCards.P1side[0].cardID !== -1 ? 2900 : -1 //todo genera un id valido
-        },
-        fieldCards.P2side[0],
-        fieldCards.P2side[1],
-        fieldCards.P2side[2],
-        fieldCards.P2side[3]]
+        changeId(fieldCards.P1side[0], 0, false),
+        changeId(fieldCards.P2side[0], 1, false),
+        changeId(fieldCards.P2side[1], 2, false),
+        changeId(fieldCards.P2side[2], 3, false),
+        changeId(fieldCards.P2side[3], 4, false)]
     } :
     {
       P1side: [
-        {
-          ...fieldCards.P2side[0],
-          cardID: fieldCards.P2side[0].cardID !== -1 ? 1900 : -1 //todo genera un id valido
-        },
-        fieldCards.P1side[0],
-        fieldCards.P1side[1],
-        fieldCards.P1side[2],
-        fieldCards.P1side[3],
-      ],
+        changeId(fieldCards.P2side[0], 0, true),
+        changeId(fieldCards.P1side[0], 1, true),
+        changeId(fieldCards.P1side[1], 2, true),
+        changeId(fieldCards.P1side[2], 3, true),
+        changeId(fieldCards.P1side[3], 4, true)],
       P2side: [
-        fieldCards.P2side[1],
-        fieldCards.P2side[2],
-        fieldCards.P2side[3],
-        fieldCards.P2side[4],
-        {
-          ...fieldCards.P1side[4],
-          cardID: fieldCards.P1side[4].cardID !== -1 ? 2900 : -1 //todo genera un id valido
-        }],
+        changeId(fieldCards.P2side[1], 0, false),
+        changeId(fieldCards.P2side[2], 1, false),
+        changeId(fieldCards.P2side[3], 2, false),
+        changeId(fieldCards.P2side[4], 3, false),
+        changeId(fieldCards.P1side[4], 4, false)]
     };
   usedWatches ? dispatch(turnClock({ turnedField, usedWatches })) : dispatch(turnClock({ turnedField }));
 }
