@@ -22,7 +22,7 @@ export interface SigilDefType {
 }
 
 export const sigil_def: SigilDefType[] = [
-  { id: 170, name: 'alarm', totem: true, trad: 'Enemy placed (or already placed) in front of this card: it gaigns 1 atk' }, //onSpawn, onDeath, listen: 'en_spawn'
+  { id: 170, name: 'alarm', totem: true, trad: 'Enemy placed (or already placed) in front of this card: it gaigns 1 atk' }, //onSpawn, onDeath, onSacr, listen: 'en_spawn'
   { id: 700, name: 'apple', trad: 'Sacrificed: the new card gaigns its atk and def' }, //onSacr
   { id: 500, name: 'atk2', trad: 'Atk enemies on its sides if available' }, //onAtk
   { id: 501, name: 'atk3', trad: 'Atk enemies in front and on its sides if available' }, //onAtk
@@ -54,7 +54,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 971, name: 'regression', totem: true, trad: 'Blocks enemies on the ground and the spawned ones from evolving' }, //listen: 'en_spawn',
   //{ id: 999, name: 'scavenger', trad: 'aaa' },
   { id: 604, name: 'shield', trad: 'It absorbs the first damage dealt' }, //onDef
-  { id: 70, name: 'smell', totem: true, trad: 'It decrease opposing enemy atk by one' }, //onSpawn, listen: 'en_spawn'
+  { id: 171, name: 'smell', totem: true, trad: 'It decrease opposing enemy atk by one' }, //onSpawn, onDeath, onSacr, listen: 'en_spawn'
   { id: 207, name: 'snakeBomb', trad: 'Death: gifts 3 cards from your deck to your opponent' }, //onDeath
   { id: 503, name: 'sniper', trad: 'Chooses which opposing spaces to strike' }, //onAtk
   { id: 603, name: 'spikes', totem: true, trad: 'When being attacked, inflicts 1 damage to the attacker' }, //onDef
@@ -81,7 +81,7 @@ export const sigil_def: SigilDefType[] = [
 //hunter 2 atk, 2def, 2sacr con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', senza cambiare le stats ma con sigillo looter e dropBlood=-1
 //crea 1 carta terrain per ogni famiglia con sigillo 601 cage->wolf, amber->mosquitos, death snake-> hog nosed snake, ice->opossum
 
-//per pubblicarla: 
+//per pubblicarla:
 // --crea dei veri mazzi
 // --sigilli onSpawn
 // --sigilli onSacr

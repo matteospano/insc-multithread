@@ -5,11 +5,11 @@
     "cardID": 1005,
     "atk": 2,
     "def": 1,
-    "sacr": 1,
+    "sacr": 0,
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
-    "sigils": [1,502]
+    "sigils": [150]
   },
   {
     "name": "cat",
@@ -17,14 +17,14 @@
     "cardID": 1006,
     "atk": 1,
     "def": 1,
-    "sacr": 1,
+    "sacr": 0,
     "bone": 0,
-    "dropBlood": 3,
+    "dropBlood": 1,
     "dropBones": 1,
-    "sigils": [1,502]
+    "sigils": [202]
   },
   {
-    "name": "wolf",
+    "name": "free",
     "family": "nessuna",
     "cardID": 1007,
     "atk": 3,
@@ -33,30 +33,6 @@
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
-    "sigils": [603,502]
-  },
-  {
-    "name": "aaa",
-    "family": "cervi",
-    "cardID": 1008,
-    "atk": 2,
-    "def": 1,
-    "sacr": 1,
-    "bone": 0,
-    "dropBlood": 1,
-    "dropBones": 1,
-    "sigils": [1]
-  },
-  {
-    "name": "raven egg",
-    "family": "nessuna",
-    "cardID": 1009,
-    "atk": 0,
-    "def": 1,
-    "sacr": 1,
-    "bone": 0,
-    "dropBlood": 3,
-    "dropBones": 1,
-    "sigils": [401]
+    "sigils": []
   }
 ]

@@ -13,7 +13,7 @@
     {
       "name": "rock",
       "family": "terrain",
-      "cardID": 2001,
+      "cardID": 201,
       "atk": 0,
       "def": 4,
       "sacr": 0,
@@ -89,7 +89,7 @@
     {
       "name": "rock",
       "family": "terrain",
-      "cardID": 1003,
+      "cardID": 103,
       "atk": 0,
       "def": 4,
       "sacr": 0,

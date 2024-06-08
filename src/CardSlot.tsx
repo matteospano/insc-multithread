@@ -11,7 +11,7 @@ import {
 //import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
-import { egg, EMPTY_CARD } from "./utilCards.tsx";
+import { bell, egg, EMPTY_CARD } from "./utilCards.tsx";
 
 export default function CardSlot(props: {
   owner: number, index: number
@@ -72,36 +72,53 @@ export default function CardSlot(props: {
     }
   }, [pendingSacr]);
 
-  const onSpawn = (card: CardType): Field | undefined => {
+  const onSpawn = (card: CardType): Field => {
     card = { ...card, selected: false };
-    let field: Field = fieldCards;
-    if (card.sigils?.find((s) => s < 200)) { //0/1 spawn
-      if (card.sigils?.includes(1)) { //1='egg'
-        const positionId = P1Owner ? 200 + index : 100 + index;
-        let oppField = [...fieldCards.P2side]
-        if (oppField[index].cardID === -1) {
-          oppField[index] = { ...egg, cardID: positionId };
-          field = {
-            P1side: P1Owner ? field.P1side : [...oppField],
-            P2side: P1Owner ? [...oppField] : field.P2side
-          };
-        }
-      }
-
-
-    }
-
     setCurrCard(card);
     dispatch(updateSacrificeCount(0));
     dispatch(setDeleteCardHand(card));
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
       card.selected && !(card?.sigils?.includes(202)) ? onSacrifice(card) //202='degnoSacr'
         : { ...card, selected: false }); // eccezione gatto gestita
-
     tempSide[index] = card;
+    let oppField = P1Owner ? [...fieldCards.P2side] : [...fieldCards.P1side];
+
+    if (card.sigils?.find((s) => s < 200)) { //0/1 spawn
+      const advPosId = P1Owner ? 200 + index : 100 + index;
+
+      if (card.sigils?.includes(1) && oppField[index].cardID === -1) //1='egg'       
+        oppField[index] = { ...egg, cardID: advPosId };
+
+      if (card.sigils?.includes(100)) { //bells
+        if (index > 0)
+          if (tempSide[index - 1].cardID === -1)
+            tempSide[index - 1] = { ...bell, cardID: card.cardID - 1 };
+        if (index < 4)
+          if (tempSide[index + 1].cardID === -1)
+            tempSide[index + 1] = { ...bell, cardID: card.cardID + 1 };
+          //todo bells ondeath libera il campo dalle 2 bell
+      }
+
+      const antismell = card.sigils?.includes(170);
+      const smell = card.sigils?.includes(171);
+      if ((antismell && !smell) || (!antismell && smell))//or 'alarm' or 'smell'
+        oppField[index] = { ...oppField[index], atk: oppField[index].atk + (smell ? -1 : 1) };
+      //todo riapplica l'effetto onEnemy spawn e annullalo on death e on sacr
+
+      if (card.sigils?.includes(150)) { //leader
+        if (index > 0)
+          if (tempSide[index - 1].cardID !== -1)
+            tempSide[index - 1] = { ...tempSide[index - 1], atk: tempSide[index - 1].atk + 1 };
+        if (index < 4)
+          if (tempSide[index + 1].cardID !== -1)
+            tempSide[index + 1] = { ...tempSide[index + 1], atk: tempSide[index + 1].atk + 1 };
+          //todo riapplica l'effetto onFriend spawn e annullalo on death e on sacr
+      }
+
+    }
     return {
-      P1side: P1Owner ? [...tempSide] : field.P1side,
-      P2side: P1Owner ? field.P2side : [...tempSide]
+      P1side: P1Owner ? [...tempSide] : [...oppField],
+      P2side: P1Owner ? [...oppField] : [...tempSide]
     };
   }
 
@@ -146,8 +163,8 @@ export default function CardSlot(props: {
       }))
     else {
       const newField = onSpawn(dragCard); //replace this card
-      if (newField)
-        dispatch(updateField(newField));
+      debugger
+      dispatch(updateField(newField));
     }
   }
 
@@ -212,7 +229,7 @@ export default function CardSlot(props: {
         <div className="mt-01">{currCard.name}</div>
         {RenderCardSigils({ cardInfo: currCard, show })}
         <span className="card-atk-def">
-          <div>{currCard.dropBlood >= 0 && !currCard.name?.includes('_sub') && currCard.atk || ' '}</div>
+          <div>{!currCard.name?.includes('_sub') && currCard.atk > 0 && currCard.atk || ' '}</div>
           <div>{!currCard.name?.includes('_sub') && currCard.def}</div>
         </span>
       </>}
