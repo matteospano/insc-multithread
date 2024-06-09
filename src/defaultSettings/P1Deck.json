@@ -5,7 +5,7 @@
     "cardID": 1005,
     "atk": 2,
     "def": 1,
-    "sacr": 0,
+    "sacr": 2,
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
@@ -13,7 +13,7 @@
   },
   {
     "name": "cat",
-    "family": "none",
+    "family": "hooved",
     "cardID": 1006,
     "atk": 1,
     "def": 1,
@@ -21,18 +21,18 @@
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
-    "sigils": [202]
+    "sigils": [704]
   },
   {
     "name": "free",
-    "family": "nessuna",
+    "family": "hooved",
     "cardID": 1007,
     "atk": 3,
-    "def": 1,
+    "def": 5,
     "sacr": 0,
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
-    "sigils": []
+    "sigils": [700]
   }
 ]

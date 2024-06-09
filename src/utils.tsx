@@ -61,9 +61,19 @@ export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType =
   if (drawnCard.sigils?.includes(newSigil))
     return drawnCard //already present
   let tempSigils: number[] = drawnCard.sigils || [];
-  tempSigils = tempSigils.concat([newSigil]);
-  if (newSigil === 999)
+
+  /* useless sigils, they cancel each other: */
+  if ((drawnCard.sigils?.includes(170) && newSigil === 171))
+    drawnCard.sigils.splice(drawnCard.sigils.indexOf(170), 1);
+  else if (drawnCard.sigils?.includes(171) && newSigil === 170)
+    drawnCard.sigils.splice(drawnCard.sigils.indexOf(171), 1);
+  else
+    tempSigils = tempSigils.concat([newSigil]);
+
+  if (newSigil === 999) //looter
     return { ...drawnCard, sigils: tempSigils, dropBlood: -1 }
+  if (newSigil === 998) //worthy
+    return { ...drawnCard, sigils: tempSigils, dropBlood: 3 }
   return { ...drawnCard, sigils: tempSigils }
 }
 

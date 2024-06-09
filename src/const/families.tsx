@@ -32,7 +32,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 201, name: 'bomb', trad: 'Death: it will explode and cause damage to its side cards and front enemy' }, // onDeath
   { id: 400, name: 'boneDigger', trad: 'Every new turn it makes you gaign bone' }, //onEvolve
   { id: 990, name: 'burrower', totem: true, trad: 'It moves to any empty space that is attacked by an enemy to block it' }, //listen: 'en_atk'
-  { id: 702, name: 'degnoSacr', trad: 'Sacrificed: it counts as 3 blood' }, //onSacr
+  { id: 998, name: 'worthy', totem: true, trad: 'Sacrificed: it counts as 3 blood' }, //onSacr
   //{ name: 'doubleDeath', trad: 'aaa' },
   { id: 300, name: 'dinamite', trad: 'Next turn or on its death, it will explode (even if it is still in your hand) and cause damage to its side cards and front enemy' }, //onDeath, onEvolve
   { id: 1, name: 'egg', trad: 'If enemy field is empty add an egg that may become a bird' }, //onSpawn
@@ -45,7 +45,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 991, name: 'helper', trad: 'if enemy attaks, the spawner of this card will strike back' },//listen: 'en_atk' todo sigillo proprio delle campane
   { id: 601, name: 'ice', trad: 'On the first damage dealt, it evolves' }, //onDef
   { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a copy of it enters your hand' }, //onDeath
-  { id: 704, name: 'infSacrifice', trad: 'When this card is sacrificed, it does not perish' }, //onSacr
+  { id: 704, name: 'cat', trad: 'When this card is sacrificed, it does not perish' }, //onSacr
   { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, listen: 'fr_spawn'
   { id: 999, name: 'looter', totem: true, trad: 'This card is not a valid sacrifice' }, //onDeath
   //{ name: 'magicHand', trad: 'aaa' },

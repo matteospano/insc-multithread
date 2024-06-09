@@ -77,10 +77,27 @@ export default function CardSlot(props: {
     setCurrCard(card);
     dispatch(updateSacrificeCount(0));
     dispatch(setDeleteCardHand(card));
+
+    let apples: { atk: number, def: number } = { atk: 0, def: 0 };
+    [...mySide].forEach((card) => {
+      if (card.selected && card?.sigils?.includes(700)) //700='apple'
+        apples = {
+          atk: apples.atk + (card.atk > 0 ? card.atk : 0),
+          def: apples.def + card.def
+        }
+    });
+
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
-      card.selected && !(card?.sigils?.includes(202)) ? onSacrifice(card) //202='degnoSacr'
-        : { ...card, selected: false }); // eccezione gatto gestita
-    tempSide[index] = card;
+      card.selected ? onSacrifice(card) : card);
+    if (apples.atk || apples.def) {
+      tempSide[index] = {
+        ...card,
+        atk: card.atk + apples.atk,
+        def: card.def + apples.def
+      };
+    }
+    else
+      tempSide[index] = card;
     let oppField = P1Owner ? [...fieldCards.P2side] : [...fieldCards.P1side];
 
     if (card.sigils?.find((s) => s < 200)) { //0/1 spawn
@@ -96,13 +113,14 @@ export default function CardSlot(props: {
         if (index < 4)
           if (tempSide[index + 1].cardID === -1)
             tempSide[index + 1] = { ...bell, cardID: card.cardID + 1 };
-          //todo bells ondeath libera il campo dalle 2 bell
+        //todo bells ondeath libera il campo dalle 2 bell
       }
 
-      const antismell = card.sigils?.includes(170);
-      const smell = card.sigils?.includes(171);
-      if ((antismell && !smell) || (!antismell && smell))//or 'alarm' or 'smell'
-        oppField[index] = { ...oppField[index], atk: oppField[index].atk + (smell ? -1 : 1) };
+      if (card.sigils?.includes(170)) //alarm
+        oppField[index] = { ...oppField[index], atk: oppField[index].atk + 1 };
+      //todo riapplica l'effetto onEnemy spawn e annullalo on death e on sacr
+      if (card.sigils?.includes(171)) //smell
+        oppField[index] = { ...oppField[index], atk: oppField[index].atk + -1 };
       //todo riapplica l'effetto onEnemy spawn e annullalo on death e on sacr
 
       if (card.sigils?.includes(150)) { //leader
@@ -112,7 +130,7 @@ export default function CardSlot(props: {
         if (index < 4)
           if (tempSide[index + 1].cardID !== -1)
             tempSide[index + 1] = { ...tempSide[index + 1], atk: tempSide[index + 1].atk + 1 };
-          //todo riapplica l'effetto onFriend spawn e annullalo on death e on sacr
+        //todo riapplica l'effetto onFriend spawn e annullalo on death e on sacr
       }
 
     }
@@ -123,16 +141,16 @@ export default function CardSlot(props: {
   }
 
   const onSacrifice = (card: CardType) => {
+    if (card?.sigils?.includes(704)) //704='cat'
+      return { ...card, selected: false }
     currPlayer === 1 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
-    //TODO eccezione carte che tornano in mano
     return (EMPTY_CARD);
   }
 
   const destroyCard = () => {
     currPlayer === 1 ? dispatch(addP1bones(currCard.dropBones)) : dispatch(addP2bones(currCard.dropBones));
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
-      card.selected && !(card?.sigils?.includes(202)) ? onSacrifice(card) //202='degnoSacr'
-        : { ...card, selected: false }); // eccezione gatto gestita
+      card.selected ? onSacrifice(card) : card);
 
     tempSide[index] = EMPTY_CARD;
     dispatch(updateField({
