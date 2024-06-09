@@ -13,7 +13,6 @@ export default function Card(props: {
   const dispatch = useAppDispatch();
   const currPlayer: number = useAppSelector((state) => state.card.currPlayer);
   const deleteCardHandID = useAppSelector((state) => state.card.deleteCardHand?.cardID);
-  const handCards = useAppSelector((state) => state.card.handCards);
   const isValidCard = cardID >= 100;
   const isP1Owner = cardID < 200;
   const canPlayerDraw = useAppSelector((state) => isP1Owner ?
@@ -76,8 +75,8 @@ export default function Card(props: {
         //   disabled={!show}>
 
         <div onClick={handleClick}
-          className={show ? dropBlood < 0 ? "rock-shape handle" + (localSelected ? " selected" : "") :
-            "card-shape handle" + (localSelected ? " selected" : "") : "card-back"} key={cardID}>
+          className={show ? dropBlood < 0 ? "rock-shape" + (localSelected ? " selected" : "") :
+            "card-shape" + (localSelected ? " selected" : "") : "card-back"} key={cardID}>
           <span className="mt-01 flex">
             <div className="col-10 crop-text pl-1">{show && name}</div>
             <div className={sacr ? "col-2 pr-05 card-text-sacr" : "col-2 pr-05 card-text-bones"}>

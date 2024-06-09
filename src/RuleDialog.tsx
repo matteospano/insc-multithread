@@ -207,7 +207,7 @@ export default function RuleDialog() {
       DrawFromDeck(false, P2deck, tempRules, dispatch);
       DrawFromDeck(false, P2deck, tempRules, dispatch);
       DrawFromDeck(false, P2deck, tempRules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
+      //DrawFromDeck(false, P2deck, tempRules, dispatch); ne ha 1 in meno e deve pescare
       //TODO bug: forse pesca doppioni va rallentata la pesca con await?
     }
   }

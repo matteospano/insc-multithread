@@ -1,32 +1,36 @@
 [
   {
     "name": "bee",
-    "family": "insetti",
-    "cardID": 2005,
+    "family": "insect",
+    "cardID": 205,
     "atk": 1,
     "def": 2,
     "sacr": 1,
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 0,
-    "sigils": [502]
+    "sigils": [
+      502
+    ]
   },
   {
-    "name": "scheletro",
-    "family": "nessuna",
-    "cardID": 2006,
+    "name": "scheletor",
+    "family": "none",
+    "cardID": 206,
     "atk": 1,
     "def": 1,
     "sacr": 0,
     "bone": 1,
-    "dropBlood": 0,
+    "dropBlood": -1,
     "dropBones": 1,
-    "sigils": [402]
+    "sigils": [
+      402
+    ]
   },
   {
-    "name": "lupo",
-    "family": "lupi",
-    "cardID": 2007,
+    "name": "wolf",
+    "family": "canine",
+    "cardID": 207,
     "atk": 3,
     "def": 1,
     "sacr": 2,
@@ -37,12 +41,97 @@
   {
     "name": "geco",
     "family": "none",
-    "cardID": 2008,
+    "cardID": 208,
     "atk": 1,
     "def": 1,
     "sacr": 0,
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 0
+  },
+  {
+    "name": "elk fawn",
+    "family": "hooved",
+    "cardID": 209,
+    "atk": 1,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [
+      401
+    ]
+  },
+  {
+    "name": "cat",
+    "family": "none",
+    "cardID": 210,
+    "atk": 0,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [
+      704
+    ]
+  },
+  {
+    "name": "goat",
+    "family": "none",
+    "cardID": 211,
+    "atk": 0,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 3,
+    "dropBones": 1,
+    "sigils": [
+      998
+    ]
+  },
+  {
+    "name": "wolf cub",
+    "family": "canine",
+    "cardID": 212,
+    "atk": 2,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [
+      401
+    ]
+  },
+  {
+    "name": "bomb",
+    "family": "terrain",
+    "cardID": 213,
+    "atk": 0,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": -1,
+    "dropBones": 0,
+    "sigils": [
+      201,
+      999
+    ]
+  },
+  {
+    "name": "mantis",
+    "family": "insect",
+    "cardID": 214,
+    "atk": 1,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [
+      500
+    ]
   }
 ]

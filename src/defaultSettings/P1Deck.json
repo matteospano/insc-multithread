@@ -1,38 +1,137 @@
 [
   {
-    "name": "deer",
-    "family": "hooved",
-    "cardID": 1005,
-    "atk": 2,
+    "name": "bee",
+    "family": "insect",
+    "cardID": 105,
+    "atk": 1,
+    "def": 2,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 0,
+    "sigils": [
+      502
+    ]
+  },
+  {
+    "name": "scheletor",
+    "family": "none",
+    "cardID": 106,
+    "atk": 1,
+    "def": 1,
+    "sacr": 0,
+    "bone": 1,
+    "dropBlood": -1,
+    "dropBones": 1,
+    "sigils": [
+      402
+    ]
+  },
+  {
+    "name": "wolf",
+    "family": "canine",
+    "cardID": 107,
+    "atk": 3,
     "def": 1,
     "sacr": 2,
     "bone": 0,
     "dropBlood": 1,
-    "dropBones": 1,
-    "sigils": [150]
+    "dropBones": 1
   },
   {
-    "name": "cat",
-    "family": "hooved",
-    "cardID": 1006,
+    "name": "geco",
+    "family": "none",
+    "cardID": 108,
     "atk": 1,
     "def": 1,
     "sacr": 0,
     "bone": 0,
     "dropBlood": 1,
-    "dropBones": 1,
-    "sigils": [704]
+    "dropBones": 0
   },
   {
-    "name": "free",
+    "name": "elk fawn",
     "family": "hooved",
-    "cardID": 1007,
-    "atk": 3,
-    "def": 5,
-    "sacr": 0,
+    "cardID": 109,
+    "atk": 1,
+    "def": 1,
+    "sacr": 1,
     "bone": 0,
     "dropBlood": 1,
     "dropBones": 1,
-    "sigils": [700]
+    "sigils": [
+      401
+    ]
+  },
+  {
+    "name": "cat",
+    "family": "none",
+    "cardID": 110,
+    "atk": 0,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [
+      704
+    ]
+  },
+  {
+    "name": "goat",
+    "family": "none",
+    "cardID": 111,
+    "atk": 0,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 3,
+    "dropBones": 1,
+    "sigils": [
+      998
+    ]
+  },
+  {
+    "name": "wolf cub",
+    "family": "canine",
+    "cardID": 112,
+    "atk": 2,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [
+      401
+    ]
+  },
+  {
+    "name": "bomb",
+    "family": "terrain",
+    "cardID": 113,
+    "atk": 0,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": -1,
+    "dropBones": 0,
+    "sigils": [
+      201,
+      999
+    ]
+  },
+  {
+    "name": "mantis",
+    "family": "insect",
+    "cardID": 114,
+    "atk": 1,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [
+      500
+    ]
   }
 ]

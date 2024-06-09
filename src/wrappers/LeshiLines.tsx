@@ -4,7 +4,8 @@ import { useAppDispatch, useAppSelector } from "../hooks.ts";
 import { EMPTY_FIELD, Field, updateLeshiField, updateField, CardType } from "../cardReducer.tsx";
 import LeshiSlot from "../LeshiSlot.tsx";
 import { fillEmptySpots } from "../utils.tsx";
-import { EMPTY_CARD, squirrel } from "../utilCards.tsx";
+import { EMPTY_CARD } from "../utilCards.tsx";
+import deck_P2 from '../defaultSettings/P2Deck.json';
 
 export default function LeshiLines(props: { owner: number }): JSX.Element {
   const { owner } = props;
@@ -30,7 +31,7 @@ export default function LeshiLines(props: { owner: number }): JSX.Element {
       return card
     });
     //TODO provide a dataset depending on isMultiplayer mode
-    const newLeshiP2side = fillEmptySpots(movedLeshi, 1, [{ ...squirrel, cardID: 15 }]);
+    const newLeshiP2side = fillEmptySpots(movedLeshi, 1, [...deck_P2] as CardType[]);
 
     dispatch(updateField({ P1side: fieldCards.P1side, P2side: newP2side })); //TODO gestisci qui l'onSpawn al posto di cardslot
     dispatch(updateLeshiField({ ...EMPTY_FIELD, P2side: newLeshiP2side }));

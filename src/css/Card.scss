@@ -10,42 +10,50 @@
   width: 106px;
   border-radius: 6px;
 }
-.card-shape{
+
+.card-shape {
   border: 1px solid black;
   background: url('/icons/cardFace.png');
-  background-size: 106px 150px; 
+  background-size: 106px 150px;
 }
-.rock-shape{
+
+.rock-shape {
   border: 1px solid black;
   background: url('/icons/cardRock.png');
-  background-size: 106px 150px; 
+  background-size: 106px 150px;
 }
-.belt-shape-str{
+
+.belt-shape-str {
   border: 1px solid black;
   background: url('/icons/belt_str.png');
-  background-size: 106px 150px; 
+  background-size: 106px 150px;
 }
-.belt-shape-str-flipped{
+
+.belt-shape-str-flipped {
   border: 1px solid black;
   background: url('/icons/belt_str.png');
-  background-size: 106px 150px; 
+  background-size: 106px 150px;
   rotate: 180deg;
 }
-.belt-shape-turn{
+
+.belt-shape-turn {
   border: 1px solid black;
   background: url('/icons/belt_turn.png');
-  background-size: 106px 150px; 
+  background-size: 106px 150px;
 }
-.belt-shape-turn-flipped{
+
+.belt-shape-turn-flipped {
   border: 1px solid black;
   background: url('/icons/belt_turn.png');
-  background-size: 106px 150px; 
+  background-size: 106px 150px;
   rotate: 180deg;
 }
-.empty-slot-shape{
+
+.empty-slot-shape {
   border: 1px dotted black;
   background: transparent;
 }
+
 .card-back {
   border: 1px solid black;
   background-image: url('/icons/cardBack.png');
@@ -59,29 +67,36 @@
   font-weight: bold;
 }
 
-.card-text-sacr{
+.card-text-sacr {
   font-weight: bold;
   color: rgb(181, 15, 15);
 }
 
-.card-text-bones{
+.card-text-bones {
   font-weight: bold;
 }
 
 /*cardSlot*/
 
-.card-shape:hover{
-  background: rgba(255, 192, 203, 0.315); 
+.card-shape:hover,
+.rock-shape:hover {
+  background: rgba(255, 192, 203, 0.315);
 }
-.card-shape.selected{
-  background: rgb(255, 117, 140); 
+
+.card-shape.selected,
+.rock-shape.selected {
+  background: rgb(255, 117, 140);
 }
-.card-shape.dragged{
-  background: rgb(152, 255, 117); 
+
+.card-shape.dragged,
+.rock-shape.dragged {
+  background: rgb(152, 255, 117);
 }
+
 .empty-slot-shape.has-hover:hover {
-  background: rgba(255, 192, 203, 0.315); 
+  background: rgba(255, 192, 203, 0.315);
 }
+
 .empty-slot-shape.selected {
   background: transparent;
 }

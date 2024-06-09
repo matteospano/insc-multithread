@@ -32,7 +32,8 @@ export default function PlayerTurn(): JSX.Element {
   useEffect(() => {
     if (currPhase === 11 || currPhase === 21) {
       const nextPlayer = currPhase === 11 ? 1 : 2;
-      currPhase === 11 ? dispatch(updateP1draw(true)) : dispatch(updateP2draw(true))
+      currPhase === 11 && dispatch(updateP1draw(true));
+      currPhase === 21 && rules.isMultiplayer === 0 && dispatch(updateP2draw(true));
       dispatch(setCurrPlayer(nextPlayer));
       setTurnLabel("P" + nextPlayer + " end turn");
     }
