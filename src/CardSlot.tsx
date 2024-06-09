@@ -78,22 +78,18 @@ export default function CardSlot(props: {
     dispatch(updateSacrificeCount(0));
     dispatch(setDeleteCardHand(card));
 
-    let apples: { atk: number, def: number } = { atk: 0, def: 0 };
+    let apples: number = 0;
     [...mySide].forEach((card) => {
       if (card.selected && card?.sigils?.includes(700)) //700='apple'
-        apples = {
-          atk: apples.atk + (card.atk > 0 ? card.atk : 0),
-          def: apples.def + card.def
-        }
+        apples += + card.def
     });
 
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
       card.selected ? onSacrifice(card) : card);
-    if (apples.atk || apples.def) {
+    if (apples) {
       tempSide[index] = {
         ...card,
-        atk: card.atk + apples.atk,
-        def: card.def + apples.def
+        def: card.def + Math.floor(apples * 2 / 3)
       };
     }
     else

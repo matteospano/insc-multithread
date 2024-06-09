@@ -23,7 +23,7 @@ export interface SigilDefType {
 
 export const sigil_def: SigilDefType[] = [
   { id: 170, name: 'alarm', totem: true, trad: 'Enemy placed (or already placed) in front of this card: it gaigns 1 atk' }, //onSpawn, onDeath, onSacr, listen: 'en_spawn'
-  { id: 700, name: 'apple', trad: 'Sacrificed: the new card gaigns its atk and def' }, //onSacr
+  { id: 700, name: 'apple', trad: 'Sacrificed: the new card gaigns parts of its def' }, //onSacr
   { id: 500, name: 'atk2', trad: 'Atk enemies on its sides if available' }, //onAtk
   { id: 501, name: 'atk3', trad: 'Atk enemies in front and on its sides if available' }, //onAtk
   { id: 100, name: 'bells', trad: 'Spawn bells on its sides, they die with him' }, //onSpawn, onDeath
