@@ -79,7 +79,7 @@ export default function PlayerTurn(): JSX.Element {
         if (atk < defender.def) {
           defender = { ...defender, def: defender.def - atk }
           if (defender.sigils?.includes(601)) {//ice
-            debugger
+            //debugger
             return { def: onEvolve(defender), dannoRifl: -1 }
           }
           else
@@ -152,6 +152,9 @@ export default function PlayerTurn(): JSX.Element {
     const listenInd = enBurrower[0];
     oppSide[defIndex] = { ...oppSide[listenInd] };
     oppSide[listenInd] = EMPTY_CARD; //si è spostata su defInd
+    //todo sullo spostamento vengono ricalcolati effetti di smell,leader...
+    //removeCardEffects(oppSide[defIndex], oppSide, tempSide, listenInd, dispatch);
+
     if (oppSide[defIndex].def < tempSide[atkIndex].atk) //TODO i'm assuming he will die
       enBurrower.shift();
     else
@@ -554,6 +557,8 @@ export default function PlayerTurn(): JSX.Element {
           let tempCard = tempSide[s + 1];
           tempSide[s + 1] = tempSide[s];
           tempSide[s] = tempCard;
+          //todo sullo spostamento vengono ricalcolati effetti di smell,leader...
+          //removeCardEffects(tempSide[s + 1], tempSide, oppSide, s, dispatch);
         }
         if (tempSide[s].sigils?.includes(640)) //water
           tempSide[s] = { ...tempSide[s], name: tempSide[s].name + '_sub' };

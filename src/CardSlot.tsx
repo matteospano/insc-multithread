@@ -8,7 +8,6 @@ import {
   setDeleteCardHand,
   setWarning, updateField, updateSacrificeCount
 } from "./cardReducer.tsx";
-//import { Container } from "react-smooth-dnd";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
 import { bell, egg, EMPTY_CARD } from "./utilCards.tsx";
@@ -26,6 +25,7 @@ export default function CardSlot(props: {
 
   const fieldCards: Field = useAppSelector((state) => state.card.fieldCards);
   const mySide = P1Owner ? fieldCards.P1side : fieldCards.P2side;
+  const avvSide = P1Owner ? fieldCards.P2side : fieldCards.P1side;
   const hammer = useAppSelector((state) => state.card.hammer);
   const useBelts: boolean = useAppSelector((state) => state.card.rules.useBelts);
 
@@ -46,23 +46,12 @@ export default function CardSlot(props: {
 
   useEffect(() => {
     //update during battlePhase
-    if (owner === 1) {
-      //debugger
-      setCurrCard(fieldCards.P1side[index]);
-      setShow(fieldCards.P1side[index].name?.length > 0);
-    }
-  }, [fieldCards.P1side]);
-  useEffect(() => {
-    //update during battlePhase
-    if (owner === 2) {
-      //debugger
-      setCurrCard(fieldCards.P2side[index]);
-      setShow(fieldCards.P2side[index].name?.length > 0);
-    }
-  }, [fieldCards.P2side]);
+    setCurrCard(mySide[index]);
+    setShow(mySide[index].name?.length > 0);
+  }, [mySide]);
 
   useEffect(() => {
-    if (!pendingSacr) {
+    if (!pendingSacr && mySide.find((c:CardType)=>c.selected)) {
       let tempSide: CardType[] = [...mySide].map((card): CardType =>
         card.selected ? { ...card, selected: false } : card); //deselect all
       dispatch(updateField({
@@ -94,7 +83,7 @@ export default function CardSlot(props: {
     }
     else
       tempSide[index] = card;
-    let oppField = P1Owner ? [...fieldCards.P2side] : [...fieldCards.P1side];
+    let oppField = [...avvSide];
 
     if (card.sigils?.find((s) => s < 200)) { //0/1 spawn
       const advPosId = P1Owner ? 200 + index : 100 + index;
@@ -128,7 +117,6 @@ export default function CardSlot(props: {
             tempSide[index + 1] = { ...tempSide[index + 1], atk: tempSide[index + 1].atk + 1 };
         //todo riapplica l'effetto onFriend spawn e annullalo on death e on sacr
       }
-
     }
     return {
       P1side: P1Owner ? [...tempSide] : [...oppField],
@@ -140,27 +128,15 @@ export default function CardSlot(props: {
     if (card?.sigils?.includes(704)) //704='cat'
       return { ...card, selected: false }
     currPlayer === 1 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
+    //removeCardEffects(card, mySide, avvSide, -1, dispatch);
     return (EMPTY_CARD);
   }
 
   const destroyCard = () => {
-    currPlayer === 1 ? dispatch(addP1bones(currCard.dropBones)) : dispatch(addP2bones(currCard.dropBones));
-    let tempSide: CardType[] = [...mySide].map((card): CardType =>
-      card.selected ? onSacrifice(card) : card);
-
-    tempSide[index] = EMPTY_CARD;
-    dispatch(updateField({
-      P1side: P1Owner ? tempSide : fieldCards.P1side,
-      P2side: P1Owner ? fieldCards.P2side : tempSide
-    }));
+    //removeCardEffects(mySide[index], mySide, avvSide, -1, dispatch);
   }
 
   const handleDrop = () => {
-    //debugger
-    //const id = movedCard.name;
-    //console.log(`Somebody dropped an element with id: ${id}`);
-    //setDragOver(false);
-
     if (dragCard.sacr > pendingSacr)
       dispatch(setWarning({
         message: 'sacrifices_needed',
@@ -177,7 +153,6 @@ export default function CardSlot(props: {
       }))
     else {
       const newField = onSpawn(dragCard); //replace this card
-      debugger
       dispatch(updateField(newField));
     }
   }
@@ -200,7 +175,6 @@ export default function CardSlot(props: {
           dispatch(updateSacrificeCount(-currCard.dropBlood))
         }
         else {
-          //debugger
           tempSide[index] = { ...tempSide[index], selected: true };
           dispatch(setWarning({
             message: 'sacrifices',
@@ -210,35 +184,19 @@ export default function CardSlot(props: {
           dispatch(updateSacrificeCount(currCard.dropBlood))
         }
         dispatch(updateField({
-          P1side: P1Owner ? tempSide : fieldCards.P1side,
-          P2side: P1Owner ? fieldCards.P2side : tempSide
+          P1side: P1Owner ? tempSide : avvSide,
+          P2side: P1Owner ? avvSide : tempSide
         }));
       }
     }
   }
 
   return (
-    //   <Container
-    //   orientation="vertical"
-    //   onDrop={this.onColumnDrop}
-    //   dragHandleSelector=".column-drag-handle"
-    //   dropPlaceholder={{
-    //     animationDuration: 150,
-    //     showOnTop: true,
-    //     className: 'cards-drop-preview'
-    //   }}
-    // >
     <div
       className={(show ? (currCard.dropBlood < 0 ? "rock-shape" : "card-shape") : empty_slot) +
         (currPlayer === owner ? " has-hover" : "") +
         (currCard.selected ? " selected" : "")}
-      onClick={dragCard?.name ? handleDrop : validateSelection}
-
-    //onDragOver={(e) => e.preventDefault()}
-    //onDrop={handleDrop}
-    //onDragStart={() => { debugger; setDragOver(true) }}
-    //onDragEnd={() => { debugger; setDragOver(false) }}
-    >
+      onClick={dragCard?.name ? handleDrop : validateSelection}>
       {show && <>
         <div className="mt-01">{currCard.name}</div>
         {RenderCardSigils({ cardInfo: currCard, show })}
@@ -248,6 +206,5 @@ export default function CardSlot(props: {
         </span>
       </>}
     </div>
-    // </Container>
   );
 }

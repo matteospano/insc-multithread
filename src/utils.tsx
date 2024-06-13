@@ -1,5 +1,5 @@
 import {
-  CardType, Field, P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
+  CardType, Field, P1UpdateDeck, P1DeckSQRNextID, P2UpdateDeck, P2DeckSQRNextID,
   RuleType, resetBoss, turnClock, drawnHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
@@ -18,15 +18,15 @@ export const sigilDefinition = (sigilId: number) => {
 export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
   const randCardIndex = Math.floor(Math.random() * deck.length);
   let drawnCard = deck[randCardIndex];
+  const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
+  isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
+
   if (rules.randomSigils)
-    drawnCard = addTotemSigil(drawnCard, 900);
+    drawnCard = replaceRandomSigil(drawnCard);
   else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
-  drawnCard = replaceRandomSigil(drawnCard);
-  const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
-  isP1Owner ? dispatch(P1DeckNextID(tempDeck)) : dispatch(P2DeckNextID(tempDeck));
 
   dispatch(drawnHand({ isP1Owner, drawnCard }));
 }
@@ -37,7 +37,7 @@ export const DrawFromSQR = (isP1Owner: boolean, rules: RuleType, dispatch: any) 
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
-  debugger
+
   dispatch(drawnHand({ isP1Owner, drawnCard }))
   isP1Owner ? dispatch(P1DeckSQRNextID()) : dispatch(P2DeckSQRNextID());
 }
@@ -118,7 +118,6 @@ export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: a
 }
 
 export const fillEmptySpots = (spots: CardType[], n_cards: number, dataSet: CardType[]) => {
-  debugger
   let emptySpotsIndex: number[] = spots.map((val, index) => ({ val, index }))
     .filter(({ val, index }) => val.cardID === -1).map(({ val, index }) => index);
   let updatedSpots: CardType[] = [...spots];
@@ -138,11 +137,19 @@ export const randomCard = (dataSet: CardType[]) => {
 }
 
 export const replaceRandomSigil = (card: CardType): CardType => {
+  const randIndex = Math.floor(Math.random() * (sigil_def.length - 1));
+  //todo escludi i sigilli già presenti sulla carta
+  //e quelli che vanno in conflitto (es. smell&alarm)
   if (card.sigils?.includes(900)) {
-    const randIndex = Math.floor(Math.random() * (sigil_def.length - 1));
     const tempSigils: number[] = card.sigils.map((id) =>
       id === 900 ? sigil_def[randIndex]?.id : id);
     return { ...card, sigils: tempSigils }
   }
-  return card
+  else { //add random sigil
+    if (card.sigils) {
+      const tempSigils: number[] = [...card.sigils, sigil_def[randIndex]?.id];
+      return { ...card, sigils: tempSigils }
+    }
+    return { ...card, sigils: [sigil_def[randIndex]?.id] }
+  }
 } 

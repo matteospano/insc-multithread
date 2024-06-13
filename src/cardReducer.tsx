@@ -167,6 +167,11 @@ const cardSlice = createSlice({
       P1Live: state.P1Live + action.payload,
       P2Live: state.P2Live - action.payload
     }),
+    infiniteLive: (state) => ({
+      ...state,
+      P1Live: 10000,
+      P2Live: 10000,
+    }),
     resetLive: (state, action: PayloadAction<{ P1: boolean, P2: boolean }>) => ({
       ...state,
       P1Live: 5,
@@ -180,7 +185,7 @@ const cardSlice = createSlice({
         boss: ''
       }
     }),
-    P1DeckNextID: (state, action: PayloadAction<CardType[]>) => ({
+    P1UpdateDeck: (state, action: PayloadAction<CardType[]>) => ({
       ...state,
       P1Deck: [...action.payload]
     }),
@@ -188,7 +193,7 @@ const cardSlice = createSlice({
       ...state,
       P1SQRDeck: state.P1SQRDeck - 1
     }),
-    P2DeckNextID: (state, action: PayloadAction<CardType[]>) => ({
+    P2UpdateDeck: (state, action: PayloadAction<CardType[]>) => ({
       ...state,
       P2Deck: [...action.payload]
     }),
@@ -294,9 +299,9 @@ const cardSlice = createSlice({
 });
 
 export const { setCurrPlayer, setCurrPhase,
-  P1DeckNextID, P1DeckSQRNextID, P2DeckNextID, P2DeckSQRNextID,
+  P1UpdateDeck, P1DeckSQRNextID, P2UpdateDeck, P2DeckSQRNextID,
   updateP1draw, updateP2draw,
-  increaseP1Live, resetLive, resetBoss,
+  increaseP1Live, infiniteLive, resetLive, resetBoss,
   addP1bones, addP2bones,
   setDragCardInfo, setDeleteCardHand, updateSacrificeCount,
   drawnHand, deleteHand, updateLeshiField, updateField,

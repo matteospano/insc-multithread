@@ -8,7 +8,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import './css/RuleDialog.scss';
 import "./icons/Icons.scss";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
-import { CardType, RuleType, setDecks, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
+import { CardType, RuleType, infiniteLive, setDecks, setRules, setSecretName, setShowRules, setWarning, updateField } from "./cardReducer.tsx";
 import { SigilDefType, families, sigil_def } from "./const/families.tsx";
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
@@ -191,6 +191,7 @@ export default function RuleDialog() {
       P1side[1] = P1side[0]; //rimuovo roccia
       let P2side = [...field_P2_Workshop] as CardType[];
       dispatch(updateField({ P1side, P2side }));
+      dispatch(infiniteLive());
     }
     /* distribute cards P1*/
     DrawFromSQR(true, rules, dispatch);
@@ -199,7 +200,8 @@ export default function RuleDialog() {
     DrawFromDeck(true, P1deck, tempRules, dispatch);
     DrawFromDeck(true, P1deck, tempRules, dispatch);
     DrawFromDeck(true, P1deck, tempRules, dispatch);
-    //TODO bug: forse pesca doppioni va rallentata la pesca con await?
+    //TODO bug: pesca doppioni, crea una func apposta che pesca 5 rand ind insieme
+    //N2HAVE: non far pescare P1 al suo primo turno ma fagli creare la carta dall'apprendista
     if (isMultiplayer === 0) {
       /* distribute cards P2*/
       DrawFromSQR(false, rules, dispatch);
@@ -208,7 +210,8 @@ export default function RuleDialog() {
       DrawFromDeck(false, P2deck, tempRules, dispatch);
       DrawFromDeck(false, P2deck, tempRules, dispatch);
       //DrawFromDeck(false, P2deck, tempRules, dispatch); ne ha 1 in meno e deve pescare
-      //TODO bug: forse pesca doppioni va rallentata la pesca con await?
+      //TODO non far pescare P2 al suo primo turno ma fagli creare la carta dall'apprendista
+      //TODO bug: pesca doppioni, crea una func apposta che pesca 5 rand ind insieme
     }
   }
 
