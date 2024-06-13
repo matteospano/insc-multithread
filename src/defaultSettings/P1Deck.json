@@ -133,5 +133,33 @@
     "sigils": [
       500
     ]
+  },
+  {
+    "name": "cage",
+    "family": "canine",
+    "cardID": 115,
+    "atk": 1,
+    "def": 2,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": -1,
+    "dropBones": 1,
+    "sigils": [
+      601
+    ]
+  },
+  {
+    "name": "aaa",
+    "family": "insect",
+    "cardID": 116,
+    "atk": 1,
+    "def": 1,
+    "sacr": 1,
+    "bone": 0,
+    "dropBlood": 3,
+    "dropBones": 1,
+    "sigils": [
+      150
+    ]
   }
 ]

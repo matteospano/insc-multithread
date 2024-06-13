@@ -26,7 +26,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 700, name: 'apple', trad: 'Sacrificed: the new card gaigns parts of its def' }, //onSacr
   { id: 500, name: 'atk2', trad: 'Atk enemies on its sides if available' }, //onAtk
   { id: 501, name: 'atk3', trad: 'Atk enemies in front and on its sides if available' }, //onAtk
-  { id: 100, name: 'bells', trad: 'Spawn bells on its sides, they die with him' }, //onSpawn, onDeath
+  { id: 100, name: 'bells', trad: 'Spawn bells on its sides, they die with him' }, //onSpawn
   { id: 600, name: 'blockFly', totem: true, trad: 'Blocks front enemy fly attak' }, //onDef
   //{ name: 'bloodLust', trad: 'aaa' },
   { id: 201, name: 'bomb', trad: 'Death: it will explode and cause damage to its side cards and front enemy' }, // onDeath
@@ -42,12 +42,12 @@ export const sigil_def: SigilDefType[] = [
   //{ name: 'gemme', trad: 'aaa' },
   //{ name: 'ghost', trad: 'aaa' },
   { id: 970, name: 'guardian', totem: true, trad: 'It moves in front of the last enemy spawn' }, //listen: 'en_spawn'
-  { id: 991, name: 'helper', trad: 'if enemy attaks, the spawner of this card will strike back' },//listen: 'en_atk' todo sigillo proprio delle campane
+  { id: 991, name: 'helper', trad: 'if enemy attaks and the spawner of this card is still alive, it will strike back' },//listen: 'en_atk' todo sigillo proprio delle campane
   { id: 601, name: 'ice', trad: 'On the first damage dealt, it evolves' }, //onDef
   { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a copy of it enters your hand' }, //onDeath
   { id: 704, name: 'cat', trad: 'When this card is sacrificed, it does not perish' }, //onSacr
-  { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, listen: 'fr_spawn'
-  { id: 999, name: 'looter', totem: true, trad: 'This card is not a valid sacrifice' }, //onDeath
+  { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, onSacr, listen: 'fr_spawn'
+  { id: 999, name: 'looter', totem: true, trad: 'This card is not a valid sacrifice' }, //onSacr
   //{ name: 'magicHand', trad: 'aaa' },
   { id: 940, name: 'push', totem: true, trad: 'At the end of each turn, it inverts its position with the card at its right' }, //onTurnOver
   { id: 900, name: 'random', totem: true, trad: 'This sigil is replaced by a random sigil' },
@@ -82,7 +82,6 @@ export const sigil_def: SigilDefType[] = [
 //crea 1 carta terrain per ogni famiglia con sigillo 601 cage->wolf, amber->mosquitos, death snake-> hog nosed snake, ice->opossum
 
 //per pubblicarla:
-// --crea dei veri mazzi
 //TODO sigillo fertilità-zombie: sacrificando la carta te ne da una uguale in mano ma con -1 atk
 //TODO aggiungi carta mulo, spawna 2 carte del mazzo del proprietario alla propria morte (cloni o le ruba?)
 //nice2have: sigilli più belli, automatizza le leshi lines, sniper con scelta onClick,
