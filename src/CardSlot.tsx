@@ -11,6 +11,7 @@ import {
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
 import { bell, egg, EMPTY_CARD } from "./utilCards.tsx";
+import RemoveCardEffects from "./RemoveCardEffects.tsx";
 
 export default function CardSlot(props: {
   owner: number, index: number
@@ -51,7 +52,7 @@ export default function CardSlot(props: {
   }, [mySide]);
 
   useEffect(() => {
-    if (!pendingSacr && mySide.find((c:CardType)=>c.selected)) {
+    if (!pendingSacr && mySide.find((c: CardType) => c.selected)) {
       let tempSide: CardType[] = [...mySide].map((card): CardType =>
         card.selected ? { ...card, selected: false } : card); //deselect all
       dispatch(updateField({
@@ -62,7 +63,7 @@ export default function CardSlot(props: {
   }, [pendingSacr]);
 
   const onSpawn = (card: CardType): Field => {
-    card = { ...card, selected: false };
+    card = { ...card, selected: false, cardID: index + (P1Owner ? 100 : 200) };
     setCurrCard(card);
     dispatch(updateSacrificeCount(0));
     dispatch(setDeleteCardHand(card));
@@ -75,14 +76,30 @@ export default function CardSlot(props: {
 
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
       card.selected ? onSacrifice(card) : card);
-    if (apples) {
-      tempSide[index] = {
+    if (apples)
+      card = {
         ...card,
         def: card.def + Math.floor(apples * 2 / 3)
       };
-    }
-    else
-      tempSide[index] = card;
+    if (tempSide.find((c) => c.sigils?.includes(150) && //150 = 'leader'
+      (c.cardID === card.cardID - 1 || c.cardID === card.cardID + 1)))
+      card = {
+        ...card,
+        atk: card.atk + 1
+      };
+    if (avvSide[index].sigils?.includes(170)) // 170 = 'alarm'
+      card = {
+        ...card,
+        atk: card.atk + 1
+      };
+
+    if (avvSide[index].sigils?.includes(171)) // 171 = 'smell'
+      card = {
+        ...card,
+        atk: card.atk - 1
+      };
+
+    tempSide[index] = card;
     let oppField = [...avvSide];
 
     if (card.sigils?.find((s) => s < 200)) { //0/1 spawn
@@ -128,12 +145,12 @@ export default function CardSlot(props: {
     if (card?.sigils?.includes(704)) //704='cat'
       return { ...card, selected: false }
     currPlayer === 1 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
-    //removeCardEffects(card, mySide, avvSide, -1, dispatch);
+    RemoveCardEffects(card, mySide, avvSide, -1);
     return (EMPTY_CARD);
   }
 
   const destroyCard = () => {
-    //removeCardEffects(mySide[index], mySide, avvSide, -1, dispatch);
+    RemoveCardEffects(mySide[index], mySide, avvSide, -2);
   }
 
   const handleDrop = () => {

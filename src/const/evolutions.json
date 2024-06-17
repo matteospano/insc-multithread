@@ -3,7 +3,7 @@
     "cardName": "raven egg",
     "into": {
       "name": "raven",
-      "family": "avian",
+      "family": "bird",
       "cardID": -1,
       "atk": 2,
       "def": 1,

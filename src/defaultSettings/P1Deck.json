@@ -153,13 +153,29 @@
     "family": "insect",
     "cardID": 116,
     "atk": 1,
-    "def": 1,
-    "sacr": 1,
+    "def": 5,
+    "sacr": 0,
     "bone": 0,
     "dropBlood": 3,
     "dropBones": 1,
     "sigils": [
-      150
+      150,
+      990,
+      171
+    ]
+  },
+  {
+    "name": "bbb",
+    "family": "insect",
+    "cardID": 117,
+    "atk": 1,
+    "def": 5,
+    "sacr": 0,
+    "bone": 0,
+    "dropBlood": 1,
+    "dropBones": 1,
+    "sigils": [
+      609
     ]
   }
 ]

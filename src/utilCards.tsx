@@ -34,7 +34,7 @@ export const rock: CardType = {
 //coda, diga, campana
 export const egg: CardType = {
   name: "raven egg",
-  family: "avian",
+  family: "bird",
   cardID: -1,
   atk: 0,
   def: 2,
@@ -43,6 +43,18 @@ export const egg: CardType = {
   dropBlood: -1,
   dropBones: 0,
   sigils: [401]
+}
+export const tail: CardType = {
+  name: "tail of ",
+  family: "none",
+  cardID: -1,
+  atk: 0,
+  def: 2,
+  sacr: 0,
+  bone: 0,
+  dropBlood: -1,
+  dropBones: 0,
+  sigils: [403]
 }
 export const bell: CardType = {
   name: "bell",

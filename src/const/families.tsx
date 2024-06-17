@@ -1,7 +1,7 @@
 import { ReducerType } from "@reduxjs/toolkit";
 
 export const families = [
-  'avian',
+  'bird',
   'canine',
   //'feline', cat and stoat, we can add tiger
   'hooved',
@@ -58,12 +58,16 @@ export const sigil_def: SigilDefType[] = [
   { id: 207, name: 'snakeBomb', trad: 'Death: gifts 3 cards from your deck to your opponent' }, //onDeath
   { id: 503, name: 'sniper', trad: 'Chooses which opposing spaces to strike' }, //onAtk
   { id: 603, name: 'spikes', totem: true, trad: 'When being attacked, inflicts 1 damage to the attacker' }, //onDef
-  { id: 209, name: 'tail', trad: 'When this card is going to die, it moves on the right (if possible) and drops a tail' }, //onDeath: true
+  { id: 609, name: 'tail', trad: 'When this card is going to die, it moves on the right (if possible) and drops a tail' }, //onDeath ma in combattimento (come fosse un onDef)
   { id: 208, name: 'trap', trad: 'When this card dies, the card opposing it also dies' }, //onDeath
   { id: 972, name: 'turret', trad: 'From now on, when an enemy is spawn in fron of it, it takes 1 damage' }, //listen: 'en_spawn'
   { id: 504, name: 'vampire', trad: 'After a sucessfull atk, it gains 1 def' }, //onAtk todo
   { id: 640, name: 'water', totem: true, trad: 'At the end of each turn, this card submerge and leave an empty space' } //onDef,onTurnOver
 ];
+
+/* dev sigils: */
+// 403: fragile a doppia durata (puo' diventare un vero sigillo)
+
 
 //diverso rispetto ad Inscryption:
 //sigillo immortale funziona solo onDeath non se la sacrifichi tu
