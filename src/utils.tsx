@@ -1,7 +1,6 @@
 import {
   CardType, Field, P1UpdateDeck, P1DeckSQRNextID, P2UpdateDeck, P2DeckSQRNextID,
-  RuleType, resetBoss, turnClock, drawnHand,
-  updateField
+  RuleType, resetBoss, turnClock, drawnHand, drawnFullHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
 import { EMPTY_CARD, angler, dinamite, hunter, necromancer, prospector, squirrel } from "./utilCards.tsx";
@@ -14,6 +13,31 @@ export const sigilDefinition = (sigilId: number) => {
     return ''
   }
   return ''
+}
+
+export const DrawStart = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
+  let iterator = 5;
+  let hand: CardType[] = [];
+  let deckLen = deck.length;
+
+  while (iterator > 0) {
+    const rndInd = Math.floor(Math.random() * deckLen);
+    let drawnCard = deck[rndInd];
+    const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
+    isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
+
+    if (rules.randomSigils)
+      drawnCard = replaceRandomSigil(drawnCard);
+    else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
+      drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
+    else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
+      drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+    hand.push(drawnCard);
+    deckLen--;
+    iterator--;
+  }
+
+  dispatch(drawnFullHand({ isP1Owner, hand }));
 }
 
 export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
@@ -33,7 +57,8 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
 }
 
 export const DrawFromSQR = (isP1Owner: boolean, rules: RuleType, dispatch: any) => {
-  let drawnCard = squirrel;
+  let drawnCard = { ...squirrel, cardID: 170 + (isP1Owner ? 0 : 100) };
+  //va bene se hanno lo stesso id o devo scrivere: (isP1Owner?SQRlen1:SQRlen2+100
   if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)

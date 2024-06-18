@@ -96,7 +96,7 @@ interface CardState {
   leshiField: Field;
   fieldCards: Field;
   dragCardInfo: CardType; //card being dragged to the field
-  deleteCardHand: CardType;//dragCardInfo after drag completed
+  deleteCardHandID: number;//dragCardInfo after drag completed
   P1Deck: CardType[];
   P1SQRDeck: number;
   P2Deck: CardType[];
@@ -123,7 +123,7 @@ const initialState: CardState = {
   leshiField: EMPTY_FIELD,
   fieldCards: defaultField,
   dragCardInfo: EMPTY_CARD,
-  deleteCardHand: EMPTY_CARD,
+  deleteCardHandID: -1,
   P1Deck: [...deck_P1] as CardType[],
   P1SQRDeck: 20,
   P2Deck: [...deck_P2] as CardType[],
@@ -157,10 +157,10 @@ const cardSlice = createSlice({
       ...state,
       dragCardInfo: action.payload
     }),
-    setDeleteCardHand: (state, action: PayloadAction<CardType>) => ({
+    setDeleteCardHand: (state, action: PayloadAction<number>) => ({
       ...state,
       dragCardInfo: EMPTY_CARD,
-      deleteCardHand: action.payload
+      deleteCardHandID: action.payload
     }),
     increaseP1Live: (state, action: PayloadAction<number>) => ({
       ...state,
@@ -222,20 +222,24 @@ const cardSlice = createSlice({
       handCards: {
         ...state.handCards,
         P1side: action.payload.isP1Owner ?
-          [...state.handCards.P1side, {
-            ...action.payload.drawnCard,
-            cardID: 100 + state.handCards.P1side.length
-          }
-          ] : state.handCards.P1side,
+          [...state.handCards.P1side, { ...action.payload.drawnCard }] : state.handCards.P1side,
         P2side: action.payload.isP1Owner ?
-          state.handCards.P2side : [...state.handCards.P2side, {
-            ...action.payload.drawnCard,
-            cardID: 200 + state.handCards.P2side.length
-          }],
+          state.handCards.P2side : [...state.handCards.P2side, { ...action.payload.drawnCard }],
+      }
+    }),
+    drawnFullHand: (state, action: PayloadAction<{ isP1Owner: boolean, hand: CardType[] }>) => ({
+      ...state,
+      handCards: {
+        ...state.handCards,
+        P1side: action.payload.isP1Owner ?
+          [...action.payload.hand] : state.handCards.P1side,
+        P2side: action.payload.isP1Owner ?
+          state.handCards.P2side : [...action.payload.hand]
       }
     }),
     deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardHandID: number }>) => ({
       ...state,
+      deleteCardHandID: -1,
       handCards: {
         ...state.handCards,
         P1side: action.payload.isP1Owner ?
@@ -304,7 +308,7 @@ export const { setCurrPlayer, setCurrPhase,
   increaseP1Live, infiniteLive, resetLive, resetBoss,
   addP1bones, addP2bones,
   setDragCardInfo, setDeleteCardHand, updateSacrificeCount,
-  drawnHand, deleteHand, updateLeshiField, updateField,
+  drawnHand, drawnFullHand, deleteHand, updateLeshiField, updateField,
   setShowRules, setRules, setWarning,
   setDecks, turnClock, setHammer,
   setSecretName, setShowSidebarInfo } = cardSlice.actions;

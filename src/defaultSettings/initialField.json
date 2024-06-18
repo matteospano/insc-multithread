@@ -1,18 +1,14 @@
 {
   "P2side": [
     {
-      "name": "lizard1",
-      "family": "bird",
-      "cardID": 200,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
       "atk": 0,
-      "def": 5,
+      "def": 0,
       "sacr": 0,
-      "bone": 0,
-      "dropBlood": -1,
-      "dropBones": 0,
-      "sigils": [
-        609
-      ]
+      "dropBlood": 0,
+      "dropBones": 0
     },
     {
       "name": "rock",
@@ -29,18 +25,14 @@
       ]
     },
     {
-      "name": "lizard2",
-      "family": "canine",
-      "cardID": 202,
+      "cardID": -1,
+      "name": "",
+      "family": "none",
       "atk": 0,
-      "def": 5,
+      "def": 0,
       "sacr": 0,
-      "bone": 0,
-      "dropBlood": -1,
-      "dropBones": 0,
-      "sigils": [
-        609
-      ]
+      "dropBlood": 0,
+      "dropBones": 0
     },
     {
       "cardID": -1,

@@ -63,10 +63,10 @@ export default function CardSlot(props: {
   }, [pendingSacr]);
 
   const onSpawn = (card: CardType): Field => {
+    dispatch(setDeleteCardHand(card.cardID));
     card = { ...card, selected: false, cardID: index + (P1Owner ? 100 : 200) };
     setCurrCard(card);
     dispatch(updateSacrificeCount(0));
-    dispatch(setDeleteCardHand(card));
 
     let apples: number = 0;
     [...mySide].forEach((card) => {

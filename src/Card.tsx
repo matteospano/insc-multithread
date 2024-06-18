@@ -12,7 +12,7 @@ export default function Card(props: {
 
   const dispatch = useAppDispatch();
   const currPlayer: number = useAppSelector((state) => state.card.currPlayer);
-  const deleteCardHandID = useAppSelector((state) => state.card.deleteCardHand?.cardID);
+  const deleteCardHandID = useAppSelector((state) => state.card.deleteCardHandID);
   const isValidCard = cardID >= 100;
   const isP1Owner = cardID < 200;
   const canPlayerDraw = useAppSelector((state) => isP1Owner ?
@@ -49,8 +49,8 @@ export default function Card(props: {
   }
 
   useEffect(() => {
-    if (cardID === deleteCardHandID) {
-      dispatch(deleteHand({isP1Owner, deleteCardHandID}));
+    if (cardID > 99 && cardID === deleteCardHandID) {
+      dispatch(deleteHand({ isP1Owner, deleteCardHandID }));
       setLocalSelected(false);
     }
   }, [deleteCardHandID]);

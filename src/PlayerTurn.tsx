@@ -78,7 +78,6 @@ export default function PlayerTurn(): JSX.Element {
         }
       }
       else if (defender.sigils?.includes(609)) {//tail
-        debugger
         if (freeNextSlot) {
           const noTail = {
             ...defender, cardID: defender.cardID + 1,
@@ -577,7 +576,6 @@ export default function PlayerTurn(): JSX.Element {
         }
       }
     })
-    debugger
     return {
       P1side: P1attack ? tempSide : oppSide,
       P2side: P1attack ? oppSide : tempSide

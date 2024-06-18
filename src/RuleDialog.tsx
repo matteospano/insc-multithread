@@ -18,7 +18,7 @@ import deck_P2_Hard from './defaultSettings/P2DeckHard.json';
 import field_P2_Workshop from './defaultSettings/initialFieldP2Magnificus.json';
 import { rock } from "./utilCards.tsx";
 import { Dropdown } from "primereact/dropdown";
-import { DrawFromDeck, DrawFromSQR } from "./utils.tsx";
+import { DrawFromDeck, DrawFromSQR, DrawStart } from "./utils.tsx";
 
 //TODO inizializza i dati da localstorage come scorsa partita
 //TODO implementa il prospettore (già settato negli eventi della candela)
@@ -194,21 +194,14 @@ export default function RuleDialog() {
       dispatch(infiniteLive());
     }
     /* distribute cards P1*/
+    DrawStart(true, P1deck, tempRules, dispatch);
     DrawFromSQR(true, rules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
-    DrawFromDeck(true, P1deck, tempRules, dispatch);
     //TODO bug: pesca doppioni, crea una func apposta che pesca 5 rand ind insieme
     //N2HAVE: non far pescare P1 al suo primo turno ma fagli creare la carta dall'apprendista
     if (isMultiplayer === 0) {
       /* distribute cards P2*/
+      DrawStart(false, P2deck, tempRules, dispatch);
       DrawFromSQR(false, rules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
-      DrawFromDeck(false, P2deck, tempRules, dispatch);
       //DrawFromDeck(false, P2deck, tempRules, dispatch); ne ha 1 in meno e deve pescare
       //TODO non far pescare P2 al suo primo turno ma fagli creare la carta dall'apprendista
       //TODO bug: pesca doppioni, crea una func apposta che pesca 5 rand ind insieme
