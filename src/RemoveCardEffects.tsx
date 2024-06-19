@@ -19,6 +19,7 @@ export default function RemoveCardEffects(
     const hasAlarm = card.sigils.includes(170);
     const hasSmell = card.sigils.includes(171);
     const hasLeader = card.sigils.includes(150);
+    //todo hasBell-> togli i sigilli helper a [index-1] e [index+1]
     let tempSide = [...mySide];
     let oppSide = [...avvSide];
     if (hasAlarm || hasSmell) {

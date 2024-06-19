@@ -43,7 +43,7 @@ export const sigil_def: SigilDefType[] = [
   //{ name: 'gems', trad: 'aaa' },
   //{ name: 'ghost', trad: 'aaa' },
   { id: 970, name: 'guardian', totem: true, trad: 'It moves in front of the last enemy spawn' }, //listen: 'en_spawn'
-  { id: 991, name: 'helper', trad: 'if enemy attaks and the spawner of this card is still alive, it will strike back' },//listen: 'en_atk' todo sigillo proprio delle campane
+  { id: 605, name: 'helper', trad: 'if enemy attacks and the spawner of this card is still alive, it will strike back' },//onDef,è uguale a spikes, fa 1 di danno
   { id: 601, name: 'ice', trad: 'On the first damage dealt, it evolves' }, //onDef
   { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a copy of it enters your hand' }, //onDeath
   { id: 704, name: 'cat', trad: 'When this card is sacrificed, it does not perish' }, //onSacr

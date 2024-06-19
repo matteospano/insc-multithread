@@ -55,8 +55,6 @@ export default function PlayerTurn(): JSX.Element {
     enSide.forEach((c: CardType, index: number) => {
       if (c.sigils?.find((s) => s === 990)) //burrower
         sigils.enBurrower.push(index);
-      // if (c.sigils?.find((s) => s===991)) //helper
-      // sigils.enHelper.push(index);
       if (c.sigils?.find((s) => 600 < s && s < 700)) //600 def, ignora blockFly
         sigils.enDefSig.push(index);
       if (c.sigils?.find((s) => 99 < s && s < 400)) //1/2/300 death
@@ -68,13 +66,15 @@ export default function PlayerTurn(): JSX.Element {
   const onAtk = (atk: number, defender: CardType, defInd: number,
     sigils: battleSigils, freeNextSlot: boolean, riflesso?: boolean): { def: CardType, dannoRifl: number, noTail?: CardType } => {
     if (defender.sigils && (riflesso ? true : sigils.enDefSig.includes(defInd))) {
+      const hasSpikesOrBell: number = (!riflesso && (defender.sigils?.includes(603) || defender.sigils?.includes(605))) ?
+        1 : 0;//spikes non si applica 2 volte
       if (defender.sigils.includes(604)) { //shield
         const noShield = [...defender.sigils].filter((s) => s !== 604);
         return {
           def: {
             ...defender,
             sigils: noShield
-          }, dannoRifl: !riflesso && defender.sigils.includes(603) ? 1 : 0 //spikes non si applica 2 volte
+          }, dannoRifl: hasSpikesOrBell
         }
       }
       else if (defender.sigils?.includes(609)) {//tail
@@ -88,7 +88,7 @@ export default function PlayerTurn(): JSX.Element {
               def: {
                 ...tail, name: tail.name + defender.family, family: defender.family,
                 cardID: defender.cardID, def: tail.def - atk
-              }, dannoRifl: 0, noTail
+              }, dannoRifl: hasSpikesOrBell, noTail
             }
           else
             return { def: EMPTY_CARD, dannoRifl: 0, noTail }
@@ -99,11 +99,11 @@ export default function PlayerTurn(): JSX.Element {
               def: {
                 ...defender,
                 def: defender.def - atk
-              }, dannoRifl: !riflesso && defender.sigils.includes(603) ? 1 : 0 //spikes non si applica 2 volte
+              }, dannoRifl: hasSpikesOrBell
             }
           else {
             const { card, effect } = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
-            return { def: card, dannoRifl: defender.sigils.includes(603) ? 1 : effect } //spikes 
+            return { def: card, dannoRifl: hasSpikesOrBell || effect } //spikes 
           }
         }
       }
@@ -111,14 +111,14 @@ export default function PlayerTurn(): JSX.Element {
         if (atk < defender.def) {
           defender = { ...defender, def: defender.def - atk }
           if (defender.sigils?.includes(601)) {//ice
-            return { def: onEvolve(defender), dannoRifl: -1 }
+            return { def: onEvolve(defender), dannoRifl: hasSpikesOrBell||-1 }
           }
           else
-            return { def: defender, dannoRifl: -1 }
+            return { def: defender, dannoRifl: hasSpikesOrBell||-1 }
         }
         else {
           const { card, effect } = onDeath(defender, riflesso ? sigils.deathSig : sigils.enDeathSig)
-          return { def: card, dannoRifl: defender.sigils.includes(603) ? 1 : effect } //spikes 
+          return { def: card, dannoRifl: hasSpikesOrBell|| effect } //spikes 
         }
       }
     }
@@ -196,7 +196,8 @@ export default function PlayerTurn(): JSX.Element {
       enBurrower.shift();
     else
       enBurrower[0] = defIndex; //update value
-    let { def: defender, dannoRifl, noTail } = onAtk(tempSide[atkIndex].atk, oppSide[defIndex], defIndex, sigils, (oppSide[defIndex + 1].cardID === -1));
+    let { def: defender, dannoRifl, noTail } = onAtk(tempSide[atkIndex].atk, oppSide[defIndex],
+      defIndex, sigils, (oppSide[defIndex + 1].cardID === -1));
     oppSide[defIndex] = defender;
     if (dannoRifl > 0) {
       let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, tempSide[atkIndex], atkIndex, sigils, (tempSide[defIndex + 1].cardID === -1), true);
@@ -283,7 +284,7 @@ export default function PlayerTurn(): JSX.Element {
     const front: boolean = opp[index].cardID !== -1;
 
     if (front && opp[index].def <= atk) return index //uccide il frontale
-    opp.forEach((c,id) => {
+    opp.forEach((c, id) => {
       if (c.cardID !== -1 && en_def >= c.def) {
         en_def = c.def;
         en_index = id; //ritorna l'ultimo min
@@ -497,7 +498,6 @@ export default function PlayerTurn(): JSX.Element {
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
             }
             else {
-              //todo case 991
               let { def: defender, dannoRifl, noTail } = onAtk(c.atk, oppSide[sniperIndex], sniperIndex, sigils, (oppSide[sniperIndex + 1].cardID === -1));
               oppSide[sniperIndex] = defender;
               if (dannoRifl > 0) {

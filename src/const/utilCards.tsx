@@ -66,7 +66,7 @@ export const bell: CardType = {
   bone: 0,
   dropBlood: -1,
   dropBones: 0,
-  sigils: [991]
+  sigils: [605]
 }
 export const dinamite: CardType = {
   name: "dinamite",
