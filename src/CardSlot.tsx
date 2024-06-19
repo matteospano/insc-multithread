@@ -10,7 +10,7 @@ import {
 } from "./cardReducer.tsx";
 import { useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
-import { bell, egg, EMPTY_CARD } from "./utilCards.tsx";
+import { bell, egg, EMPTY_CARD } from "./const/utilCards.tsx";
 import RemoveCardEffects from "./RemoveCardEffects.tsx";
 
 export default function CardSlot(props: {
@@ -98,7 +98,8 @@ export default function CardSlot(props: {
         ...card,
         atk: card.atk - 1
       };
-
+    // if (avvSide[index].sigils?.includes(2)) // 2 = 'find'
+    //dispatch(setNextDrawn(selCardID))
     tempSide[index] = card;
     let oppField = [...avvSide];
 

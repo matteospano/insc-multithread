@@ -3,7 +3,7 @@ import "./css/Card.scss";
 import { CardType, deleteHand, setDragCardInfo, setWarning } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import RenderCardSigils from "./RenderCardSigils.tsx";
-import { EMPTY_CARD } from "./utilCards.tsx";
+import { EMPTY_CARD } from "./const/utilCards.tsx";
 
 export default function Card(props: {
   cardInfo: CardType

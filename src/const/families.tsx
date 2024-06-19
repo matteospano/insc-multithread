@@ -39,7 +39,8 @@ export const sigil_def: SigilDefType[] = [
   { id: 401, name: 'evolve', totem: true, trad: 'Evolves itself in a stronger form at the start of its next turn' }, // onEvolve
   { id: 502, name: 'fly', trad: 'It can attack directly the opponent (but still be blocked by the block sigil)' }, //onAtk
   { id: 402, name: 'fragile', trad: 'Destroy itself at the start of its next turn' }, //onEvolve
-  //{ name: 'gemme', trad: 'aaa' },
+  { id: 2, name: 'find', trad: 'Sets next drown card, by searching your deck for any card' },
+  //{ name: 'gems', trad: 'aaa' },
   //{ name: 'ghost', trad: 'aaa' },
   { id: 970, name: 'guardian', totem: true, trad: 'It moves in front of the last enemy spawn' }, //listen: 'en_spawn'
   { id: 991, name: 'helper', trad: 'if enemy attaks and the spawner of this card is still alive, it will strike back' },//listen: 'en_atk' todo sigillo proprio delle campane

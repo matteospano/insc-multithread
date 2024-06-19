@@ -4,7 +4,7 @@ import Card from "../Card.tsx";
 import { CardType, setCurrPhase } from "../cardReducer.tsx";
 import { useAppDispatch, useAppSelector } from "../hooks.ts";
 import { Sidebar } from "primereact/sidebar";
-import { EMPTY_CARD } from "../utilCards.tsx";
+import { EMPTY_CARD } from "../const/utilCards.tsx";
 
 export default function PlayerCards(props: { owner: number }): JSX.Element {
   const dispatch = useAppDispatch();

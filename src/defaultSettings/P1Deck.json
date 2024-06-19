@@ -165,17 +165,17 @@
     ]
   },
   {
-    "name": "bbb",
-    "family": "insect",
+    "name": "sniper",
+    "family": "robot",
     "cardID": 117,
     "atk": 1,
-    "def": 5,
-    "sacr": 0,
+    "def": 2,
+    "sacr": 1,
     "bone": 0,
-    "dropBlood": 1,
-    "dropBones": 1,
+    "dropBlood": -1,
+    "dropBones": 0,
     "sigils": [
-      609
+      503
     ]
   }
 ]

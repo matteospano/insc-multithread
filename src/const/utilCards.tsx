@@ -1,4 +1,4 @@
-import { CardType } from "./cardReducer"
+import { CardType } from "../cardReducer"
 
 export const EMPTY_CARD: CardType = {
   cardID: -1, name: '', family: 'none', atk: 0, def: 0, sacr: 0,

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks.ts";
 import { EMPTY_FIELD, Field, updateLeshiField, updateField, CardType } from "../cardReducer.tsx";
 import LeshiSlot from "../LeshiSlot.tsx";
 import { fillEmptySpots } from "../utils.tsx";
-import { EMPTY_CARD } from "../utilCards.tsx";
+import { EMPTY_CARD } from "../const/utilCards.tsx";
 import deck_P2 from '../defaultSettings/P2Deck.json';
 
 export default function LeshiLines(props: { owner: number }): JSX.Element {

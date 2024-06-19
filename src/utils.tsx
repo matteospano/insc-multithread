@@ -3,7 +3,7 @@ import {
   RuleType, resetBoss, turnClock, drawnHand, drawnFullHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
-import { EMPTY_CARD, angler, dinamite, hunter, necromancer, prospector, squirrel } from "./utilCards.tsx";
+import { EMPTY_CARD, angler, dinamite, hunter, necromancer, prospector, squirrel } from "./const/utilCards.tsx";
 
 export const sigilDefinition = (sigilId: number) => {
   if (sigilId > 0) {
@@ -21,8 +21,11 @@ export const DrawStart = (isP1Owner: boolean, deck: CardType[], rules: RuleType,
   let deckLen = deck.length;
 
   while (iterator > 0) {
-    const rndInd = Math.floor(Math.random() * deckLen);
-    let drawnCard = deck[rndInd];
+    let drawnCard = EMPTY_CARD;
+    if (deckLen > 0) {//todo imponi un min di 10 carte sulla scelta deck
+      const rndInd = Math.floor(Math.random() * deckLen);
+      drawnCard = deck[rndInd];
+    }
     const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
     isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
 

@@ -14,7 +14,7 @@ import { Button } from "primereact/button";
 import evolutions from './const/evolutions.json';
 import { Evolution } from "./Main.tsx";
 import './css/PlayerTurn.scss'
-import { EMPTY_CARD, tail } from "./utilCards.tsx";
+import { EMPTY_CARD, tail } from "./const/utilCards.tsx";
 import RemoveCardEffects from "./RemoveCardEffects.tsx";
 
 export default function PlayerTurn(): JSX.Element {
@@ -277,6 +277,23 @@ export default function PlayerTurn(): JSX.Element {
     }
   }
 
+  const AutoSniperIndex = (opp: CardType[], index: number, atk: number): number => {
+    let en_index: number = -1;
+    let en_def: number = 10;
+    const front: boolean = opp[index].cardID !== -1;
+
+    if (front && opp[index].def <= atk) return index //uccide il frontale
+    opp.forEach((c,id) => {
+      if (c.cardID !== -1 && en_def >= c.def) {
+        en_def = c.def;
+        en_index = id; //ritorna l'ultimo min
+      }
+    });
+    if (en_def <= atk) return en_index //uccide l'ultimo min
+    if (en_index === -1 || front) return index;
+    return en_index;
+  }
+
   const BattlePhase = (P1attack: boolean) => {
     let tempSide: CardType[] = P1attack ? [...fieldCards.P1side] : [...fieldCards.P2side]; //attacker
     let oppSide: CardType[] = P1attack ? [...fieldCards.P2side] : [...fieldCards.P1side]; //defender
@@ -465,7 +482,7 @@ export default function PlayerTurn(): JSX.Element {
             }
           }
           else { //fly con o senza sniper
-            const sniperIndex = sniper ? 0 : s //TODO scelta indice(cambia solo 0, s è giusto)
+            const sniperIndex = sniper ? AutoSniperIndex(oppSide, s, c.atk) : s //TODO scelta indice(cambia solo 0, s è giusto)
             if (
               (fly && !(oppSide[sniperIndex].sigils?.includes(600))) ||
               oppSide[sniperIndex].sigils?.includes(640)

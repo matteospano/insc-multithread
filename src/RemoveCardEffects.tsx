@@ -4,7 +4,7 @@ import {
   updateField
 } from "./cardReducer.tsx";
 import { useAppDispatch } from "./hooks.ts";
-import { EMPTY_CARD } from "./utilCards.tsx";
+import { EMPTY_CARD } from "./const/utilCards.tsx";
 
 export default function RemoveCardEffects(
   card: CardType, mySide: CardType[], avvSide: CardType[], movedTo: number): CardType {

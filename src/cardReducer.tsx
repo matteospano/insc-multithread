@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import initialField from './defaultSettings/initialField.json';
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
-import { EMPTY_CARD } from './utilCards.tsx';
+import { EMPTY_CARD } from './const/utilCards.tsx';
 const defaultField = initialField as Field
 
 export interface CardType {
