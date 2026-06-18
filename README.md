@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+# INSC Multithread - React Task Management Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, feature-rich task management interface built with React and TypeScript, designed to handle complex state management and real-time interaction patterns.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This project demonstrates proficiency in building production-grade front-end applications with a focus on user experience and code maintainability. The application showcases advanced state management patterns and interactive UI components built with industry-standard tools.
 
-### `npm start`
+## Technical Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3027](http://localhost:3027) to view it in your browser.
+- **Frontend Framework**: React 18.2 with TypeScript
+- **State Management**: Redux Toolkit 2.0 for predictable state management
+- **Component Library**: PrimeReact 10.2 for enterprise-grade UI components
+- **Styling**: SCSS for modular and maintainable styles
+- **Drag & Drop**: React Smooth DND for intuitive task interactions
+- **Testing**: Jest & React Testing Library for comprehensive test coverage
+- **Build Tool**: Create React App with Webpack optimization
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Key Features
 
-### `npm test`
+- Drag-and-drop task management interface
+- Redux-based centralized state management for scalable data handling
+- Responsive design with SCSS styling
+- Component-driven architecture with PrimeReact integration
+- Full TypeScript implementation for type safety
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Development
 
-### `npm run eject`
+```bash
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Starts the development server on port 3273. The application hot-reloads when you make changes.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Production Build
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm run build
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Creates an optimized production build ready for deployment. The output is minified with hashed filenames for optimal caching.
 
-## Learn More
+### Testing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm test
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Launches the test suite in interactive watch mode, using Jest and React Testing Library.
 
-### Code Splitting
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The application follows a component-driven architecture with Redux for state management:
 
-### Analyzing the Bundle Size
+- **src/**: TypeScript React components and application logic
+- **src/store/**: Redux store configuration and slices
+- **public/**: Static assets
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Development Approach
 
-### Making a Progressive Web App
+This project demonstrates:
+- Clean, maintainable code with TypeScript strict mode
+- Modern React patterns including hooks and functional components
+- Professional state management with Redux Toolkit
+- Accessibility and responsive design considerations
+- Performance optimization best practices
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Browser Support
 
-### Advanced Configuration
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Deployment
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The build artifacts are optimized for performance and ready to be deployed to any static hosting service (Netlify, Vercel, GitHub Pages, AWS S3, etc.).
