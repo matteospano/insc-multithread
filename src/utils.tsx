@@ -4,10 +4,6 @@ import {
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
 import { EMPTY_CARD, angler, dinamite, hunter, necromancer, prospector, squirrel } from "./const/utilCards.tsx";
-import { useAppSelector } from "./hooks.ts";
-
-const P1SQRDeck: number = useAppSelector((state) => state.card.P1SQRDeck);
-const P2SQRDeck: number = useAppSelector((state) => state.card.P2SQRDeck);
 
 export const sigilDefinition = (sigilId: number) => {
   if (sigilId > 0) {
@@ -63,8 +59,8 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
   dispatch(drawnHand({ isP1Owner, drawnCard }));
 }
 
-export const DrawFromSQR = (isP1Owner: boolean, rules: RuleType, dispatch: any) => {
-  const squirrelN = 1700 + (isP1Owner ? 0 : 1000) + (isP1Owner ? P1SQRDeck : P2SQRDeck);
+export const DrawFromSQR = (isP1Owner: boolean, SQRLength: number, rules: RuleType, dispatch: any) => {
+  const squirrelN = 1700 + (isP1Owner ? 0 : 1000) + SQRLength;
   let drawnCard = { ...squirrel, cardXY: -1, cardN: squirrelN };
   if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);

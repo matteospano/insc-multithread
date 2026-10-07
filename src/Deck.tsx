@@ -1,4 +1,3 @@
-import React from "react";
 import "./css/Deck.scss";
 import { CardType, setWarning, updateP1draw, updateP2draw } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
@@ -34,10 +33,10 @@ export default function Deck(props: { owner: number }): JSX.Element {
       }))
   }
 
-  const onDeckSQRClick = () => {
+  const onDeckSQRClick = (SQRLength: number) => {
     if ((currPlayer === owner) && canPlayerDraw) {
       isP1Owner ? dispatch(updateP1draw(false)) : dispatch(updateP2draw(false));
-      DrawFromSQR(isP1Owner, rules, dispatch);
+      DrawFromSQR(isP1Owner, SQRLength, rules, dispatch);
       dispatch(setWarning({
         message: 'must_draw',
         subject: 'Player ' + currPlayer,
@@ -80,7 +79,7 @@ export default function Deck(props: { owner: number }): JSX.Element {
       {SQRLength > 0 &&
         <div className={canPlayerDraw ? "deck-sqr-shape" : "deck-sqr-shape-disabled"}
           key={'deckSQR'}
-          onClick={onDeckSQRClick}>
+          onClick={() => onDeckSQRClick(SQRLength)}>
         </div>
       }
       {deckLength < 1 && SQRLength < 1 &&

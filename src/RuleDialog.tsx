@@ -64,6 +64,7 @@ export default function RuleDialog() {
   const [P1TotemSigil, setP1TotemSigil] = useState(rules.useTotems.P1Sigil || -1);
   const [P2TotemHead, setP2TotemHead] = useState(rules.useTotems.P2Head || '');
   const [P2TotemSigil, setP2TotemSigil] = useState(rules.useTotems.P2Sigil || -1);
+  const P1SQRDeck: number = useAppSelector((state) => state.card.P1SQRDeck);
 
   interface deckOption { family: string, cards: CardType[] }
 
@@ -195,15 +196,11 @@ export default function RuleDialog() {
       dispatch(updateField({ P1side, P2side }));
       dispatch(infiniteLive());
     }
-    DrawFromSQR(true, rules, dispatch);
-    //N2HAVE: non far pescare P1 al suo primo turno ma fagli creare la carta dall'apprendista
+    DrawFromSQR(true, P1SQRDeck, rules, dispatch); //pesca il primo scoiattolo
     if (isMultiplayer === 0) {
       /* distribute cards P2*/
       DrawStart(false, P2deck, tempRules, dispatch);
-      //DrawFromSQR(false, rules, dispatch);
-      //ne ha 1 in meno e deve pescare
-      //TODO non far pescare P2 al suo primo turno ma fagli creare la carta dall'apprendista
-      //TODO bug: pesca doppioni, crea una func apposta che pesca 5 rand ind insieme
+      //DrawFromSQR(false, P2SQRDeck, rules, dispatch); //pesca il primo scoiattolo
     }
   }
 
