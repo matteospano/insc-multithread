@@ -66,7 +66,7 @@ export default function PlayerTurn(): JSX.Element {
 
   const onAtk = (atk: number, defender: CardType, defInd: number,
     sigils: battleSigils, freeNextSlot: boolean, riflesso?: boolean): { def: CardType, dannoRifl: number, noTail?: CardType } => {
-    if (!defender || defender.cardID === -1) {
+    if (!defender || defender.cardXY === -1) {
       return { def: EMPTY_CARD, dannoRifl: -1 };
     }
     if (defender.sigils && (riflesso ? true : sigils.enDefSig.includes(defInd))) {
@@ -84,14 +84,14 @@ export default function PlayerTurn(): JSX.Element {
       else if (defender.sigils?.includes(609)) { //tail
         if (freeNextSlot) {
           const noTail = {
-            ...defender, cardID: defender.cardID + 1,
+            ...defender, cardXY: defender.cardXY + 1,
             def: defender.def - atk, sigils: defender.sigils.filter((s) => s !== 609)
           };
           if (atk < 2)
             return {
               def: {
                 ...tail, name: tail.name + (defender.family || ''), family: defender.family,
-                cardID: defender.cardID, def: tail.def - atk
+                cardXY: defender.cardXY, def: tail.def - atk
               }, dannoRifl: hasSpikesOrBell, noTail
             };
           else
@@ -137,7 +137,7 @@ export default function PlayerTurn(): JSX.Element {
   };
 
   const onDeath = (deathCard: CardType, sigils: number[]): { card: CardType, effect: number } => {
-    const isP1Owner: boolean = deathCard.cardID < 200;
+    const isP1Owner: boolean = deathCard.cardXY < 200;
     const tempSide = isP1Owner ? fieldCards.P1side : fieldCards.P2side;
     const oppSide = isP1Owner ? fieldCards.P2side : fieldCards.P1side;
     let card = RemoveCardEffects(deathCard, tempSide, oppSide, -1);
@@ -151,7 +151,7 @@ export default function PlayerTurn(): JSX.Element {
     isP1Owner ? dispatch(addP1bones(card.dropBones))
       : dispatch(addP2bones(card.dropBones));
 
-    const cardIndex = isP1Owner ? card.cardID - 100 : card.cardID - 200;
+    const cardIndex = isP1Owner ? card.cardXY - 100 : card.cardXY - 200;
     if (sigils.includes(cardIndex)) {
       if (card.sigils?.includes(203)) { //immortal non droppa ossa
         const cardCopy = card; //TODO ricerca la carta con le stats pulite da un elenco, aggiungi i totem
@@ -168,9 +168,9 @@ export default function PlayerTurn(): JSX.Element {
   };
 
   const addBones = (card: CardType): CardType => {
-    if (!card || card.cardID === -1) return EMPTY_CARD;
+    if (!card || card.cardXY === -1) return EMPTY_CARD;
     console.log('dies ', card.name);
-    card.cardID < 200 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
+    card.cardXY < 200 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
     return EMPTY_CARD;
   };
 
@@ -187,7 +187,7 @@ export default function PlayerTurn(): JSX.Element {
       return { atkSide: tempSide, defSide: oppSide, burrows: enBurrower };
     }
     RemoveCardEffects(oppSide[listenInd], oppSide, tempSide, defIndex);
-    oppSide[defIndex] = { ...oppSide[listenInd], cardID: oppSide[listenInd].cardID + defIndex - listenInd };
+    oppSide[defIndex] = { ...oppSide[listenInd], cardXY: oppSide[listenInd].cardXY + defIndex - listenInd };
     oppSide[listenInd] = EMPTY_CARD; //si è spostata su defInd
 
     if (oppSide[defIndex] && tempSide[atkIndex] && oppSide[defIndex].def < tempSide[atkIndex].atk)
@@ -195,19 +195,19 @@ export default function PlayerTurn(): JSX.Element {
     else
       enBurrower[0] = defIndex; //update value
 
-    const hasNextSlot = (defIndex + 1 < oppSide.length) && (oppSide[defIndex + 1]?.cardID === -1);
+    const hasNextSlot = (defIndex + 1 < oppSide.length) && (oppSide[defIndex + 1]?.cardXY === -1);
     let { def: defender, dannoRifl, noTail } = onAtk(tempSide[atkIndex].atk, oppSide[defIndex],
       defIndex, sigils, hasNextSlot);
     oppSide[defIndex] = defender;
     if (dannoRifl > 0) {
-      const tempHasNext = (defIndex + 1 < tempSide.length) && (tempSide[defIndex + 1]?.cardID === -1);
+      const tempHasNext = (defIndex + 1 < tempSide.length) && (tempSide[defIndex + 1]?.cardXY === -1);
       let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, tempSide[atkIndex], atkIndex, sigils, tempHasNext, true);
       tempSide[atkIndex] = attacker;
     }
     else if (tempSide[atkIndex]?.sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
       tempSide[atkIndex] = { ...tempSide[atkIndex], def: tempSide[atkIndex].def + 1 };
     else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
-      if (dannoRifl === -11 && defIndex > 0 && oppSide[defIndex - 1]?.cardID !== -1) {
+      if (dannoRifl === -11 && defIndex > 0 && oppSide[defIndex - 1]?.cardXY !== -1) {
         const sigils = oppSide[defIndex - 1]?.sigils || [];
         if (sigils.includes(604)) { //shield
           const noShield = sigils.filter((s) => s !== 604);
@@ -217,7 +217,7 @@ export default function PlayerTurn(): JSX.Element {
           oppSide[defIndex - 1] = addBones(oppSide[defIndex - 1]);
       }
 
-      if (tempSide[defIndex] && tempSide[defIndex].cardID !== -1) {
+      if (tempSide[defIndex] && tempSide[defIndex].cardXY !== -1) {
         const sigils = tempSide[defIndex]?.sigils || [];
         if (sigils.includes(604)) { //shield
           const noShield = sigils.filter((s) => s !== 604);
@@ -227,7 +227,7 @@ export default function PlayerTurn(): JSX.Element {
           tempSide[defIndex] = addBones(tempSide[defIndex]);
       }
 
-      if (dannoRifl === -11 && defIndex < 4 && oppSide[defIndex + 1]?.cardID !== -1) {
+      if (dannoRifl === -11 && defIndex < 4 && oppSide[defIndex + 1]?.cardXY !== -1) {
         const sigils = oppSide[defIndex + 1]?.sigils || [];
         if (sigils.includes(604)) { //shield
           const noShield = sigils.filter((s) => s !== 604);
@@ -276,7 +276,7 @@ export default function PlayerTurn(): JSX.Element {
       }));
       return {
         ...evolvedInto,
-        cardID: young.cardID,
+        cardXY: young.cardXY,
         atk: young.atk + evolvedInto.atk,
         def: young.def + evolvedInto.def,
         sigils: updatedSigils
@@ -295,11 +295,11 @@ export default function PlayerTurn(): JSX.Element {
   const AutoSniperIndex = (opp: CardType[], index: number, atk: number): number => {
     let en_index: number = -1;
     let en_def: number = 10;
-    const front: boolean = opp[index] ? opp[index].cardID !== -1 : false;
+    const front: boolean = opp[index] ? opp[index].cardXY !== -1 : false;
 
     if (front && opp[index].def <= atk) return index; //uccide il frontale
     opp.forEach((c, id) => {
-      if (c && c.cardID !== -1 && en_def >= c.def) {
+      if (c && c.cardXY !== -1 && en_def >= c.def) {
         en_def = c.def;
         en_index = id; //ritorna l'ultimo min
       }
@@ -338,7 +338,7 @@ export default function PlayerTurn(): JSX.Element {
                 oppSide[s - 1]?.sigils?.includes(640)
               ) //fly && no blockFly, submerged enemy
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
-              else if (oppSide[s - 1]?.cardID === -1) {
+              else if (oppSide[s - 1]?.cardXY === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
                   const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s - 1, tempSide, oppSide, sigils);
                   tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
@@ -347,11 +347,11 @@ export default function PlayerTurn(): JSX.Element {
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
               }
               else if (oppSide[s - 1]) {
-                const freeSlot = (s < oppSide.length) && (oppSide[s]?.cardID === -1);
+                const freeSlot = (s < oppSide.length) && (oppSide[s]?.cardXY === -1);
                 let { def: defender, dannoRifl, noTail } = onAtk(c.atk, oppSide[s - 1], s - 1, sigils, freeSlot);
                 oppSide[s - 1] = defender;
                 if (dannoRifl > 0) {
-                  const freeAttackerSlot = (s + 1 < tempSide.length) && (tempSide[s + 1]?.cardID === -1);
+                  const freeAttackerSlot = (s + 1 < tempSide.length) && (tempSide[s + 1]?.cardXY === -1);
                   let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, freeAttackerSlot, true);
                   tempSide[s] = attacker;
                 }
@@ -359,7 +359,7 @@ export default function PlayerTurn(): JSX.Element {
                   tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 };
                 else if (dannoRifl < -9 && dannoRifl > 20) { //il defender era una bomba, dinamite o trappola
                   const centralInd = s - 1;
-                  if (dannoRifl === -11 && centralInd > 0 && oppSide[centralInd - 1]?.cardID !== -1) {
+                  if (dannoRifl === -11 && centralInd > 0 && oppSide[centralInd - 1]?.cardXY !== -1) {
                     const sigils = oppSide[centralInd - 1]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -369,7 +369,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[centralInd - 1] = addBones(oppSide[centralInd - 1]);
                   }
 
-                  if (tempSide[centralInd] && tempSide[centralInd].cardID !== -1) {
+                  if (tempSide[centralInd] && tempSide[centralInd].cardXY !== -1) {
                     const sigils = tempSide[centralInd]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -379,7 +379,7 @@ export default function PlayerTurn(): JSX.Element {
                       tempSide[centralInd] = addBones(tempSide[centralInd]);
                   }
 
-                  if (dannoRifl === -11 && centralInd < 4 && oppSide[centralInd + 1]?.cardID !== -1) {
+                  if (dannoRifl === -11 && centralInd < 4 && oppSide[centralInd + 1]?.cardXY !== -1) {
                     const sigils = oppSide[centralInd + 1]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -399,7 +399,7 @@ export default function PlayerTurn(): JSX.Element {
                 oppSide[s]?.sigils?.includes(640)
               ) //fly && no blockFly, submerged enemy
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
-              else if (oppSide[s]?.cardID === -1) {
+              else if (oppSide[s]?.cardXY === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
                   const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s, tempSide, oppSide, sigils);
                   tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
@@ -408,18 +408,18 @@ export default function PlayerTurn(): JSX.Element {
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
               }
               else if (oppSide[s]) {
-                const freeSlot = (s + 1 < oppSide.length) && (oppSide[s + 1]?.cardID === -1);
+                const freeSlot = (s + 1 < oppSide.length) && (oppSide[s + 1]?.cardXY === -1);
                 let { def: defender, dannoRifl, noTail } = onAtk(c.atk, oppSide[s], s, sigils, freeSlot);
                 oppSide[s] = defender;
                 if (dannoRifl > 0) {
-                  const freeAttackerSlot = (s + 1 < oppSide.length) && (oppSide[s + 1]?.cardID === -1);
+                  const freeAttackerSlot = (s + 1 < oppSide.length) && (oppSide[s + 1]?.cardXY === -1);
                   let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, freeAttackerSlot, true);
                   tempSide[s] = attacker;
                 }
                 else if (tempSide[s]?.sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
                   tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 };
                 else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
-                  if (dannoRifl === -11 && s > 0 && oppSide[s - 1]?.cardID !== -1) {
+                  if (dannoRifl === -11 && s > 0 && oppSide[s - 1]?.cardXY !== -1) {
                     const sigils = oppSide[s - 1]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -429,7 +429,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[s - 1] = addBones(oppSide[s - 1]);
                   }
 
-                  if (tempSide[s] && tempSide[s].cardID !== -1) {
+                  if (tempSide[s] && tempSide[s].cardXY !== -1) {
                     const sigils = tempSide[s]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -439,7 +439,7 @@ export default function PlayerTurn(): JSX.Element {
                       tempSide[s] = addBones(tempSide[s]);
                   }
 
-                  if (dannoRifl === -11 && s < 4 && oppSide[s + 1]?.cardID !== -1) {
+                  if (dannoRifl === -11 && s < 4 && oppSide[s + 1]?.cardXY !== -1) {
                     const sigils = oppSide[s + 1]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -459,7 +459,7 @@ export default function PlayerTurn(): JSX.Element {
                 oppSide[s + 1]?.sigils?.includes(640)
               ) //fly && no blockFly, submerged enemy
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
-              else if (oppSide[s + 1]?.cardID === -1) {
+              else if (oppSide[s + 1]?.cardXY === -1) {
                 if (sigils.enBurrower?.length > 0) { //burrower
                   const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s + 1, tempSide, oppSide, sigils);
                   tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
@@ -468,11 +468,11 @@ export default function PlayerTurn(): JSX.Element {
                   directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
               }
               else if (oppSide[s + 1]) {
-                const freeSlot = (s + 2 < oppSide.length) && (oppSide[s + 2]?.cardID === -1);
+                const freeSlot = (s + 2 < oppSide.length) && (oppSide[s + 2]?.cardXY === -1);
                 let { def: defender, dannoRifl, noTail } = onAtk(c.atk, oppSide[s + 1], s + 1, sigils, freeSlot);
                 oppSide[s + 1] = defender;
                 if (dannoRifl > 0) {
-                  const freeAttackerSlot = (s + 1 < tempSide.length) && (tempSide[s + 1]?.cardID === -1);
+                  const freeAttackerSlot = (s + 1 < tempSide.length) && (tempSide[s + 1]?.cardXY === -1);
                   let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, freeAttackerSlot, true);
                   tempSide[s] = attacker;
                 }
@@ -480,7 +480,7 @@ export default function PlayerTurn(): JSX.Element {
                   tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 };
                 else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
                   const centralInd = s + 1;
-                  if (dannoRifl === -11 && centralInd > 0 && oppSide[centralInd - 1]?.cardID !== -1) {
+                  if (dannoRifl === -11 && centralInd > 0 && oppSide[centralInd - 1]?.cardXY !== -1) {
                     const sigils = oppSide[centralInd - 1]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -490,7 +490,7 @@ export default function PlayerTurn(): JSX.Element {
                       oppSide[centralInd - 1] = addBones(oppSide[centralInd - 1]);
                   }
 
-                  if (tempSide[centralInd] && tempSide[centralInd].cardID !== -1) {
+                  if (tempSide[centralInd] && tempSide[centralInd].cardXY !== -1) {
                     const sigils = tempSide[centralInd]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -500,7 +500,7 @@ export default function PlayerTurn(): JSX.Element {
                       tempSide[centralInd] = addBones(tempSide[centralInd]);
                   }
 
-                  if (dannoRifl === -11 && centralInd < 4 && oppSide[centralInd + 1]?.cardID !== -1) {
+                  if (dannoRifl === -11 && centralInd < 4 && oppSide[centralInd + 1]?.cardXY !== -1) {
                     const sigils = oppSide[centralInd + 1]?.sigils || [];
                     if (sigils.includes(604)) { //shield
                       const noShield = sigils.filter((s) => s !== 604);
@@ -524,7 +524,7 @@ export default function PlayerTurn(): JSX.Element {
               )
             ) //fly && no blockFly, submerged enemy
               directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
-            else if (sniperIndex === -1 || oppSide[sniperIndex]?.cardID === -1) {
+            else if (sniperIndex === -1 || oppSide[sniperIndex]?.cardXY === -1) {
               if (sigils.enBurrower?.length > 0 && sniperIndex !== -1) {
                 const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, sniperIndex, tempSide, oppSide, sigils);
                 tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
@@ -533,18 +533,18 @@ export default function PlayerTurn(): JSX.Element {
                 directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
             }
             else if (sniperIndex !== -1 && oppSide[sniperIndex]) {
-              const freeSlot = (sniperIndex + 1 < oppSide.length) && (oppSide[sniperIndex + 1]?.cardID === -1);
+              const freeSlot = (sniperIndex + 1 < oppSide.length) && (oppSide[sniperIndex + 1]?.cardXY === -1);
               let { def: defender, dannoRifl, noTail } = onAtk(c.atk, oppSide[sniperIndex], sniperIndex, sigils, freeSlot);
               oppSide[sniperIndex] = defender;
               if (dannoRifl > 0) {
-                const freeAttackerSlot = (s + 1 < tempSide.length) && (tempSide[s + 1]?.cardID === -1);
+                const freeAttackerSlot = (s + 1 < tempSide.length) && (tempSide[s + 1]?.cardXY === -1);
                 let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, freeAttackerSlot, true);
                 tempSide[s] = attacker;
               }
               else if (tempSide[s]?.sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
                 tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 };
               else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
-                if (dannoRifl === -11 && sniperIndex > 0 && oppSide[sniperIndex - 1]?.cardID !== -1) {
+                if (dannoRifl === -11 && sniperIndex > 0 && oppSide[sniperIndex - 1]?.cardXY !== -1) {
                   const sigils = oppSide[sniperIndex - 1]?.sigils || [];
                   if (sigils.includes(604)) { //shield
                     const noShield = sigils.filter((s) => s !== 604);
@@ -554,7 +554,7 @@ export default function PlayerTurn(): JSX.Element {
                     oppSide[sniperIndex - 1] = addBones(oppSide[sniperIndex - 1]);
                 }
 
-                if (tempSide[sniperIndex] && tempSide[sniperIndex].cardID !== -1) {
+                if (tempSide[sniperIndex] && tempSide[sniperIndex].cardXY !== -1) {
                   const sigils = tempSide[sniperIndex]?.sigils || [];
                   if (sigils.includes(604)) { //shield
                     const noShield = sigils.filter((s) => s !== 604);
@@ -563,7 +563,7 @@ export default function PlayerTurn(): JSX.Element {
                   else
                     tempSide[sniperIndex] = addBones(tempSide[sniperIndex]);
                 }
-                if (dannoRifl === -11 && sniperIndex < 4 && oppSide[sniperIndex + 1]?.cardID !== -1) {
+                if (dannoRifl === -11 && sniperIndex < 4 && oppSide[sniperIndex + 1]?.cardXY !== -1) {
                   const sigils = oppSide[sniperIndex + 1]?.sigils || [];
                   if (sigils.includes(604)) { //shield
                     const noShield = sigils.filter((s) => s !== 604);
@@ -581,7 +581,7 @@ export default function PlayerTurn(): JSX.Element {
         }
         else if (oppSide[s]?.sigils?.includes(640))
           directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
-        else if (oppSide[s]?.cardID === -1) {
+        else if (oppSide[s]?.cardXY === -1) {
           if (sigils.enBurrower?.length > 0) { //burrower
             const { atkSide, defSide, burrows } = burrowerMove(sigils.enBurrower, s, s, tempSide, oppSide, sigils);
             tempSide = [...atkSide]; oppSide = [...defSide]; sigils.enBurrower = [...burrows];
@@ -590,18 +590,18 @@ export default function PlayerTurn(): JSX.Element {
             directAtk((P1attack ? 1 : -1), c.atk, c.name, dispatch);
         }
         else if (oppSide[s]) { //normal atk con o senza vampire
-          const freeSlot = (s + 1 < oppSide.length) && (oppSide[s + 1]?.cardID === -1);
+          const freeSlot = (s + 1 < oppSide.length) && (oppSide[s + 1]?.cardXY === -1);
           let { def: defender, dannoRifl, noTail } = onAtk(c.atk, oppSide[s], s, sigils, freeSlot);
           oppSide[s] = defender;
           if (dannoRifl > 0) {
-            const freeAttackerSlot = (s + 1 < tempSide.length) && (tempSide[s + 1]?.cardID === -1);
+            const freeAttackerSlot = (s + 1 < tempSide.length) && (tempSide[s + 1]?.cardXY === -1);
             let { def: attacker, dannoRifl: _danno } = onAtk(dannoRifl, c, s, sigils, freeAttackerSlot, true);
             tempSide[s] = attacker;
           }
           else if (tempSide[s]?.sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
             tempSide[s] = { ...tempSide[s], def: tempSide[s].def + 1 };
           else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
-            if (dannoRifl === -11 && s > 0 && oppSide[s - 1]?.cardID !== -1) {
+            if (dannoRifl === -11 && s > 0 && oppSide[s - 1]?.cardXY !== -1) {
               const sigils = oppSide[s - 1]?.sigils || [];
               if (sigils.includes(604)) { //shield
                 const noShield = sigils.filter((s) => s !== 604);
@@ -611,7 +611,7 @@ export default function PlayerTurn(): JSX.Element {
                 oppSide[s - 1] = addBones(oppSide[s - 1]);
             }
 
-            if (tempSide[s] && tempSide[s].cardID !== -1) {
+            if (tempSide[s] && tempSide[s].cardXY !== -1) {
               const sigils = tempSide[s]?.sigils || [];
               if (sigils.includes(604)) { //shield
                 const noShield = sigils.filter((s) => s !== 604);
@@ -621,7 +621,7 @@ export default function PlayerTurn(): JSX.Element {
                 tempSide[s] = addBones(tempSide[s]);
             }
 
-            if (dannoRifl === -11 && s < 4 && oppSide[s + 1]?.cardID !== -1) {
+            if (dannoRifl === -11 && s < 4 && oppSide[s + 1]?.cardXY !== -1) {
               const sigils = oppSide[s + 1]?.sigils || [];
               if (sigils.includes(604)) { //shield
                 const noShield = sigils.filter((s) => s !== 604);
@@ -665,8 +665,8 @@ export default function PlayerTurn(): JSX.Element {
           let tempCard = tempSide[s + 1];
           if (tempCard) {
             RemoveCardEffects(tempSide[s], tempSide, oppSide, s + 1);
-            tempSide[s + 1] = { ...tempSide[s], cardID: tempSide[s].cardID + 1 };
-            tempSide[s] = { ...tempCard, cardID: tempCard.cardID !== -1 ? tempCard.cardID - 1 : -1 };
+            tempSide[s + 1] = { ...tempSide[s], cardXY: tempSide[s].cardXY + 1 };
+            tempSide[s] = { ...tempCard, cardXY: tempCard.cardXY !== -1 ? tempCard.cardXY - 1 : -1 };
           }
         }
         if (tempSide[s]?.sigils?.includes(640)) //water
@@ -676,7 +676,7 @@ export default function PlayerTurn(): JSX.Element {
 
     if (evolveSig.length > 0)
       evolveSig.forEach((s) => {
-        if (!oppSide[s] || oppSide[s].cardID === -1) return;
+        if (!oppSide[s] || oppSide[s].cardXY === -1) return;
         if (oppSide[s].sigils?.includes(402)) { //fragile
           P1attack ? dispatch(addP2bones(oppSide[s].dropBones)) : dispatch(addP1bones(oppSide[s].dropBones));
           dispatch(setWarning({
@@ -694,7 +694,7 @@ export default function PlayerTurn(): JSX.Element {
           oppSide[s] = { ...oppSide[s], name: oppSide[s].name.split('_sub')[0] }; //riemerge
 
         if (oppSide[s].sigils?.includes(300)) { //dinamite
-          if (s > 0 && oppSide[s - 1] && oppSide[s - 1].cardID !== -1) {
+          if (s > 0 && oppSide[s - 1] && oppSide[s - 1].cardXY !== -1) {
             const sigils = oppSide[s - 1].sigils || [];
             if (sigils.includes(604)) { //shield
               const noShield = sigils.filter((sig) => sig !== 604);
@@ -704,7 +704,7 @@ export default function PlayerTurn(): JSX.Element {
               oppSide[s - 1] = addBones(oppSide[s - 1]);
           }
 
-          if (tempSide[s] && tempSide[s].cardID !== -1) {
+          if (tempSide[s] && tempSide[s].cardXY !== -1) {
             const sigils = tempSide[s].sigils || [];
             if (sigils.includes(604)) { //shield
               const noShield = sigils.filter((sig) => sig !== 604);
@@ -714,7 +714,7 @@ export default function PlayerTurn(): JSX.Element {
               tempSide[s] = addBones(tempSide[s]);
           }
 
-          if (oppSide[s] && oppSide[s].cardID !== -1) {
+          if (oppSide[s] && oppSide[s].cardXY !== -1) {
             const sigilsDef = oppSide[s].sigils || [];
             if (sigilsDef.includes(604)) { //shield
               const noShield = sigilsDef.filter((sig) => sig !== 604);
@@ -724,7 +724,7 @@ export default function PlayerTurn(): JSX.Element {
               oppSide[s] = addBones(oppSide[s]);
           }
 
-          if (s < 4 && oppSide[s + 1] && oppSide[s + 1].cardID !== -1) {
+          if (s < 4 && oppSide[s + 1] && oppSide[s + 1].cardXY !== -1) {
             const sigils = oppSide[s + 1].sigils || [];
             if (sigils.includes(604)) { //shield
               const noShield = sigils.filter((sig) => sig !== 604);
@@ -742,12 +742,17 @@ export default function PlayerTurn(): JSX.Element {
     /* dinamite in mano */
     const oppHand = P1attack ? handCards?.P2side : handCards?.P1side;
     if (oppHand) {
-      const tntCard = oppHand.find((h) => h.name === 'dinamite');
-      if (tntCard && tntCard.cardID !== undefined) {
-        const tntInd = tntCard.cardID;
-        dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardHandID: tntInd - 1 }));
-        dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardHandID: tntInd }));
-        dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardHandID: tntInd + 1 }));
+      const tntIndex = oppHand.findIndex((h) => h.name === 'dinamite');
+      if (tntIndex !== -1) {
+        // Elimina in ordine inverso (indice + 1, poi indice, poi indice - 1) per preservare i posizionamenti
+        const targets = [tntIndex + 1, tntIndex, tntIndex - 1].filter(
+          (idx) => idx >= 0 && idx < oppHand.length
+        );
+
+        targets.forEach((idx) => {
+          dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardHandID: idx }));
+        });
+
         dispatch(increaseP1Live(P1attack ? 1 : -1));
       }
     }

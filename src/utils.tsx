@@ -1,9 +1,13 @@
 import {
   CardType, Field, P1UpdateDeck, P1DeckSQRNextID, P2UpdateDeck, P2DeckSQRNextID,
-  RuleType, resetBoss, turnClock, drawnHand, drawnFullHand
+  RuleType, resetBoss, drawnHand, drawnFullHand
 } from "./cardReducer.tsx";
 import { sigil_def } from "./const/families.tsx";
 import { EMPTY_CARD, angler, dinamite, hunter, necromancer, prospector, squirrel } from "./const/utilCards.tsx";
+import { useAppSelector } from "./hooks.ts";
+
+const P1SQRDeck: number = useAppSelector((state) => state.card.P1SQRDeck);
+const P2SQRDeck: number = useAppSelector((state) => state.card.P2SQRDeck);
 
 export const sigilDefinition = (sigilId: number) => {
   if (sigilId > 0) {
@@ -26,7 +30,7 @@ export const DrawStart = (isP1Owner: boolean, deck: CardType[], rules: RuleType,
       const rndInd = Math.floor(Math.random() * deckLen);
       drawnCard = deck[rndInd];
     }
-    const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
+    const tempDeck = [...deck];
     isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
 
     if (rules.randomSigils)
@@ -46,7 +50,7 @@ export const DrawStart = (isP1Owner: boolean, deck: CardType[], rules: RuleType,
 export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
   const randCardIndex = Math.floor(Math.random() * deck.length);
   let drawnCard = deck[randCardIndex];
-  const tempDeck = [...deck].filter((c) => c.cardID !== drawnCard.cardID);
+  const tempDeck = [...deck];
   isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
 
   if (rules.randomSigils)
@@ -60,8 +64,8 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
 }
 
 export const DrawFromSQR = (isP1Owner: boolean, rules: RuleType, dispatch: any) => {
-  let drawnCard = { ...squirrel, cardID: 170 + (isP1Owner ? 0 : 100) };
-  //va bene se hanno lo stesso id o devo scrivere: (isP1Owner?SQRlen1:SQRlen2+100
+  const squirrelN = 1700 + (isP1Owner ? 0 : 1000) + (isP1Owner ? P1SQRDeck : P2SQRDeck);
+  let drawnCard = { ...squirrel, cardXY: -1, cardN: squirrelN };
   if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
@@ -108,9 +112,9 @@ export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType =
 
 export const handleClock = (fieldCards: Field, isClockwise: boolean): Field => {
   function changeId(card: CardType, newpos: number, P1Owner: boolean): CardType {
-    if (card.cardID === -1) return card;
-    const newID = P1Owner ? 100 + newpos : 200 + newpos;
-    return { ...card, cardID: newID };
+    if (card.cardXY === -1) return card;
+    const newID = P1Owner ? 1000 + newpos : 2000 + newpos;
+    return { ...card, cardXY: newID };
   }
 
   return isClockwise
@@ -147,8 +151,8 @@ export const handleClock = (fieldCards: Field, isClockwise: boolean): Field => {
 };
 
 export const fillEmptySpots = (spots: CardType[], n_cards: number, dataSet: CardType[]) => {
-  let emptySpotsIndex: number[] = spots.map((val, index) => ({ val, index }))
-    .filter(({ val, index }) => val.cardID === -1).map(({ val, index }) => index);
+  const emptySpotsIndex: number[] = spots.map((val, index) => ({ val, index }))
+    .filter(({ val, index }) => val.cardXY === -1).map(({ val, index }) => index);
   let updatedSpots: CardType[] = [...spots];
 
   for (let i = 0; i < n_cards && emptySpotsIndex.length > 0; i++) {

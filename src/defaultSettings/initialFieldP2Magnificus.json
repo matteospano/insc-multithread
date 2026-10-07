@@ -2,19 +2,24 @@
   {
     "name": "mulo",
     "family": "none",
-    "cardID": 2000,
+    "cardXY": 2000,
+    "cardN": 2000,
     "atk": 0,
     "def": 1,
     "sacr": 0,
     "bone": 0,
     "dropBlood": -1,
     "dropBones": 0,
-    "sigils": ["push", "snakeBomb"]
+    "sigils": [
+      "push",
+      "snakeBomb"
+    ]
   },
   {
     "name": "manichino",
     "family": "rocce",
-    "cardID": 2001,
+    "cardXY": 2001,
+    "cardN": 2001,
     "atk": 0,
     "def": 1,
     "sacr": 0,
@@ -25,7 +30,8 @@
   {
     "name": "manichino",
     "family": "rocce",
-    "cardID": 2002,
+    "cardXY": 2002,
+    "cardN": 2002,
     "atk": 0,
     "def": 1,
     "sacr": 0,
@@ -36,7 +42,8 @@
   {
     "name": "manichino",
     "family": "rocce",
-    "cardID": 2003,
+    "cardXY": 2003,
+    "cardN": 2003,
     "atk": 0,
     "def": 1,
     "sacr": 0,
@@ -47,7 +54,8 @@
   {
     "name": "manichino",
     "family": "rocce",
-    "cardID": 2004,
+    "cardXY": 2004,
+    "cardN": 2004,
     "atk": 0,
     "def": 1,
     "sacr": 0,

@@ -1,7 +1,8 @@
 {
   "P2side": [
     {
-      "cardID": -1,
+      "cardN": -1,
+      "cardXY": 2000,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -13,7 +14,8 @@
     {
       "name": "rock",
       "family": "terrain",
-      "cardID": 201,
+      "cardXY": 2001,
+      "cardN": 2001,
       "atk": 0,
       "def": 4,
       "sacr": 0,
@@ -25,7 +27,8 @@
       ]
     },
     {
-      "cardID": -1,
+      "cardXY": 2002,
+      "cardN": -1,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -35,7 +38,8 @@
       "dropBones": 0
     },
     {
-      "cardID": -1,
+      "cardXY": 2003,
+      "cardN": -1,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -45,7 +49,8 @@
       "dropBones": 0
     },
     {
-      "cardID": -1,
+      "cardXY": 2004,
+      "cardN": -1,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -57,7 +62,8 @@
   ],
   "P1side": [
     {
-      "cardID": -1,
+      "cardXY": 1000,
+      "cardN": -1,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -67,7 +73,8 @@
       "dropBones": 0
     },
     {
-      "cardID": -1,
+      "cardXY": 1001,
+      "cardN": -1,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -77,7 +84,8 @@
       "dropBones": 0
     },
     {
-      "cardID": -1,
+      "cardXY": 1002,
+      "cardN": -1,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -89,7 +97,8 @@
     {
       "name": "rock",
       "family": "terrain",
-      "cardID": 103,
+      "cardXY": 1003,
+      "cardN": 1003,
       "atk": 0,
       "def": 4,
       "sacr": 0,
@@ -101,7 +110,8 @@
       ]
     },
     {
-      "cardID": -1,
+      "cardXY": 1004,
+      "cardN": -1,
       "name": "",
       "family": "none",
       "atk": 0,

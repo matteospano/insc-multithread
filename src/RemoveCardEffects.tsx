@@ -15,7 +15,7 @@ export default function RemoveCardEffects(
   const removeEffects = (): CardType => {
     if ((!card.sigils) || card.sigils.length === 0)
       return card
-    const index = card.cardID < 200 ? card.cardID - 100 : card.cardID - 200;
+    const index = card.cardXY < 2000 ? card.cardXY - 1000 : card.cardXY - 2000;
     const hasAlarm = card.sigils.includes(170);
     const hasSmell = card.sigils.includes(171);
     const hasLeader = card.sigils.includes(150);
@@ -25,7 +25,7 @@ export default function RemoveCardEffects(
     if (hasAlarm || hasSmell) {
       const delta = hasAlarm ? -1 : +1;
       oppSide[index] = { ...oppSide[index], atk: oppSide[index].atk + delta };
-      if (movedTo >= 0 && oppSide[index].cardID !== -1)
+      if (movedTo >= 0 && oppSide[index].cardXY !== -1)
         oppSide[movedTo] = { ...oppSide[movedTo], atk: oppSide[movedTo].atk - delta };
     }
     if (hasLeader) {
@@ -41,7 +41,7 @@ export default function RemoveCardEffects(
       }
     }
     if (hasAlarm || hasSmell || hasLeader) { //sono avvenuti cambiamenti
-      const isP1: boolean = card.cardID < 200;
+      const isP1: boolean = card.cardXY < 2000;
       if (movedTo === -2) //destroyed with hammer
         tempSide[index] = EMPTY_CARD;
       //todo l'indice della carta è sbagliato onSpawn.

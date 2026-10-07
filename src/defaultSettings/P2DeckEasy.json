@@ -2,7 +2,8 @@
   {
     "name": "P1-rana-0",
     "family": "nessuna",
-    "cardID": 2006,
+    "cardN": 2006,
+    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -14,7 +15,8 @@
   {
     "name": "P1-rana-1",
     "family": "nessuna",
-    "cardID": 2007,
+    "cardN": 2007,
+    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -26,7 +28,8 @@
   {
     "name": "P1-rana-2",
     "family": "nessuna",
-    "cardID": 2008,
+    "cardN": 2008,
+    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -38,7 +41,8 @@
   {
     "name": "P1-rana-3",
     "family": "nessuna",
-    "cardID": 2009,
+    "cardN": 2009,
+    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 0,

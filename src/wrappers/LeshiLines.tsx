@@ -24,7 +24,7 @@ export default function LeshiLines(props: { owner: number }): JSX.Element {
     let movedLeshi: CardType[] = [...leshiField.P2side];
     let newP2side: CardType[] = fieldCards.P2side;
     newP2side = newP2side.map((card, index) => {
-      if (card.cardID === -1) {
+      if (card.cardXY === -1) {
         movedLeshi[index] = EMPTY_CARD; //la carta si sposta sul field e lascia il buco vuoto
         return leshiField.P2side[index]
       }

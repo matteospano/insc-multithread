@@ -2,7 +2,8 @@
   {
     "name": "bee",
     "family": "insect",
-    "cardID": 105,
+    "cardN": 105,
+    "cardXY": -1,
     "atk": 1,
     "def": 2,
     "sacr": 1,
@@ -16,7 +17,8 @@
   {
     "name": "scheletor",
     "family": "none",
-    "cardID": 106,
+    "cardN": 106,
+    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -30,7 +32,8 @@
   {
     "name": "wolf",
     "family": "canine",
-    "cardID": 107,
+    "cardN": 107,
+    "cardXY": -1,
     "atk": 3,
     "def": 1,
     "sacr": 2,
@@ -41,7 +44,8 @@
   {
     "name": "geco",
     "family": "none",
-    "cardID": 108,
+    "cardN": 108,
+    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -52,7 +56,8 @@
   {
     "name": "elk fawn",
     "family": "hooved",
-    "cardID": 109,
+    "cardN": 109,
+    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 1,
@@ -66,7 +71,8 @@
   {
     "name": "cat",
     "family": "none",
-    "cardID": 110,
+    "cardN": 110,
+    "cardXY": -1,
     "atk": 0,
     "def": 1,
     "sacr": 1,
@@ -80,7 +86,8 @@
   {
     "name": "goat",
     "family": "none",
-    "cardID": 111,
+    "cardN": 111,
+    "cardXY": -1,
     "atk": 0,
     "def": 1,
     "sacr": 1,
@@ -94,7 +101,8 @@
   {
     "name": "wolf cub",
     "family": "canine",
-    "cardID": 112,
+    "cardN": 112,
+    "cardXY": -1,
     "atk": 2,
     "def": 1,
     "sacr": 1,
@@ -108,7 +116,8 @@
   {
     "name": "bomb",
     "family": "terrain",
-    "cardID": 113,
+    "cardN": 113,
+    "cardXY": -1,
     "atk": 0,
     "def": 1,
     "sacr": 1,
@@ -123,7 +132,8 @@
   {
     "name": "mantis",
     "family": "insect",
-    "cardID": 114,
+    "cardN": 114,
+    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 1,
@@ -137,7 +147,8 @@
   {
     "name": "cage",
     "family": "canine",
-    "cardID": 115,
+    "cardN": 115,
+    "cardXY": -1,
     "atk": 1,
     "def": 2,
     "sacr": 1,
@@ -151,7 +162,8 @@
   {
     "name": "bell",
     "family": "insect",
-    "cardID": 116,
+    "cardN": 116,
+    "cardXY": -1,
     "atk": 1,
     "def": 5,
     "sacr": 0,
@@ -165,7 +177,8 @@
   {
     "name": "sniper",
     "family": "robot",
-    "cardID": 117,
+    "cardN": 117,
+    "cardXY": -1,
     "atk": 1,
     "def": 2,
     "sacr": 1,

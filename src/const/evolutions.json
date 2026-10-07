@@ -4,14 +4,17 @@
     "into": {
       "name": "raven",
       "family": "bird",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 2,
       "def": 1,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [502]
+      "sigils": [
+        502
+      ]
     }
   },
   {
@@ -19,14 +22,17 @@
     "into": {
       "name": "elk",
       "family": "hooved",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 1,
       "def": 3,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [940]
+      "sigils": [
+        940
+      ]
     }
   },
   {
@@ -34,14 +40,17 @@
     "into": {
       "name": "moose buck",
       "family": "hooved",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 1,
       "def": 3,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [940]
+      "sigils": [
+        940
+      ]
     }
   },
   {
@@ -49,7 +58,8 @@
     "into": {
       "name": "wolf",
       "family": "canine",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 2,
       "def": 1,
       "sacr": 2,
@@ -63,14 +73,17 @@
     "into": {
       "name": "dire wolf",
       "family": "canine",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 1,
       "def": 4,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [500]
+      "sigils": [
+        500
+      ]
     }
   },
   {
@@ -78,7 +91,8 @@
     "into": {
       "name": "free wolf",
       "family": "canine",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 2,
       "def": 0,
       "sacr": 2,
@@ -92,14 +106,17 @@
     "into": {
       "name": "mantis god",
       "family": "insect",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 0,
       "def": 0,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [501]
+      "sigils": [
+        501
+      ]
     }
   },
   {
@@ -107,7 +124,8 @@
     "into": {
       "name": "ant queen",
       "family": "insect",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 0,
       "def": 2,
       "sacr": 2,
@@ -121,7 +139,8 @@
     "into": {
       "name": "ant queen",
       "family": "insect",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 0,
       "def": 2,
       "sacr": 2,
@@ -135,14 +154,17 @@
     "into": {
       "name": "mosquitos",
       "family": "insect",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 2,
       "def": 0,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [504]
+      "sigils": [
+        504
+      ]
     }
   },
   {
@@ -150,14 +172,17 @@
     "into": {
       "name": "bullfrog",
       "family": "reptile",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 1,
       "def": 1,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [600]
+      "sigils": [
+        600
+      ]
     }
   },
   {
@@ -165,14 +190,17 @@
     "into": {
       "name": "mole man",
       "family": "none",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 0,
       "def": 2,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [600]
+      "sigils": [
+        600
+      ]
     }
   },
   {
@@ -180,14 +208,17 @@
     "into": {
       "name": "opossum",
       "family": "none",
-      "cardID": -1,
+      "cardXY": -1,
+      "cardN": -1,
       "atk": 2,
       "def": 0,
       "sacr": 2,
       "bone": 0,
       "dropBlood": 1,
       "dropBones": 0,
-      "sigils": [502]
+      "sigils": [
+        502
+      ]
     }
   }
 ]

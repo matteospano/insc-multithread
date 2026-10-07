@@ -8,13 +8,13 @@ import { EMPTY_CARD } from "./const/utilCards.tsx";
 export default function Card(props: {
   cardInfo: CardType
 }): JSX.Element {
-  const { cardID, name, atk, def, sacr, bone, dropBlood } = props.cardInfo || EMPTY_CARD;
+  const { cardN, cardXY, name, atk, def, sacr, bone, dropBlood } = props.cardInfo || EMPTY_CARD;
 
   const dispatch = useAppDispatch();
   const currPlayer: number = useAppSelector((state) => state.card.currPlayer);
   const deleteCardHandID = useAppSelector((state) => state.card.deleteCardHandID);
-  const isValidCard = cardID >= 100;
-  const isP1Owner = cardID < 200;
+  const isValidCard = cardN > 0;
+  const isP1Owner = cardXY < 2000;
   const canPlayerDraw = useAppSelector((state) => isP1Owner ?
     state.card.canP1draw : state.card.canP2draw);
   const [localSelected, setLocalSelected] = useState<boolean>(false);
@@ -49,7 +49,7 @@ export default function Card(props: {
   }
 
   useEffect(() => {
-    if (cardID > 99 && cardID === deleteCardHandID) {
+    if (cardN === deleteCardHandID) {
       dispatch(deleteHand({ isP1Owner, deleteCardHandID }));
       setLocalSelected(false);
     }
@@ -76,7 +76,7 @@ export default function Card(props: {
 
         <div onClick={handleClick}
           className={show ? dropBlood < 0 ? "rock-shape" + (localSelected ? " selected" : "") :
-            "card-shape" + (localSelected ? " selected" : "") : "card-back"} key={cardID}>
+            "card-shape" + (localSelected ? " selected" : "") : "card-back"} key={cardN}>
           <span className="mt-01 flex">
             <div className="col-10 crop-text pl-1">{show && name}</div>
             <div className={sacr ? "col-2 pr-05 card-text-sacr" : "col-2 pr-05 card-text-bones"}>

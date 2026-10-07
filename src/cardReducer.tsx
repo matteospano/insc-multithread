@@ -7,7 +7,8 @@ const defaultField = initialField as Field
 
 export interface CardType {
   /* identificativi */
-  cardID: number, name: string, family: string
+  cardN: number, cardXY: number, //numero progressivo carta pescata e posizione in mano o campo
+  name: string, family: string
   /* stats */
   atk: number, def: number,
   /* evocazione */
@@ -237,19 +238,20 @@ const cardSlice = createSlice({
           state.handCards.P2side : [...action.payload.hand]
       }
     }),
-    deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardHandID: number }>) => ({
-      ...state,
-      deleteCardHandID: -1,
-      handCards: {
-        ...state.handCards,
-        P1side: action.payload.isP1Owner ?
-          [...state.handCards.P1side.filter((c: CardType) => c.cardID !== action.payload.deleteCardHandID)]
-          : state.handCards.P1side,
-        P2side: action.payload.isP1Owner ?
-          state.handCards.P2side :
-          [...state.handCards.P2side.filter((c: CardType) => c.cardID !== action.payload.deleteCardHandID)]
-      }
-    }),
+    deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardHandID: number }>) => {
+      const targetSide = action.payload.isP1Owner ? 'P1side' : 'P2side';
+
+      return {
+        ...state,
+        deleteCardHandID: -1,
+        handCards: {
+          ...state.handCards,
+          [targetSide]: state.handCards[targetSide].filter(
+            (_, index: number) => index !== action.payload.deleteCardHandID
+          )
+        }
+      };
+    },
     updateLeshiField: (state, action: PayloadAction<Field>) => ({
       ...state,
       leshiField: action.payload
