@@ -26,13 +26,12 @@ Documento riassuntivo di tutte le funzionalità pendenti, estrapolate dai commen
 ## 2. Flusso di Gioco, Spawning e Turni (`RemoveCardEffects.tsx`, `LeshiLines.tsx`, `utils.tsx`)
 - [ ] **Gestione Rimozione ed Effetti (`RemoveCardEffects.tsx`)**:
   - Risolvere i dispatch asincroni e separare le logiche di `onDeath`.
-  - Risolvere il bug per cui all'evento `onSpawn` la carta rimane duplicated in mano.
-  - Correggere il calcolo dell'indice errato della carta all'evento `onSpawn`.
+  FATTO:- Risolvere il bug per cui all'evento `onSpawn` la carta rimane duplicated in mano.
+  FATTO:- Correggere il calcolo dell'indice errato della carta all'evento `onSpawn`.
   - Spostare i dispatch di `updateField` e gestione `onSpawn` direttamente in `LeshiLines.tsx` anziché in `CardSlot`.
 - [ ] **Pesca e Gestione Deck (`utils.tsx`, `RuleDialog.tsx`)**:
   - Imporre una dimensione minima di 10 carte nella selezione del mazzo.
-  - Creare una funzione dedicata per la pesca casuale simultanea di 5 indici unici, risolvendo il problema dei doppioni.
-  - **Turno 1 Giocatore 2**: Impedire la pesca standard a P2 al primo turno e forzare la creazione della carta tramite la meccanica dell'Apprendista.
+  N2H: - Creare una funzione dedicata per la pesca casuale simultanea di 5 indici unici, risolvendo il problema dei doppioni.
 - [ ] **Filtro Conflitti Sigilli (`utils.tsx`)**: Escludere la generazione di sigilli fra loro incompatibili (es. *Smell* e *Alarm*) durante l'assegnazione casuale.
 
 ---

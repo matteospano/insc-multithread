@@ -12,14 +12,14 @@ export default function Card(props: {
 
   const dispatch = useAppDispatch();
   const currPlayer: number = useAppSelector((state) => state.card.currPlayer);
-  const deleteCardHandID = useAppSelector((state) => state.card.deleteCardHandID);
+  const deleteCardN = useAppSelector((state) => state.card.deleteCardN);
   const isValidCard = cardN > 0;
-  const isP1Owner = cardXY < 2000;
+  const isP1Owner = cardN < 2000;
   const canPlayerDraw = useAppSelector((state) => isP1Owner ?
     state.card.canP1draw : state.card.canP2draw);
   const [localSelected, setLocalSelected] = useState<boolean>(false);
 
-  const show: boolean = (isP1Owner ? 1 : 2) === currPlayer;
+  const show: boolean = cardXY > 0 || (isP1Owner ? 1 : 2) === currPlayer; //si vede se sul field o in mano al currPlayer
   // const handleStop = (e) => {
   //   const coord = e as MouseEvent;
   //   //console.log(coord.x, coord.y)
@@ -49,11 +49,11 @@ export default function Card(props: {
   }
 
   useEffect(() => {
-    if (cardN === deleteCardHandID) {
-      dispatch(deleteHand({ isP1Owner, deleteCardHandID }));
+    if (deleteCardN > 0 && cardN === deleteCardN) {
+      dispatch(deleteHand({ isP1Owner, deleteCardN }));
       setLocalSelected(false);
     }
-  }, [deleteCardHandID]);
+  }, [deleteCardN]);
 
 
   return (

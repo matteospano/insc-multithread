@@ -41,7 +41,7 @@ export default function PlayerCards(props: { owner: number }): JSX.Element {
         onHide={() => { }}>
         <div className="player-ready-sidebar-title" onClick={onNextPhase}>
           <h2 className="m-0">{("P" + props.owner + " ready")}</h2>
-          <p>Click here to proceed</p> {/* Press Enter, Space or click here non funziona*/}
+          <p>Click here to proceed</p>
         </div>
       </Sidebar>
     </div>

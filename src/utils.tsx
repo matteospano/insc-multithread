@@ -78,7 +78,7 @@ export const DrawFromBoss = (isP1Owner: boolean, rules: RuleType, dispatch: any)
       : rules.boss === 'angler' ? angler
         : rules.boss === 'necromancer' ? necromancer
           : squirrel //altri...
-  dispatch(drawnHand({ isP1Owner, drawnCard: boss }));
+  dispatch(drawnHand({ isP1Owner, drawnCard: { ...boss, cardN: 999 + (isP1Owner ? 1000 : 2000) } }));
 }
 
 export const DrawFromDinamite = (isP1Owner: boolean, dispatch: any) => {

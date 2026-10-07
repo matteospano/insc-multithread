@@ -97,7 +97,7 @@ interface CardState {
   leshiField: Field;
   fieldCards: Field;
   dragCardInfo: CardType; //card being dragged to the field
-  deleteCardHandID: number;//dragCardInfo after drag completed
+  deleteCardN: number;//dragCardInfo after drag completed
   P1Deck: CardType[];
   P1SQRDeck: number;
   P2Deck: CardType[];
@@ -124,7 +124,7 @@ const initialState: CardState = {
   leshiField: EMPTY_FIELD,
   fieldCards: defaultField,
   dragCardInfo: EMPTY_CARD,
-  deleteCardHandID: -1,
+  deleteCardN: -1,
   P1Deck: [...deck_P1] as CardType[],
   P1SQRDeck: 20,
   P2Deck: [...deck_P2] as CardType[],
@@ -161,7 +161,7 @@ const cardSlice = createSlice({
     setDeleteCardHand: (state, action: PayloadAction<number>) => ({
       ...state,
       dragCardInfo: EMPTY_CARD,
-      deleteCardHandID: action.payload
+      deleteCardN: action.payload
     }),
     increaseP1Live: (state, action: PayloadAction<number>) => ({
       ...state,
@@ -238,16 +238,15 @@ const cardSlice = createSlice({
           state.handCards.P2side : [...action.payload.hand]
       }
     }),
-    deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardHandID: number }>) => {
+    deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardN: number }>) => {
       const targetSide = action.payload.isP1Owner ? 'P1side' : 'P2side';
-
       return {
         ...state,
-        deleteCardHandID: -1,
+        deleteCardN: -1,
         handCards: {
           ...state.handCards,
           [targetSide]: state.handCards[targetSide].filter(
-            (_, index: number) => index !== action.payload.deleteCardHandID
+            (card) => card.cardN !== action.payload.deleteCardN
           )
         }
       };

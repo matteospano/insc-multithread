@@ -151,7 +151,7 @@ export default function PlayerTurn(): JSX.Element {
     isP1Owner ? dispatch(addP1bones(card.dropBones))
       : dispatch(addP2bones(card.dropBones));
 
-    const cardIndex = isP1Owner ? card.cardXY - 100 : card.cardXY - 200;
+    const cardIndex = card.cardXY - (isP1Owner ? 1000 : 2000);
     if (sigils.includes(cardIndex)) {
       if (card.sigils?.includes(203)) { //immortal non droppa ossa
         const cardCopy = card; //TODO ricerca la carta con le stats pulite da un elenco, aggiungi i totem
@@ -744,14 +744,11 @@ export default function PlayerTurn(): JSX.Element {
     if (oppHand) {
       const tntIndex = oppHand.findIndex((h) => h.name === 'dinamite');
       if (tntIndex !== -1) {
-        // Elimina in ordine inverso (indice + 1, poi indice, poi indice - 1) per preservare i posizionamenti
-        const targets = [tntIndex + 1, tntIndex, tntIndex - 1].filter(
-          (idx) => idx >= 0 && idx < oppHand.length
-        );
-
-        targets.forEach((idx) => {
-          dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardHandID: idx }));
-        });
+        if (tntIndex > 0 && oppHand[tntIndex - 1])
+          dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardN: oppHand[tntIndex - 1].cardN }));
+        dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardN: oppHand[tntIndex].cardN }));
+        if (tntIndex < oppHand.length - 1 && oppHand[tntIndex + 1])
+          dispatch(deleteHand({ isP1Owner: !P1attack, deleteCardN: oppHand[tntIndex + 1].cardN }));
 
         dispatch(increaseP1Live(P1attack ? 1 : -1));
       }

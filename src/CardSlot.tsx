@@ -104,7 +104,7 @@ export default function CardSlot(props: {
     let oppField = [...avvSide];
 
     if (card.sigils?.find((s) => s < 200)) { //0/1 spawn
-      const advPosId = P1Owner ? 200 + index : 100 + index;
+      const advPosId = (P1Owner ? 2000 : 1000) + index;
 
       if (card.sigils?.includes(1) && oppField[index].cardXY === -1) //1='egg'       
         oppField[index] = { ...egg, cardXY: advPosId };
