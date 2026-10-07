@@ -6,8 +6,10 @@ import {
   setWarning,
   setCurrPhase,
   drawnHand,
-  deleteHand
+  deleteHand,
+  turnClock
 } from "./cardReducer.tsx";
+import './css/PlayerTurn.scss';
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
 import { handleClock } from "./utils.tsx";
 import { Button } from "primereact/button";
@@ -763,9 +765,13 @@ export default function PlayerTurn(): JSX.Element {
         dispatch(setHammer());
 
       setTurnLabel("Battle ...");
-      if (rules.useBelts) handleClock(fieldCards, true, dispatch);
 
-      const updatedField = BattlePhase(currPlayer === 1);
+      let updatedField = BattlePhase(currPlayer === 1);
+      if (rules.useBelts) {
+        updatedField = handleClock(fieldCards, true);
+        dispatch(turnClock({ turnedField: updatedField }));
+      }
+
       TurnOverAndEvolvePhase(updatedField, currPlayer === 1, dispatch);
       const next = currPlayer === 1 ? 2 : 1;
       dispatch(setCurrPlayer(0));

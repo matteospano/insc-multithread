@@ -106,16 +106,15 @@ export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType =
   return { ...drawnCard, sigils: tempSigils }
 }
 
-export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: any, usedWatches?: any) => {
+export const handleClock = (fieldCards: Field, isClockwise: boolean): Field => {
   function changeId(card: CardType, newpos: number, P1Owner: boolean): CardType {
-    if (card.cardID === -1)
-      return card
+    if (card.cardID === -1) return card;
     const newID = P1Owner ? 100 + newpos : 200 + newpos;
-    return { ...card, cardID: newID }
+    return { ...card, cardID: newID };
   }
 
-  const turnedField: Field = isClockwise ?
-    {
+  return isClockwise
+    ? {
       P1side: [
         changeId(fieldCards.P1side[1], 0, true),
         changeId(fieldCards.P1side[2], 1, true),
@@ -127,24 +126,25 @@ export const handleClock = (fieldCards: Field, isClockwise: boolean, dispatch: a
         changeId(fieldCards.P2side[0], 1, false),
         changeId(fieldCards.P2side[1], 2, false),
         changeId(fieldCards.P2side[2], 3, false),
-        changeId(fieldCards.P2side[3], 4, false)]
-    } :
-    {
+        changeId(fieldCards.P2side[3], 4, false)],
+    }
+    : {
       P1side: [
         changeId(fieldCards.P2side[0], 0, true),
         changeId(fieldCards.P1side[0], 1, true),
         changeId(fieldCards.P1side[1], 2, true),
         changeId(fieldCards.P1side[2], 3, true),
-        changeId(fieldCards.P1side[3], 4, true)],
+        changeId(fieldCards.P1side[3], 4, true),
+      ],
       P2side: [
         changeId(fieldCards.P2side[1], 0, false),
         changeId(fieldCards.P2side[2], 1, false),
         changeId(fieldCards.P2side[3], 2, false),
         changeId(fieldCards.P2side[4], 3, false),
-        changeId(fieldCards.P1side[4], 4, false)]
+        changeId(fieldCards.P1side[4], 4, false),
+      ],
     };
-  usedWatches ? dispatch(turnClock({ turnedField, usedWatches })) : dispatch(turnClock({ turnedField }));
-}
+};
 
 export const fillEmptySpots = (spots: CardType[], n_cards: number, dataSet: CardType[]) => {
   let emptySpotsIndex: number[] = spots.map((val, index) => ({ val, index }))

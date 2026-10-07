@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'primereact/button';
 import { useAppDispatch, useAppSelector } from "./hooks.ts";
-import './css/CustomToast.scss'
-import { EMPTY_TOAST, Field, setWarning, updateSacrificeCount } from './cardReducer.tsx';
+import './css/CustomToast.scss';
+import { EMPTY_TOAST, Field, setWarning, turnClock, updateSacrificeCount } from './cardReducer.tsx';
 import { handleClock } from './utils.tsx';
 
 export const CustomToastSacr = () => {
@@ -17,7 +17,9 @@ export const CustomToastSacr = () => {
     if (canTurn) {
       const usedWatches = warningToast.subject === 'Player1' ?
         { P1: false, P2: currentWatches.P2 } : { P1: currentWatches.P1, P2: false };
-      handleClock(fieldCards, isClockwise, dispatch, usedWatches);
+
+      const turnedField = handleClock(fieldCards, isClockwise);
+      dispatch(turnClock({ turnedField, usedWatches }));
     }
   }
 
