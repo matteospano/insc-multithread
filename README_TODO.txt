@@ -9,8 +9,8 @@ Documento riassuntivo di tutte le funzionalità pendenti, estrapolate dai commen
 - [ ] **Gestione Triggers Ingressi/Uscite (Smell, Leaders, Alarm)**:
   - Riapplicare gli effetti al momento dell'evento `onEnemySpawn` e `onFriendSpawn`.
   - Annullare/rimuovere correttamente i relativi buff/debuff agli eventi `onDeath` e `onSacrifice`.
-- [ ] **SnakeBomb (Sigillo 205)**: Implementare la gestione e la propagazione dell'effetto esplosione.
-- [ ] **Carta Immortale (Sigillo 203)**: Alla morte, recuperare le stats pulite della carta base dal dataset e applicare i modficatori Totem attivi prima di riaggiungerla in mano.
+**SnakeBomb (Sigillo 205)**: Implementare la gestione e la propagazione dell'effetto esplosione.
+**Carta Immortale (Sigillo 203)**: Alla morte, recuperare le stats pulite della carta base dal dataset e applicare i modficatori Totem attivi prima di riaggiungerla in mano.
 - [ ] **Nuovi Sigilli e Comportamenti Speciali**:
   - **Vampire (Sigillo 504)**: Guadagna +1 DEF dopo un attacco andato a segno.
   - **Water / Submerge (Sigillo 640)**: Immersione a fine turno con liberazione dello slot sul terreno.

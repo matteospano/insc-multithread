@@ -45,7 +45,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 970, name: 'guardian', totem: true, trad: 'It moves in front of the last enemy spawn' }, //listen: 'en_spawn'
   { id: 605, name: 'helper', trad: 'if enemy attacks and the spawner of this card is still alive, it will strike back' },//onDef,è uguale a spikes, fa 1 di danno
   { id: 601, name: 'ice', trad: 'On the first damage dealt, it evolves' }, //onDef
-  { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a copy of it enters your hand' }, //onDeath
+  { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a fresh copy of it enters your hand' }, //onDeath
   { id: 704, name: 'cat', trad: 'When this card is sacrificed, it does not perish' }, //onSacr
   { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, onSacr, listen: 'fr_spawn'
   { id: 999, name: 'looter', totem: true, trad: 'This card is not a valid sacrifice' }, //onSacr
@@ -56,7 +56,7 @@ export const sigil_def: SigilDefType[] = [
   //{ id: 999, name: 'scavenger', trad: 'aaa' },
   { id: 604, name: 'shield', trad: 'It absorbs the first damage dealt' }, //onDef
   { id: 171, name: 'smell', totem: true, trad: 'It decrease opposing enemy atk by one' }, //onSpawn, onDeath, onSacr, listen: 'en_spawn'
-  { id: 207, name: 'snakeBomb', trad: 'Death: explodes and gifts 3 cards from your deck to your opponent' }, //onDeath
+  { id: 207, name: 'snakeBomb', trad: 'Death: explodes and substitute death cards with snakes' }, //onDeath
   { id: 503, name: 'sniper', trad: 'Chooses which opposing spaces to strike' }, //onAtk
   { id: 603, name: 'spikes', totem: true, trad: 'When being attacked, inflicts 1 damage to the attacker' }, //onDef
   { id: 609, name: 'tail', trad: 'When this card is going to die, it moves on the right (if possible) and drops a tail' }, //onDeath ma in combattimento (come fosse un onDef)

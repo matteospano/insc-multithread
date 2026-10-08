@@ -62,7 +62,7 @@ export default function CardSlot(props: {
     }
   }, [pendingSacr]);
 
-  const onSpawn = (card: CardType): Field => {
+  const onSpawn = (card: CardType): Field => { // si intende spawnare una carta sul campo
     dispatch(setDeleteCardHand(card.cardN));
     card = { ...card, selected: false, cardXY: index + (P1Owner ? 1000 : 2000) };
     setCurrCard(card);
@@ -82,7 +82,7 @@ export default function CardSlot(props: {
         def: card.def + Math.floor(apples * 2 / 3)
       };
     if (tempSide.find((c) => c.sigils?.includes(150) && //150 = 'leader'
-      (c.cardXY === card.cardXY - 1 || c.cardXY === card.cardXY + 1)))
+      card.cardXY !== undefined && (c.cardXY === card.cardXY - 1 || c.cardXY === card.cardXY + 1)))
       card = {
         ...card,
         atk: card.atk + 1
@@ -106,16 +106,16 @@ export default function CardSlot(props: {
     if (card.sigils?.find((s) => s < 200)) { //0/1 spawn
       const advPosId = (P1Owner ? 2000 : 1000) + index;
 
-      if (card.sigils?.includes(1) && oppField[index].cardXY === -1) //1='egg'       
+      if (card.sigils?.includes(1) && oppField[index].cardXY === undefined) //1='egg'       
         oppField[index] = { ...egg, cardXY: advPosId };
 
       if (card.sigils?.includes(100)) { //bells
         if (index > 0)
-          if (tempSide[index - 1].cardXY === -1)
-            tempSide[index - 1] = { ...bell, cardXY: card.cardXY - 1 };
+          if (tempSide[index - 1].cardXY === undefined)
+            tempSide[index - 1] = { ...bell, cardXY: (card.cardXY || 0) - 1 };
         if (index < 4)
-          if (tempSide[index + 1].cardXY === -1)
-            tempSide[index + 1] = { ...bell, cardXY: card.cardXY + 1 };
+          if (tempSide[index + 1].cardXY === undefined)
+            tempSide[index + 1] = { ...bell, cardXY: (card.cardXY || 0) + 1 };
         //todo bells ondeath libera il campo dalle 2 bell
       }
 
@@ -128,10 +128,10 @@ export default function CardSlot(props: {
 
       if (card.sigils?.includes(150)) { //leader
         if (index > 0)
-          if (tempSide[index - 1].cardXY !== -1)
+          if (tempSide[index - 1].cardXY !== undefined)
             tempSide[index - 1] = { ...tempSide[index - 1], atk: tempSide[index - 1].atk + 1 };
         if (index < 4)
-          if (tempSide[index + 1].cardXY !== -1)
+          if (tempSide[index + 1].cardXY !== undefined)
             tempSide[index + 1] = { ...tempSide[index + 1], atk: tempSide[index + 1].atk + 1 };
         //todo riapplica l'effetto onFriend spawn e annullalo on death e on sacr
       }

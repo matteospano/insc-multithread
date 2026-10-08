@@ -13,19 +13,20 @@ export default function RemoveCardEffects(
   //todo solve card onspawn rimane copia in mano
 
   const removeEffects = (): CardType => {
-    if ((!card.sigils) || card.sigils.length === 0)
+    if (card.cardXY === undefined || (!card.sigils) || card.sigils.length === 0)
       return card
-    const index = card.cardXY < 2000 ? card.cardXY - 1000 : card.cardXY - 2000;
+    const index = card.cardXY > 1000 ? card.cardXY - 2000 : card.cardXY - 1000;
     const hasAlarm = card.sigils.includes(170);
     const hasSmell = card.sigils.includes(171);
     const hasLeader = card.sigils.includes(150);
     //todo hasBell-> togli i sigilli helper a [index-1] e [index+1]
     let tempSide = [...mySide];
     let oppSide = [...avvSide];
+
     if (hasAlarm || hasSmell) {
       const delta = hasAlarm ? -1 : +1;
       oppSide[index] = { ...oppSide[index], atk: oppSide[index].atk + delta };
-      if (movedTo >= 0 && oppSide[index].cardXY !== -1)
+      if (movedTo >= 0 && oppSide[index].cardXY !== undefined)
         oppSide[movedTo] = { ...oppSide[movedTo], atk: oppSide[movedTo].atk - delta };
     }
     if (hasLeader) {

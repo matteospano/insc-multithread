@@ -1,7 +1,7 @@
 import { CardType } from "../cardReducer"
 
 export const EMPTY_CARD: CardType = {
-  cardXY: -1, cardN: -1, name: '', family: 'none', atk: 0, def: 0, sacr: 0,
+  name: '', family: 'none', atk: 0, def: 0, sacr: 0,
   dropBlood: 0, dropBones: 0,
 }
 
@@ -9,7 +9,6 @@ export const EMPTY_CARD: CardType = {
 export const squirrel: CardType = {
   name: "squirrel",
   family: "squirrel",
-  cardXY: -1, cardN: -1,
   atk: 0,
   def: 1,
   sacr: 0,
@@ -20,7 +19,6 @@ export const squirrel: CardType = {
 export const rock: CardType = {
   name: "rock",
   family: "terrain",
-  cardXY: -1, cardN: -1,
   atk: 0,
   def: 4,
   sacr: 0,
@@ -35,7 +33,6 @@ export const rock: CardType = {
 export const egg: CardType = {
   name: "raven egg",
   family: "bird",
-  cardXY: -1, cardN: -1,
   atk: 0,
   def: 2,
   sacr: 0,
@@ -47,7 +44,6 @@ export const egg: CardType = {
 export const tail: CardType = {
   name: "tail of ",
   family: "none",
-  cardXY: -1, cardN: -1,
   atk: 0,
   def: 2,
   sacr: 0,
@@ -59,7 +55,6 @@ export const tail: CardType = {
 export const bell: CardType = {
   name: "bell",
   family: "terrain",
-  cardXY: -1, cardN: -1,
   atk: 0,
   def: 2,
   sacr: 0,
@@ -71,7 +66,6 @@ export const bell: CardType = {
 export const dinamite: CardType = {
   name: "dinamite",
   family: "terrain",
-  cardXY: -1, cardN: -1,
   atk: 0,
   def: 1,
   sacr: 0,
@@ -85,7 +79,6 @@ export const dinamite: CardType = {
 export const hunter: CardType = {
   name: "the Hunter",
   family: "none",
-  cardXY: -1, cardN: -1,
   atk: 3,
   def: 4,
   sacr: 0,
@@ -97,7 +90,6 @@ export const hunter: CardType = {
 export const prospector: CardType = {
   name: "Prospector",
   family: "none",
-  cardXY: -1, cardN: -1,
   atk: 2,
   def: 6,
   sacr: 0,
@@ -109,7 +101,6 @@ export const prospector: CardType = {
 export const angler: CardType = {
   name: "the Angler",
   family: "none",
-  cardXY: -1, cardN: -1,
   atk: 3,
   def: 1,
   sacr: 0,
@@ -121,7 +112,6 @@ export const angler: CardType = {
 export const necromancer: CardType = {
   name: "Necromancer",
   family: "none",
-  cardXY: -1, cardN: -1,
   atk: 3,
   def: 1,
   sacr: 0,

@@ -1,7 +1,8 @@
 import "./css/Deck.scss";
 import { CardType, setWarning, updateP1draw, updateP2draw } from "./cardReducer.tsx";
 import { useAppSelector, useAppDispatch } from "./hooks.ts";
-import { DrawFromDeck, DrawFromDinamite, DrawFromSQR } from "./utils.tsx";
+import { DrawFromDeck, DrawFromVirtualDeck, DrawFromSQR } from "./utils.tsx";
+import { dinamite } from "./const/utilCards.tsx";
 
 export default function Deck(props: { owner: number }): JSX.Element {
   const { owner } = props;
@@ -54,7 +55,7 @@ export default function Deck(props: { owner: number }): JSX.Element {
   const onDeckTntClick = () => {
     if ((currPlayer === owner) && canPlayerDraw) {
       isP1Owner ? dispatch(updateP1draw(false)) : dispatch(updateP2draw(false));
-      DrawFromDinamite(isP1Owner, dispatch);
+      DrawFromVirtualDeck(isP1Owner, dinamite, rules, dispatch);
       dispatch(setWarning({
         message: 'must_draw',
         subject: 'Player ' + currPlayer,

@@ -26,6 +26,7 @@ export const DrawStart = (isP1Owner: boolean, deck: CardType[], rules: RuleType,
       const rndInd = Math.floor(Math.random() * deckLen);
       drawnCard = deck[rndInd];
     }
+    drawnCard = { ...drawnCard, cardXY: undefined };
     const tempDeck = [...deck];
     isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
 
@@ -46,6 +47,7 @@ export const DrawStart = (isP1Owner: boolean, deck: CardType[], rules: RuleType,
 export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
   const randCardIndex = Math.floor(Math.random() * deck.length);
   let drawnCard = deck[randCardIndex];
+  drawnCard = { ...drawnCard, cardXY: undefined };
   const tempDeck = [...deck];
   isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
 
@@ -59,9 +61,22 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
   dispatch(drawnHand({ isP1Owner, drawnCard }));
 }
 
+export const DrawFromVirtualDeck = (isP1Owner: boolean, card: CardType, rules: RuleType, dispatch: any) => { //any deck-like draw
+  let drawnCard: CardType = { ...card, cardXY: undefined, cardN: undefined }; //TODO indice cardN
+
+  if (rules.randomSigils)
+    drawnCard = replaceRandomSigil(drawnCard);
+  else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
+    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
+  else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
+    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+
+  dispatch(drawnHand({ isP1Owner, drawnCard }));
+}
+
 export const DrawFromSQR = (isP1Owner: boolean, SQRLength: number, rules: RuleType, dispatch: any) => {
   const squirrelN = 1700 + (isP1Owner ? 0 : 1000) + SQRLength;
-  let drawnCard = { ...squirrel, cardXY: -1, cardN: squirrelN };
+  let drawnCard: CardType = { ...squirrel, cardN: squirrelN };
   if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
@@ -78,12 +93,7 @@ export const DrawFromBoss = (isP1Owner: boolean, rules: RuleType, dispatch: any)
       : rules.boss === 'angler' ? angler
         : rules.boss === 'necromancer' ? necromancer
           : squirrel //altri...
-  dispatch(drawnHand({ isP1Owner, drawnCard: { ...boss, cardN: 999 + (isP1Owner ? 1000 : 2000) } }));
-}
-
-export const DrawFromDinamite = (isP1Owner: boolean, dispatch: any) => {
-  let drawnCard = dinamite;
-  dispatch(drawnHand({ isP1Owner, drawnCard }))
+  dispatch(drawnHand({ isP1Owner, drawnCard: { ...boss, cardN: 999 + (isP1Owner ? 1000 : 2000), cardXY: undefined } }));
 }
 
 export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType => {
@@ -108,7 +118,7 @@ export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType =
 
 export const handleClock = (fieldCards: Field, isClockwise: boolean): Field => {
   function changeId(card: CardType, newpos: number, P1Owner: boolean): CardType {
-    if (card.cardXY === -1) return card;
+    if (!(card.cardN)) return card;
     const newID = P1Owner ? 1000 + newpos : 2000 + newpos;
     return { ...card, cardXY: newID };
   }
@@ -148,7 +158,7 @@ export const handleClock = (fieldCards: Field, isClockwise: boolean): Field => {
 
 export const fillEmptySpots = (spots: CardType[], n_cards: number, dataSet: CardType[]) => {
   const emptySpotsIndex: number[] = spots.map((val, index) => ({ val, index }))
-    .filter(({ val, index }) => val.cardXY === -1).map(({ val, index }) => index);
+    .filter(({ val, index }) => val.cardXY === undefined).map(({ val, index }) => index);
   let updatedSpots: CardType[] = [...spots];
 
   for (let i = 0; i < n_cards && emptySpotsIndex.length > 0; i++) {

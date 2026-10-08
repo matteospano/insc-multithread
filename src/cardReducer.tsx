@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import immortalCards from './defaultSettings/immortalCards.json';
 import initialField from './defaultSettings/initialField.json';
 import deck_P1 from './defaultSettings/P1Deck.json';
 import deck_P2 from './defaultSettings/P2Deck.json';
@@ -7,7 +8,7 @@ const defaultField = initialField as Field
 
 export interface CardType {
   /* identificativi */
-  cardN: number, cardXY: number, //numero progressivo carta pescata e posizione in mano o campo
+  cardN?: number, cardXY?: number, //numero progressivo carta pescata (1000+/2000+) e posizione in mano (1000/2000) o campo (0-4)
   name: string, family: string
   /* stats */
   atk: number, def: number,
@@ -91,13 +92,15 @@ export const EMPTY_TOAST: warningToast = {
 interface CardState {
   currPlayer: number;
   currPhase: number;
+  P1cardCounter: number;
+  P2cardCounter: number;
   showRules: boolean | undefined; //undefined prima di giocare, editabile
   rules: RuleType;
   handCards: Field;
   leshiField: Field;
   fieldCards: Field;
   dragCardInfo: CardType; //card being dragged to the field
-  deleteCardN: number;//dragCardInfo after drag completed
+  deleteCardN: number | undefined;//dragCardInfo after drag completed
   P1Deck: CardType[];
   P1SQRDeck: number;
   P2Deck: CardType[];
@@ -112,19 +115,22 @@ interface CardState {
   warningToast: warningToast,
   hammer: boolean,
   secretName: string,
-  showSidebarInfo: boolean
+  showSidebarInfo: boolean,
+  immortalCards: CardType[];
 }
 
 const initialState: CardState = {
   currPlayer: 1,
   currPhase: 12, // 10: P1 ready, 11: P1 turn, 12: battle phase, 19: evolution phase
+  P1cardCounter: 5,
+  P2cardCounter: 5,
   showRules: undefined,
   rules: DEFAULT_RULES,
   handCards: EMPTY_HAND_CARDS,
   leshiField: EMPTY_FIELD,
   fieldCards: defaultField,
   dragCardInfo: EMPTY_CARD,
-  deleteCardN: -1,
+  deleteCardN: undefined,
   P1Deck: [...deck_P1] as CardType[],
   P1SQRDeck: 20,
   P2Deck: [...deck_P2] as CardType[],
@@ -139,7 +145,8 @@ const initialState: CardState = {
   warningToast: EMPTY_TOAST,
   hammer: false,
   secretName: '',
-  showSidebarInfo: false
+  showSidebarInfo: false,
+  immortalCards: [...immortalCards] as CardType[]
 };
 
 const cardSlice = createSlice({
@@ -158,7 +165,7 @@ const cardSlice = createSlice({
       ...state,
       dragCardInfo: action.payload
     }),
-    setDeleteCardHand: (state, action: PayloadAction<number>) => ({
+    setDeleteCardHand: (state, action: PayloadAction<number | undefined>) => ({
       ...state,
       dragCardInfo: EMPTY_CARD,
       deleteCardN: action.payload
@@ -218,31 +225,46 @@ const cardSlice = createSlice({
       ...state,
       P2Bones: state.P2Bones + action.payload
     }),
-    drawnHand: (state, action: PayloadAction<{ isP1Owner: boolean, drawnCard: CardType }>) => ({
-      ...state,
-      handCards: {
-        ...state.handCards,
-        P1side: action.payload.isP1Owner ?
-          [...state.handCards.P1side, { ...action.payload.drawnCard }] : state.handCards.P1side,
-        P2side: action.payload.isP1Owner ?
-          state.handCards.P2side : [...state.handCards.P2side, { ...action.payload.drawnCard }],
-      }
-    }),
-    drawnFullHand: (state, action: PayloadAction<{ isP1Owner: boolean, hand: CardType[] }>) => ({
-      ...state,
-      handCards: {
-        ...state.handCards,
-        P1side: action.payload.isP1Owner ?
-          [...action.payload.hand] : state.handCards.P1side,
-        P2side: action.payload.isP1Owner ?
-          state.handCards.P2side : [...action.payload.hand]
-      }
-    }),
-    deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardN: number }>) => {
+    drawnHand: (state, action: PayloadAction<{ isP1Owner: boolean, drawnCard: CardType }>) => {
+      const currentCount = action.payload.isP1Owner ? state.P1cardCounter : state.P2cardCounter;
+      const base = action.payload.isP1Owner ? 1000 : 2000;
+      let newCard: CardType = { ...action.payload.drawnCard, cardXY: undefined };
+      if (!newCard.cardN || newCard.cardN <= 0)
+        newCard.cardN = base + currentCount;
+      return {
+        ...state,
+        P1cardCounter: action.payload.isP1Owner ? state.P1cardCounter + 1 : state.P1cardCounter,
+        P2cardCounter: action.payload.isP1Owner ? state.P2cardCounter : state.P2cardCounter + 1,
+        handCards: {
+          ...state.handCards,
+          P1side: action.payload.isP1Owner ? [...state.handCards.P1side, newCard] : state.handCards.P1side,
+          P2side: action.payload.isP1Owner ? state.handCards.P2side : [...state.handCards.P2side, newCard]
+        }
+      };
+    },
+    drawnFullHand: (state, action: PayloadAction<{ isP1Owner: boolean, hand: CardType[] }>) => {
+      const base = action.payload.isP1Owner ? 1000 : 2000;
+      const processedHand = action.payload.hand.map((c, idx) => {
+        const nc: CardType = { ...c, cardXY: undefined };
+        if (!nc.cardN || nc.cardN <= 0) nc.cardN = base + idx + 5;
+        return nc;
+      });
+      return {
+        ...state,
+        P1cardCounter: action.payload.isP1Owner ? state.P1cardCounter + processedHand.length : state.P1cardCounter,
+        P2cardCounter: action.payload.isP1Owner ? state.P2cardCounter : state.P2cardCounter + processedHand.length,
+        handCards: {
+          ...state.handCards,
+          P1side: action.payload.isP1Owner ? [...processedHand] : state.handCards.P1side,
+          P2side: action.payload.isP1Owner ? state.handCards.P2side : [...processedHand]
+        }
+      };
+    },
+    deleteHand: (state, action: PayloadAction<{ isP1Owner: boolean, deleteCardN: number | undefined }>) => {
       const targetSide = action.payload.isP1Owner ? 'P1side' : 'P2side';
       return {
         ...state,
-        deleteCardN: -1,
+        deleteCardN: undefined,
         handCards: {
           ...state.handCards,
           [targetSide]: state.handCards[targetSide].filter(

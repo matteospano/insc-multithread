@@ -2,8 +2,6 @@
   {
     "name": "P1-rana-0",
     "family": "none",
-    "cardXY": 1006,
-    "cardN": 1006,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -15,8 +13,6 @@
   {
     "name": "P1-rana-1",
     "family": "none",
-    "cardXY": 1007,
-    "cardN": 1007,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -28,8 +24,6 @@
   {
     "name": "P1-rana-2",
     "family": "none",
-    "cardXY": 1008,
-    "cardN": 1008,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -41,8 +35,6 @@
   {
     "name": "P1-rana-3",
     "family": "none",
-    "cardXY": 1009,
-    "cardN": 1009,
     "atk": 1,
     "def": 1,
     "sacr": 0,

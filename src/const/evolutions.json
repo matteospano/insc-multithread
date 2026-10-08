@@ -4,8 +4,6 @@
     "into": {
       "name": "raven",
       "family": "bird",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 2,
       "def": 1,
       "sacr": 2,
@@ -22,8 +20,6 @@
     "into": {
       "name": "elk",
       "family": "hooved",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 1,
       "def": 3,
       "sacr": 2,
@@ -40,8 +36,6 @@
     "into": {
       "name": "moose buck",
       "family": "hooved",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 1,
       "def": 3,
       "sacr": 2,
@@ -58,8 +52,6 @@
     "into": {
       "name": "wolf",
       "family": "canine",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 2,
       "def": 1,
       "sacr": 2,
@@ -73,8 +65,6 @@
     "into": {
       "name": "dire wolf",
       "family": "canine",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 1,
       "def": 4,
       "sacr": 2,
@@ -91,8 +81,6 @@
     "into": {
       "name": "free wolf",
       "family": "canine",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 2,
       "def": 0,
       "sacr": 2,
@@ -106,8 +94,6 @@
     "into": {
       "name": "mantis god",
       "family": "insect",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 0,
       "def": 0,
       "sacr": 2,
@@ -124,8 +110,6 @@
     "into": {
       "name": "ant queen",
       "family": "insect",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 0,
       "def": 2,
       "sacr": 2,
@@ -139,8 +123,6 @@
     "into": {
       "name": "ant queen",
       "family": "insect",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 0,
       "def": 2,
       "sacr": 2,
@@ -154,8 +136,6 @@
     "into": {
       "name": "mosquitos",
       "family": "insect",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 2,
       "def": 0,
       "sacr": 2,
@@ -172,8 +152,6 @@
     "into": {
       "name": "bullfrog",
       "family": "reptile",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 1,
       "def": 1,
       "sacr": 2,
@@ -190,8 +168,6 @@
     "into": {
       "name": "mole man",
       "family": "none",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 0,
       "def": 2,
       "sacr": 2,
@@ -208,8 +184,6 @@
     "into": {
       "name": "opossum",
       "family": "none",
-      "cardXY": -1,
-      "cardN": -1,
       "atk": 2,
       "def": 0,
       "sacr": 2,

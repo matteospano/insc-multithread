@@ -2,8 +2,6 @@
   {
     "name": "bee",
     "family": "insect",
-    "cardN": 2005,
-    "cardXY": -1,
     "atk": 1,
     "def": 2,
     "sacr": 1,
@@ -17,8 +15,6 @@
   {
     "name": "scheletor",
     "family": "none",
-    "cardN": 2006,
-    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -32,8 +28,6 @@
   {
     "name": "wolf",
     "family": "canine",
-    "cardN": 2007,
-    "cardXY": -1,
     "atk": 3,
     "def": 1,
     "sacr": 2,
@@ -44,8 +38,6 @@
   {
     "name": "geco",
     "family": "none",
-    "cardN": 2008,
-    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 0,
@@ -56,8 +48,6 @@
   {
     "name": "elk fawn",
     "family": "hooved",
-    "cardN": 2009,
-    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 1,
@@ -71,8 +61,6 @@
   {
     "name": "cat",
     "family": "none",
-    "cardN": 2010,
-    "cardXY": -1,
     "atk": 0,
     "def": 1,
     "sacr": 1,
@@ -86,8 +74,6 @@
   {
     "name": "goat",
     "family": "none",
-    "cardN": 2011,
-    "cardXY": -1,
     "atk": 0,
     "def": 1,
     "sacr": 1,
@@ -101,8 +87,6 @@
   {
     "name": "wolf cub",
     "family": "canine",
-    "cardN": 2012,
-    "cardXY": -1,
     "atk": 2,
     "def": 1,
     "sacr": 1,
@@ -116,8 +100,6 @@
   {
     "name": "bomb",
     "family": "terrain",
-    "cardN": 2013,
-    "cardXY": -1,
     "atk": 0,
     "def": 1,
     "sacr": 1,
@@ -132,8 +114,6 @@
   {
     "name": "mantis",
     "family": "insect",
-    "cardN": 2014,
-    "cardXY": -1,
     "atk": 1,
     "def": 1,
     "sacr": 1,
