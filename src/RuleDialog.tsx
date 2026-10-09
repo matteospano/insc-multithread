@@ -64,7 +64,7 @@ export default function RuleDialog() {
   const [P1TotemSigil, setP1TotemSigil] = useState(rules.useTotems.P1Sigil || -1);
   const [P2TotemHead, setP2TotemHead] = useState(rules.useTotems.P2Head || '');
   const [P2TotemSigil, setP2TotemSigil] = useState(rules.useTotems.P2Sigil || -1);
-  const P1SQRDeck: number = useAppSelector((state) => state.card.P1SQRDeck);
+  const P1SQRDeck: number = useAppSelector((state) => state.card.P1SQRDeck); //P2 inizia anche il suo primo turno normale, dovendo pescare
 
   interface deckOption { family: string, cards: CardType[] }
 
@@ -172,7 +172,7 @@ export default function RuleDialog() {
       }
     }
     /* distribute cards P1*/
-    DrawStart(true, P1deck, tempRules, dispatch);
+    DrawStart(true, P1deck, P1SQRDeck, tempRules, dispatch);
     dispatch(setRules(tempRules));
     dispatch(setShowRules(false));
     if (!useBones)
@@ -196,11 +196,9 @@ export default function RuleDialog() {
       dispatch(updateField({ P1side, P2side }));
       dispatch(infiniteLive());
     }
-    DrawFromSQR(true, P1SQRDeck, rules, dispatch); //pesca il primo scoiattolo
     if (isMultiplayer === 0) {
       /* distribute cards P2*/
-      DrawStart(false, P2deck, tempRules, dispatch);
-      //DrawFromSQR(false, P2SQRDeck, rules, dispatch); //pesca il primo scoiattolo
+      DrawStart(false, P2deck, -1, tempRules, dispatch);
     }
   }
 

@@ -15,34 +15,28 @@ export const sigilDefinition = (sigilId: number) => {
   return ''
 }
 
-export const DrawStart = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
+export const DrawStart = (isP1Owner: boolean, deck: CardType[], P1SQRDeck: number, rules: RuleType, dispatch: any) => {
   let iterator = 5;
   let hand: CardType[] = [];
-  let deckLen = deck.length;
+  let tempDeck: CardType[] = [...deck];
 
   while (iterator > 0) {
-    let drawnCard = EMPTY_CARD;
-    if (deckLen > 0) {//todo imponi un min di 10 carte sulla scelta deck
-      const rndInd = Math.floor(Math.random() * deckLen);
-      drawnCard = deck[rndInd];
+    let drawnCard = dinamite; //se il deck contiene già in origine <5 carte, peschi dinamite
+    if (tempDeck.length > 0) {//todo imponi un min di 10 carte sulla scelta deck
+      const rndInd = Math.floor(Math.random() * tempDeck.length);
+      drawnCard = tempDeck[rndInd];
+      tempDeck = [...tempDeck.filter((x) => x.name !== drawnCard.name)];
     }
-    drawnCard = { ...drawnCard, cardXY: undefined };
-    const tempDeck = [...deck];
-    isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
-
-    const hasRandomSigil = drawnCard.sigils?.includes(900);
-    if (rules.randomSigils || hasRandomSigil)
-      drawnCard = replaceRandomSigil(drawnCard, hasRandomSigil);
-    else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
-      drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
-    else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
-      drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+    drawnCard = applySpawnSigil(drawnCard, rules.randomSigils,
+      rules.useTotems.P1Head, rules.useTotems.P1Sigil, rules.useTotems.P2Head, rules.useTotems.P2Sigil);
     hand.push(drawnCard);
-    deckLen--;
     iterator--;
   }
 
+  isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
   dispatch(drawnFullHand({ isP1Owner, hand }));
+  if (isP1Owner)
+    DrawFromSQR(isP1Owner, P1SQRDeck, rules, dispatch); //pesca il primo scoiattolo
 }
 
 export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleType, dispatch: any) => {
@@ -52,13 +46,8 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
   const tempDeck = [...deck];
   isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
 
-  const hasRandomSigil = drawnCard.sigils?.includes(900);
-  if (rules.randomSigils || hasRandomSigil)
-    drawnCard = replaceRandomSigil(drawnCard, hasRandomSigil);
-  else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
-    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
-  else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
-    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+  drawnCard = applySpawnSigil(drawnCard, rules.randomSigils,
+    rules.useTotems.P1Head, rules.useTotems.P1Sigil, rules.useTotems.P2Head, rules.useTotems.P2Sigil);
 
   dispatch(drawnHand({ isP1Owner, drawnCard }));
 }
@@ -66,13 +55,8 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
 export const DrawFromVirtualDeck = (isP1Owner: boolean, card: CardType, rules: RuleType, dispatch: any) => { //any deck-like draw
   let drawnCard: CardType = { ...card, cardXY: undefined, cardN: undefined }; //TODO indice cardN
 
-  const hasRandomSigil = drawnCard.sigils?.includes(900);
-  if (rules.randomSigils || hasRandomSigil)
-    drawnCard = replaceRandomSigil(drawnCard, hasRandomSigil);
-  else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
-    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
-  else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
-    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+  drawnCard = applySpawnSigil(drawnCard, rules.randomSigils,
+    rules.useTotems.P1Head, rules.useTotems.P1Sigil, rules.useTotems.P2Head, rules.useTotems.P2Sigil);
 
   dispatch(drawnHand({ isP1Owner, drawnCard }));
 }
@@ -80,10 +64,9 @@ export const DrawFromVirtualDeck = (isP1Owner: boolean, card: CardType, rules: R
 export const DrawFromSQR = (isP1Owner: boolean, SQRLength: number, rules: RuleType, dispatch: any) => {
   const squirrelN = 1700 + (isP1Owner ? 0 : 1000) + SQRLength;
   let drawnCard: CardType = { ...squirrel, cardN: squirrelN };
-  if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
-    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
-  if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
-    drawnCard = addTotemSigil(drawnCard, rules.useTotems.P2Sigil);
+  //non applica la randomSigil agli scoiattoli
+  drawnCard = applySpawnSigil(drawnCard, false,
+    rules.useTotems.P1Head, rules.useTotems.P1Sigil, rules.useTotems.P2Head, rules.useTotems.P2Sigil);
 
   dispatch(drawnHand({ isP1Owner, drawnCard }))
   isP1Owner ? dispatch(P1DeckSQRNextID()) : dispatch(P2DeckSQRNextID());
@@ -99,24 +82,45 @@ export const DrawFromBoss = (isP1Owner: boolean, rules: RuleType, dispatch: any)
   dispatch(drawnHand({ isP1Owner, drawnCard: { ...boss, cardN: 999 + (isP1Owner ? 1000 : 2000), cardXY: undefined } }));
 }
 
+export const applySpawnSigil = (drawnCard: CardType, randomSigils: boolean,
+  P1Head: string | undefined, P1Sigil: number | undefined,
+  P2Head: string | undefined, P2Sigil: number | undefined): CardType => {
+  let modifCard: CardType = drawnCard;
+
+  const hasRandomSigil = drawnCard.sigils?.includes(900);
+  if (randomSigils || hasRandomSigil)
+    modifCard = replaceRandomSigil(drawnCard, hasRandomSigil);
+  if (P1Head === drawnCard.family && P1Sigil)
+    modifCard = addTotemSigil(drawnCard, P1Sigil);
+  if (P2Head === drawnCard.family && P2Sigil)
+    modifCard = addTotemSigil(drawnCard, P2Sigil);
+
+  /* applica sigilli onDraw */
+  if (drawnCard.sigils?.includes(999)) //looter
+    modifCard = { ...modifCard, dropBlood: -1 }
+  if (drawnCard.sigils?.includes(998)) //worthy
+    modifCard = { ...modifCard, dropBlood: 3 }
+  return modifCard;
+}
+
 export const addTotemSigil = (drawnCard: CardType, newSigil: number): CardType => {
-  if (drawnCard.sigils?.includes(newSigil))
-    return drawnCard //already present
+  let modifCard: CardType = drawnCard;
+
+  if (drawnCard.sigils?.includes(newSigil)) {
+    return modifCard //already present
+  }
+
   let tempSigils: number[] = drawnCard.sigils || [];
 
   /* useless sigils, they cancel each other: */
-  if ((drawnCard.sigils?.includes(170) && newSigil === 171))
-    drawnCard.sigils.splice(drawnCard.sigils.indexOf(170), 1);
-  else if (drawnCard.sigils?.includes(171) && newSigil === 170)
-    drawnCard.sigils.splice(drawnCard.sigils.indexOf(171), 1);
+  if ((modifCard.sigils?.includes(170) && newSigil === 171))
+    modifCard.sigils.splice(modifCard.sigils.indexOf(170), 1);
+  else if (modifCard.sigils?.includes(171) && newSigil === 170)
+    modifCard.sigils.splice(modifCard.sigils.indexOf(171), 1);
   else
     tempSigils = tempSigils.concat([newSigil]);
 
-  if (newSigil === 999) //looter
-    return { ...drawnCard, sigils: tempSigils, dropBlood: -1 }
-  if (newSigil === 998) //worthy
-    return { ...drawnCard, sigils: tempSigils, dropBlood: 3 }
-  return { ...drawnCard, sigils: tempSigils }
+  return { ...modifCard, sigils: tempSigils }
 }
 
 export const handleClock = (fieldCards: Field, isClockwise: boolean): Field => {

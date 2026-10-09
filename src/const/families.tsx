@@ -32,10 +32,10 @@ export const sigil_def: SigilDefType[] = [
   { id: 201, name: 'bomb', trad: 'Death: it will explode and cause damage to its side cards and front enemy' }, // onDeath
   { id: 400, name: 'boneDigger', trad: 'Every new turn it makes you gaign an extra bone' }, //onEvolve
   { id: 990, name: 'burrower', totem: true, trad: 'It moves to any empty space that is attacked by an enemy to block it' }, //listen: 'en_atk'
-  { id: 998, name: 'worthy', totem: true, trad: 'Sacrificed: it counts as 3 blood' }, //onSacr
+  { id: 998, name: 'worthy', totem: true, trad: 'Sacrificed: it counts as 3 blood' }, //onDraw + onSacr
   //{ name: 'doubleDeath', trad: 'aaa' },
   { id: 300, name: 'dinamite', trad: 'Next turn or on its death, it will explode (even if it is still in your hand) and cause damage to its side cards and front enemy' }, //onDeath, onEvolve
-  { id: 1, name: 'egg', trad: 'If enemy field is empty add an egg that may become a bird' }, //onSpawn
+  { id: 1, name: 'egg', trad: 'If enemy field is empty in front of it, adds an egg that may become a bird' }, //onSpawn
   { id: 401, name: 'evolve', totem: true, trad: 'Evolves itself in a stronger form at the start of its next turn' }, // onEvolve
   { id: 502, name: 'fly', trad: 'It can attack directly the opponent (but still be blocked by the block sigil)' }, //onAtk
   { id: 402, name: 'fragile', trad: 'Destroy itself at the start of its next turn' }, //onEvolve
@@ -48,12 +48,12 @@ export const sigil_def: SigilDefType[] = [
   { id: 203, name: 'immortal', trad: 'When this card perishes in a battle, a fresh copy of it enters your hand' }, //onDeath
   { id: 704, name: 'cat', trad: 'When this card is sacrificed, it does not perish' }, //onSacr
   { id: 150, name: 'leader', trad: 'Creatures adjacent to this card gain 1 def' }, //onSpawn, onDeath, onSacr, listen: 'fr_spawn'
-  { id: 999, name: 'looter', totem: true, trad: 'This card is not a valid sacrifice' }, //onSacr
+  { id: 999, name: 'looter', totem: true, trad: 'This card is not a valid sacrifice' }, //onDraw + onSacr
   //{ name: 'magicHand', trad: 'aaa' },
   { id: 940, name: 'push', totem: true, trad: 'At the end of each turn, it inverts its position with the card at its right' }, //onTurnOver
   { id: 900, name: 'random', totem: true, trad: 'This sigil is replaced by a random sigil' },
   { id: 971, name: 'regression', totem: true, trad: 'Blocks enemies on the ground and the spawned ones from evolving' }, //listen: 'en_spawn',
-  //{ id: 999, name: 'scavenger', trad: 'aaa' },
+  //{ id: , name: 'scavenger', trad: 'aaa' },
   { id: 604, name: 'shield', trad: 'It absorbs the first damage dealt' }, //onDef
   { id: 171, name: 'smell', totem: true, trad: 'It decrease opposing enemy atk by one' }, //onSpawn, onDeath, onSacr, listen: 'en_spawn'
   { id: 207, name: 'snakeBomb', trad: 'Death: explodes and spawn a snake instead of it' }, //onDeath
