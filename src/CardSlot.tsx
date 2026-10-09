@@ -62,6 +62,13 @@ export default function CardSlot(props: {
     }
   }, [pendingSacr]);
 
+  const checkNeighbours = (side: CardType[], card: CardType, property: string) => {
+    if (property === 'leader')
+      return side.find((c) => c.sigils?.includes(150) && //150 = 'leader'
+        c.cardXY === (card.cardXY || 0) - 1 || c.cardXY === (card.cardXY || 0) + 1)
+    return false
+  }
+
   const onSpawn = (card: CardType): Field => { // si intende spawnare una carta sul campo
     dispatch(setDeleteCardHand(card.cardN));
     card = { ...card, selected: false, cardXY: index + (P1Owner ? 1000 : 2000) };
@@ -81,8 +88,7 @@ export default function CardSlot(props: {
         ...card,
         def: card.def + Math.floor(apples * 2 / 3)
       };
-    if (tempSide.find((c) => c.sigils?.includes(150) && //150 = 'leader'
-      card.cardXY !== undefined && (c.cardXY === card.cardXY - 1 || c.cardXY === card.cardXY + 1)))
+    if (checkNeighbours(tempSide, card, 'leader'))
       card = {
         ...card,
         atk: card.atk + 1
@@ -98,6 +104,13 @@ export default function CardSlot(props: {
         ...card,
         atk: card.atk - 1
       };
+    if (card.sigils?.includes(100)) {
+      if (index > 0 && tempSide[index - 1].cardXY === undefined)
+        tempSide[index - 1] = { ...bell, cardXY: (card.cardXY || 0) - 1 };
+      if (index < 4 && tempSide[index + 1].cardXY === undefined)
+        tempSide[index + 1] = { ...bell, cardXY: (card.cardXY || 0) + 1 };
+    }
+
     // if (avvSide[index].sigils?.includes(2)) // 2 = 'find'
     //dispatch(setNextDrawn(selCardXY))
     tempSide[index] = card;
@@ -108,16 +121,6 @@ export default function CardSlot(props: {
 
       if (card.sigils?.includes(1) && oppField[index].cardXY === undefined) //1='egg'       
         oppField[index] = { ...egg, cardXY: advPosId };
-
-      if (card.sigils?.includes(100)) { //bells
-        if (index > 0)
-          if (tempSide[index - 1].cardXY === undefined)
-            tempSide[index - 1] = { ...bell, cardXY: (card.cardXY || 0) - 1 };
-        if (index < 4)
-          if (tempSide[index + 1].cardXY === undefined)
-            tempSide[index + 1] = { ...bell, cardXY: (card.cardXY || 0) + 1 };
-        //todo bells ondeath libera il campo dalle 2 bell
-      }
 
       if (card.sigils?.includes(170)) //alarm
         oppField[index] = { ...oppField[index], atk: oppField[index].atk + 1 };

@@ -138,15 +138,29 @@ export default function PlayerTurn(): JSX.Element {
 
   const onDeath = (deathCard: CardType, sigils: number[]): { card: CardType, effect: number } => {
     const isP1Owner: boolean = (deathCard.cardXY || 0) < 2000;
-    const tempSide = isP1Owner ? fieldCards.P1side : fieldCards.P2side;
+    let tempSide = [...(isP1Owner ? fieldCards.P1side : fieldCards.P2side)];
     const oppSide = isP1Owner ? fieldCards.P2side : fieldCards.P1side;
+    const cardIndex = (deathCard.cardXY || 0) - (isP1Owner ? 1000 : 2000);
     let card = RemoveCardEffects(deathCard, tempSide, oppSide, -1);
 
     console.log('dies ', card.name);
     isP1Owner ? dispatch(addP1bones(card.dropBones))
       : dispatch(addP2bones(card.dropBones));
 
-    if (card.cardXY !== undefined && sigils.includes(card.cardXY - (isP1Owner ? 1000 : 2000))) {
+    if (card.cardXY !== undefined && sigils?.includes(card.cardXY - (isP1Owner ? 1000 : 2000))) {
+      if (card.sigils?.includes(100)) { //bells uccide le 2 campane laterali se ancora in campo
+        if (cardIndex > 0 && tempSide[cardIndex - 1]?.sigils?.includes(605)) //bell ha helper
+          tempSide[cardIndex - 1] = { ...EMPTY_CARD };
+        if (cardIndex < 4 && tempSide[cardIndex + 1]?.sigils?.includes(605)) //bell ha helper
+          tempSide[cardIndex + 1] = { ...EMPTY_CARD };
+        dispatch(updateField( //rimuove bells senza controllare i loro effetti
+          {
+            P1side: isP1Owner ? tempSide : oppSide,
+            P2side: isP1Owner ? oppSide : tempSide
+          }));
+        //todo: manca un refresh grafico ma le 2 bell sono già morte
+        return { card: EMPTY_CARD, effect: -1 };
+      }
       if (card.sigils?.includes(203)) { //immortal non droppa ossa
         const cardName = card.name;
         const blankCard = immortalCards.find(c => c.name === cardName) || tail;

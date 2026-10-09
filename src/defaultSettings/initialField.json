@@ -1,7 +1,6 @@
 {
   "P2side": [
     {
-      "cardXY": 2000,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -25,7 +24,6 @@
       ]
     },
     {
-      "cardXY": 2002,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -35,7 +33,6 @@
       "dropBones": 0
     },
     {
-      "cardXY": 2003,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -45,7 +42,6 @@
       "dropBones": 0
     },
     {
-      "cardXY": 2004,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -57,7 +53,6 @@
   ],
   "P1side": [
     {
-      "cardXY": 1000,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -67,7 +62,6 @@
       "dropBones": 0
     },
     {
-      "cardXY": 1001,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -77,7 +71,6 @@
       "dropBones": 0
     },
     {
-      "cardXY": 1002,
       "name": "",
       "family": "none",
       "atk": 0,
@@ -101,7 +94,6 @@
       ]
     },
     {
-      "cardXY": 1004,
       "name": "",
       "family": "none",
       "atk": 0,
