@@ -71,7 +71,7 @@ export default function CardSlot(props: {
     let apples: number = 0;
     [...mySide].forEach((card) => {
       if (card.selected && card?.sigils?.includes(700)) //700='apple'
-        apples += + card.def
+        apples += card.def
     });
 
     let tempSide: CardType[] = [...mySide].map((card): CardType =>
