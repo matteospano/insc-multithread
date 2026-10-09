@@ -1,14 +1,13 @@
 [
   {
-    "name": "P1-rana-0",
+    "name": "geco",
     "family": "none",
     "atk": 1,
     "def": 1,
     "sacr": 0,
-    "bone": 1,
+    "bone": 0,
     "dropBlood": 1,
-    "dropBones": 0,
-    "blockfly": true
+    "dropBones": 0
   },
   {
     "name": "P1-rana-1",

@@ -30,7 +30,7 @@ export const sigil_def: SigilDefType[] = [
   { id: 600, name: 'blockFly', totem: true, trad: 'Blocks front enemy fly attak' }, //onDef
   //{ name: 'bloodLust', trad: 'aaa' },
   { id: 201, name: 'bomb', trad: 'Death: it will explode and cause damage to its side cards and front enemy' }, // onDeath
-  { id: 400, name: 'boneDigger', trad: 'Every new turn it makes you gaign bone' }, //onEvolve
+  { id: 400, name: 'boneDigger', trad: 'Every new turn it makes you gaign an extra bone' }, //onEvolve
   { id: 990, name: 'burrower', totem: true, trad: 'It moves to any empty space that is attacked by an enemy to block it' }, //listen: 'en_atk'
   { id: 998, name: 'worthy', totem: true, trad: 'Sacrificed: it counts as 3 blood' }, //onSacr
   //{ name: 'doubleDeath', trad: 'aaa' },
@@ -56,7 +56,7 @@ export const sigil_def: SigilDefType[] = [
   //{ id: 999, name: 'scavenger', trad: 'aaa' },
   { id: 604, name: 'shield', trad: 'It absorbs the first damage dealt' }, //onDef
   { id: 171, name: 'smell', totem: true, trad: 'It decrease opposing enemy atk by one' }, //onSpawn, onDeath, onSacr, listen: 'en_spawn'
-  { id: 207, name: 'snakeBomb', trad: 'Death: explodes and substitute death cards with snakes' }, //onDeath
+  { id: 207, name: 'snakeBomb', trad: 'Death: explodes and spawn a snake instead of it' }, //onDeath
   { id: 503, name: 'sniper', trad: 'Chooses which opposing spaces to strike' }, //onAtk
   { id: 603, name: 'spikes', totem: true, trad: 'When being attacked, inflicts 1 damage to the attacker' }, //onDef
   { id: 609, name: 'tail', trad: 'When this card is going to die, it moves on the right (if possible) and drops a tail' }, //onDeath ma in combattimento (come fosse un onDef)
@@ -75,12 +75,11 @@ export const sigil_def: SigilDefType[] = [
 //tail non ha i sigilli della creatura
 //opossum congelato e gattino->tigre hanno ice: al primo danno subito rilasciano la creatura interna
 //no bambino 13, gatto con vite infinite (non 9)
-//api, scheletri ecc senza sangue
+//api, scheletri, snake ecc senza sangue
 //fertilità modificata
 
 //TODO aggiungi regola irritante (aggiunge il sigillo annoying a 2 carte random di entrambi i giocatori o a me in single player)
 //TODO aggiungi il procione con blood lust (potenzia 1akt ad ogni kill)
-//TODO aggiungi uccellino che spawna uovo di corvo (50% non fecondato ma non si vede la differenza)
 
 //TODO aggiungi carte:
 //hunter 2 atk, 2def, 2sacr con sigillo che onSpawn trasforma tutti i nemici in 'pellicce', senza cambiare le stats ma con sigillo looter e dropBlood=-1
@@ -94,3 +93,4 @@ export const sigil_def: SigilDefType[] = [
 //lista completa carte(magari divise per difficoltà leshi), carte draggable
 //elimina i selected o rendi effettiva la loro funzione (con delle await che rallentano la battaglia)
 //atk e def raddoppiati (con 10 vite) così posso usare anche i numeri dispari per i mezzi casi
+//più log visibili all'utente o animazioni carte (un po' di zoom, spin, ecc)

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Field, setCurrPlayer, setHammer, updateP1draw, updateP2draw,
   addP1bones, addP2bones, increaseP1Live, updateField,
   CardType,
   setWarning,
   setCurrPhase,
-  drawnHand,
   deleteHand,
   turnClock
 } from "./cardReducer.tsx";
@@ -49,7 +48,7 @@ export default function PlayerTurn(): JSX.Element {
   const checkSigilList = (mySide: CardType[], enSide: CardType[]): battleSigils => {
     let sigils: battleSigils = { atkSig: [], deathSig: [], enBurrower: [], enDefSig: [], enDeathSig: [] };
     mySide.forEach((c: CardType, index: number) => {
-      if (c?.sigils?.find((s) => 499 < s && s < 504)) //500 atk
+      if (c?.sigils?.find((s) => 499 < s && s <= 504)) //500 atk
         sigils.atkSig.push(index);
       if (c?.sigils?.find((s) => 99 < s && s < 400)) //1/2/300 death
         sigils.deathSig.push(index);
@@ -157,13 +156,12 @@ export default function PlayerTurn(): JSX.Element {
       if (card.sigils?.includes(208)) //trap non droppa ossa
         return { card: EMPTY_CARD, effect: -10 };
       if (card.sigils?.includes(201) ||
-        card.sigils?.includes(205) ||
-        card.sigils?.includes(300)) //bomb || dinamite non droppano ossa
+        card.sigils?.includes(207) ||
+        card.sigils?.includes(300)) // dinamite non droppa ossa
 
         // TODO: Applicazione effetto SnakeBomb
-        if (card.sigils?.includes(205)) {
-
-          console.log('snakeBomb triggered on death of ', card.name);
+        if (card.sigils?.includes(207)) {
+          return { card: onEvolve({ ...EMPTY_CARD, name: 'snakeBomb' }), effect: -11 }; //sostituisci con snake 1/1
         }
       return { card: EMPTY_CARD, effect: -11 };
     }
@@ -173,8 +171,8 @@ export default function PlayerTurn(): JSX.Element {
 
   const addBones = (card: CardType): CardType => {
     if (!card || card.cardXY === undefined) return EMPTY_CARD;
-    console.log('dies ', card.name);
-    card.cardXY < 200 ? dispatch(addP1bones(card.dropBones)) : dispatch(addP2bones(card.dropBones));
+    console.log(card.name, 'dies ',);
+    dispatch(card.cardXY < 2000 ? addP1bones(card.dropBones) : addP2bones(card.dropBones));
     return EMPTY_CARD;
   };
 
@@ -210,7 +208,7 @@ export default function PlayerTurn(): JSX.Element {
     }
     else if (tempSide[atkIndex]?.sigils?.includes(504) && dannoRifl === -1) //il defender non aveva scudo
       tempSide[atkIndex] = { ...tempSide[atkIndex], def: tempSide[atkIndex].def + 1 };
-    else if (dannoRifl < -9) { //il defender era una bomba, dinamite o trappola
+    else if (dannoRifl < -9) { //il defender era una bomba, sankeBomb, dinamite o trappola
       if (dannoRifl === -11 && defIndex > 0 && oppSide[defIndex - 1]?.cardXY !== undefined) {
         const sigils = oppSide[defIndex - 1]?.sigils || [];
         if (sigils.includes(604)) { //shield
@@ -255,7 +253,7 @@ export default function PlayerTurn(): JSX.Element {
     const totemSigils = young.sigils?.filter((s) => s >= 9000) || [];
 
     if (evol) {
-      let evolvedInto = { ...evol.into };
+      let evolvedInto: CardType = { ...evol.into, cardN: young.cardN, cardXY: young.cardXY };
       if (young.name === 'raven egg') {
         const noRaven = Math.random() < 0.5;
         if (noRaven) {
@@ -280,7 +278,6 @@ export default function PlayerTurn(): JSX.Element {
       }));
       return {
         ...evolvedInto,
-        cardXY: young.cardXY,
         atk: young.atk + evolvedInto.atk,
         def: young.def + evolvedInto.def,
         sigils: updatedSigils
@@ -655,6 +652,8 @@ export default function PlayerTurn(): JSX.Element {
     tempSide.forEach((c: CardType, index: number) => {
       if (c?.sigils?.find((s) => 39 < (s % 100) && (s % 100) < 50)) //40 turn over
         turnOverSig.push(index);
+      if (c?.sigils?.find((s) => s === 400)) //boneDigger
+        dispatch(P1attack ? addP1bones(1) : addP2bones(1));
     });
     oppSide.forEach((c: CardType, index: number) => {
       if (c?.sigils?.find((s) => 299 < s && s < 500)) //3/400 evolve

@@ -194,5 +194,19 @@
         502
       ]
     }
+  },
+  {
+    "cardName": "snakeBomb",
+    "into": {
+      "name": "snake",
+      "family": "reptile",
+      "atk": 1,
+      "def": 1,
+      "sacr": 1,
+      "bone": 0,
+      "dropBlood": 0,
+      "dropBones": 1,
+      "sigils": []
+    }
   }
 ]

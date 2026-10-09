@@ -43,7 +43,10 @@
     "sacr": 0,
     "bone": 0,
     "dropBlood": 1,
-    "dropBones": 0
+    "dropBones": 0,
+    "sigils": [
+      207
+    ]
   },
   {
     "name": "elk fawn",

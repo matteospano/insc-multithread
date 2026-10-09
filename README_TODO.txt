@@ -9,10 +9,8 @@ Documento riassuntivo di tutte le funzionalità pendenti, estrapolate dai commen
 - [ ] **Gestione Triggers Ingressi/Uscite (Smell, Leaders, Alarm)**:
   - Riapplicare gli effetti al momento dell'evento `onEnemySpawn` e `onFriendSpawn`.
   - Annullare/rimuovere correttamente i relativi buff/debuff agli eventi `onDeath` e `onSacrifice`.
-**SnakeBomb (Sigillo 205)**: Implementare la gestione e la propagazione dell'effetto esplosione.
-**Carta Immortale (Sigillo 203)**: Alla morte, recuperare le stats pulite della carta base dal dataset e applicare i modficatori Totem attivi prima di riaggiungerla in mano.
 - [ ] **Nuovi Sigilli e Comportamenti Speciali**:
-  - **Vampire (Sigillo 504)**: Guadagna +1 DEF dopo un attacco andato a segno.
+  DA rifare playtest: - **Vampire (Sigillo 504)**: Guadagna +1 DEF dopo un attacco andato a segno a una carta avv. Ricontrolla atk diretto e vs scudo.
   - **Water / Submerge (Sigillo 640)**: Immersione a fine turno con liberazione dello slot sul terreno.
   - **Fertilità Zombie**: Sacrificare la carta ne genera una copia identica in mano con -1 ATK.
   - **Carta Mulo**: Alla morte evoca 2 carte prese dal mazzo del proprietario (definire se cloni o carte effettive dal deck).
@@ -26,8 +24,6 @@ Documento riassuntivo di tutte le funzionalità pendenti, estrapolate dai commen
 ## 2. Flusso di Gioco, Spawning e Turni (`RemoveCardEffects.tsx`, `LeshiLines.tsx`, `utils.tsx`)
 - [ ] **Gestione Rimozione ed Effetti (`RemoveCardEffects.tsx`)**:
   - Risolvere i dispatch asincroni e separare le logiche di `onDeath`.
-  FATTO:- Risolvere il bug per cui all'evento `onSpawn` la carta rimane duplicated in mano.
-  FATTO:- Correggere il calcolo dell'indice errato della carta all'evento `onSpawn`.
   - Spostare i dispatch di `updateField` e gestione `onSpawn` direttamente in `LeshiLines.tsx` anziché in `CardSlot`.
 - [ ] **Pesca e Gestione Deck (`utils.tsx`, `RuleDialog.tsx`)**:
   - Imporre una dimensione minima di 10 carte nella selezione del mazzo.

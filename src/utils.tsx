@@ -30,8 +30,9 @@ export const DrawStart = (isP1Owner: boolean, deck: CardType[], rules: RuleType,
     const tempDeck = [...deck];
     isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
 
-    if (rules.randomSigils)
-      drawnCard = replaceRandomSigil(drawnCard);
+    const hasRandomSigil = drawnCard.sigils?.includes(900);
+    if (rules.randomSigils || hasRandomSigil)
+      drawnCard = replaceRandomSigil(drawnCard, hasRandomSigil);
     else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
       drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
     else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
@@ -51,8 +52,9 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
   const tempDeck = [...deck];
   isP1Owner ? dispatch(P1UpdateDeck(tempDeck)) : dispatch(P2UpdateDeck(tempDeck));
 
-  if (rules.randomSigils)
-    drawnCard = replaceRandomSigil(drawnCard);
+  const hasRandomSigil = drawnCard.sigils?.includes(900);
+  if (rules.randomSigils || hasRandomSigil)
+    drawnCard = replaceRandomSigil(drawnCard, hasRandomSigil);
   else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
@@ -64,8 +66,9 @@ export const DrawFromDeck = (isP1Owner: boolean, deck: CardType[], rules: RuleTy
 export const DrawFromVirtualDeck = (isP1Owner: boolean, card: CardType, rules: RuleType, dispatch: any) => { //any deck-like draw
   let drawnCard: CardType = { ...card, cardXY: undefined, cardN: undefined }; //TODO indice cardN
 
-  if (rules.randomSigils)
-    drawnCard = replaceRandomSigil(drawnCard);
+  const hasRandomSigil = drawnCard.sigils?.includes(900);
+  if (rules.randomSigils || hasRandomSigil)
+    drawnCard = replaceRandomSigil(drawnCard, hasRandomSigil);
   else if (rules.useTotems.P1Head === drawnCard.family && rules.useTotems.P1Sigil)
     drawnCard = addTotemSigil(drawnCard, rules.useTotems.P1Sigil);
   else if (rules.useTotems.P2Head === drawnCard.family && rules.useTotems.P2Sigil)
@@ -175,21 +178,19 @@ export const randomCard = (dataSet: CardType[]) => {
   return dataSet[randCardIndex];
 }
 
-export const replaceRandomSigil = (card: CardType): CardType => {
+export const replaceRandomSigil = (card: CardType, hasRandomSigil: boolean | undefined): CardType => {
   const randIndex = Math.floor(Math.random() * (sigil_def.length - 1));
   //todo escludi quelli che vanno in conflitto (es. smell&alarm)
-  if (card.sigils?.includes(randIndex)) //non duplicare un sigillo già presente sulla carta
-    return card
-  if (card.sigils?.includes(900)) {
-    const tempSigils: number[] = card.sigils.map((id) =>
-      id === 900 ? sigil_def[randIndex]?.id : id);
-    return { ...card, sigils: tempSigils }
-  }
-  else { //add random sigil
-    if (card.sigils) {
+  if (card.sigils) {
+    if (hasRandomSigil) {
+      const tempSigils: number[] = card.sigils.map((id) =>
+        id === 900 ? sigil_def[randIndex]?.id : id) || [];
+      return { ...card, sigils: tempSigils }
+    }
+    else { //add random sigil
       const tempSigils: number[] = [...card.sigils, sigil_def[randIndex]?.id];
       return { ...card, sigils: tempSigils }
     }
-    return { ...card, sigils: [sigil_def[randIndex]?.id] }
   }
+  return { ...card, sigils: [sigil_def[randIndex]?.id] }
 }
